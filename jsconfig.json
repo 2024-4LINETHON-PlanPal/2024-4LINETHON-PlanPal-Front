@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@*": ["*"],
+      "@api/*": ["api/*"],
+      "@assets/*": ["assets/*"],
+      "@styles/*": ["styles/*"],
+      "@components/*": ["components/*"],
+      "@commons/*": ["components/commons/*"],
+      "@pages/*": ["pages/*"],
+      "@layouts/*": ["layouts/*"],
+      "@hooks/*": ["hooks/*"],
+      "@utils/*": ["utils/*"],
+      "@svgs/*": ["assets/svgs/*"],
+      "@images/*": ["assets/images/*"]
+    }
+  },
+  "include": ["src"]
+}
+

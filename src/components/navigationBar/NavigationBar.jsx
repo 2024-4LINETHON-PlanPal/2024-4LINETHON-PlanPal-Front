@@ -2,12 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as A from "./NavigationBar.Style";
-import promiseGrayPng from "../../assets/navigationBar-icons/promise-gray-30x30.png";
-import homeGrayPng from "../../assets/navigationBar-icons/home-gray-30x30.png";
-import notificationGrayPng from "../../assets/navigationBar-icons/notification-gray-30x30.png";
-import promiseBlackPng from "../../assets/navigationBar-icons/promise-30x30.png";
-import homeBlackPng from "../../assets/navigationBar-icons/home-30x30.png";
-import notificationBlackPng from "../../assets/navigationBar-icons/notification-30x30.png";
+import promiseGrayPng from "assets/navigationBar-icons/promise-gray-30x30.png";
+import homeGrayPng from "assets/navigationBar-icons/home-gray-30x30.png";
+import notificationGrayPng from "assets/navigationBar-icons/notification-gray-30x30.png";
+import promiseBlackPng from "assets/navigationBar-icons/promise-30x30.png";
+import homeBlackPng from "assets/navigationBar-icons/home-30x30.png";
+import notificationBlackPng from "assets/navigationBar-icons/notification-30x30.png";
 
 export default function NavigationBar() {
   const navigate = useNavigate();
