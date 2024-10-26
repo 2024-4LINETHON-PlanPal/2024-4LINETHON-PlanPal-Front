@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import font from "../../styles/font";
-import color from "../../styles/color";
+import font from "styles/font";
+import color from "styles/color";
 
 export const BarContainer = styled.div`
   margin: 0;
