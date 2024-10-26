@@ -1,33 +1,7 @@
-import NavigationBar from "./components/navigationBar/NavigationBar";
+import Router from "./Router";
 
 function App() {
-  return (
-    <>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <p>ddd</p>
-      <NavigationBar />
-    </>
-  );
+  return <Router />;
 }
 
 export default App;
