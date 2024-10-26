@@ -17,6 +17,7 @@ export default function Router() {
           {/* 로그인 페이지 */}
           <Route path="/landing" element={<Landing />} />
 
+          {/* 미로그인시 랜딩페이지로 이동 및 네비게이션 바 추가 */}
           <Route element={<ProtectedRoute />}>
             <Route path="/*">
               {/* 네비게이션 바가 있는 나머지 페이지 */}

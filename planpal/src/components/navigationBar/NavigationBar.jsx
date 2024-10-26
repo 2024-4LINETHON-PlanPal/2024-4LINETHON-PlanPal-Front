@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as A from "./NavigationBar.Style";
@@ -11,37 +12,75 @@ import notificationBlackPng from "../../assets/navigationBar-icons/notification-
 export default function NavigationBar() {
   const navigate = useNavigate();
 
+  const [navPage, setNavPage] = useState("home");
+
   const handleMoveToPromise = () => {
     navigate(`/promise`);
+    setNavPage("promise");
   };
   const handleMoveToHome = () => {
     navigate(`/home`);
+    setNavPage("home");
   };
   const handleMoveToNotification = () => {
     navigate(`/notification`);
+    setNavPage("notification");
   };
 
   return (
     <A.BarContainer>
       <A.NavBtn onClick={handleMoveToPromise}>
-        <A.ImgContainer>
-          <A.Img src={promiseGrayPng} alt="약속" />
-        </A.ImgContainer>
-        <A.NavText selected={true}>약속</A.NavText>
+        {navPage === "promise" ? (
+          <>
+            <A.ImgContainer>
+              <A.Img src={promiseBlackPng} alt="약속" />
+            </A.ImgContainer>
+            <A.NavText selected={true}>약속</A.NavText>
+          </>
+        ) : (
+          <>
+            <A.ImgContainer>
+              <A.Img src={promiseGrayPng} alt="약속" />
+            </A.ImgContainer>
+            <A.NavText selected={false}>약속</A.NavText>
+          </>
+        )}
       </A.NavBtn>
 
       <A.NavBtn onClick={handleMoveToHome}>
-        <A.ImgContainer>
-          <A.Img src={homeGrayPng} alt="홈" />
-        </A.ImgContainer>
-        <A.NavText>홈</A.NavText>
+        {navPage === "home" ? (
+          <>
+            <A.ImgContainer>
+              <A.Img src={homeBlackPng} alt="홈" />
+            </A.ImgContainer>
+            <A.NavText selected={true}>홈</A.NavText>
+          </>
+        ) : (
+          <>
+            <A.ImgContainer>
+              <A.Img src={homeGrayPng} alt="홈" />
+            </A.ImgContainer>
+            <A.NavText selected={false}>홈</A.NavText>
+          </>
+        )}
       </A.NavBtn>
 
       <A.NavBtn onClick={handleMoveToNotification}>
-        <A.ImgContainer>
-          <A.Img src={notificationGrayPng} alt="알림" />
-        </A.ImgContainer>
-        <A.NavText>알림</A.NavText>
+        {navPage === "notification" ? (
+          <>
+            <A.ImgContainer>
+              <A.Img src={notificationBlackPng} alt="알림" />
+            </A.ImgContainer>
+            <A.NavText selected={true}>알림</A.NavText>
+          </>
+        ) : (
+          <>
+            <A.ImgContainer>
+              <A.Img src={notificationGrayPng} alt="알림" />
+            </A.ImgContainer>
+            <A.NavText selected={false}>알림</A.NavText>
+          </>
+        )}
       </A.NavBtn>
     </A.BarContainer>
   );
