@@ -16,7 +16,7 @@ export const BarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  background-color: white;
+  background-color: ${() => color.grayscale_f6};
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 
   z-index: 9;
