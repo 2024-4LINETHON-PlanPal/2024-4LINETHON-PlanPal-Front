@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import NotFound from "./pages/NotFound";
-import Landing from "./pages/Landing";
-import ProtectedRoute from "./layout/ProtectedRoute";
-import { AuthProvider } from "./layout/AuthContext";
-import HomePage from "./pages/HomePage";
-import PromisePage from "./pages/PromisePage";
+import NotFound from "pages/NotFound";
+import Landing from "pages/Landing";
+import ProtectedRoute from "layouts/ProtectedRoute";
+import { AuthProvider } from "layouts/AuthContext";
+import HomePage from "pages/HomePage";
+import PromisePage from "pages/PromisePage";
 
 export default function Router() {
   return (
