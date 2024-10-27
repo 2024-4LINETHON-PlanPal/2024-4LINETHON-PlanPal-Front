@@ -1,11 +1,9 @@
 import { Outlet } from "react-router-dom";
-import NavigationBar from "../components/navigationBar/NavigationBar";
-import ProfileBar from "../components/profiles/ProfileBar";
+import NavigationBar from "components/navigationBar/NavigationBar";
 
 export default function RootLayout() {
   return (
     <>
-      <ProfileBar />
       <Outlet />
       <NavigationBar />
     </>

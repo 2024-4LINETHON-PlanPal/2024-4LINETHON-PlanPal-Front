@@ -1,12 +1,15 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 import NotFound from "pages/NotFound";
 import Landing from "pages/Landing";
 import ProtectedRoute from "layouts/ProtectedRoute";
 import { AuthProvider } from "layouts/AuthContext";
+import HomeLayout from "layouts/HomeLayout";
+import PromiseLayout from "layouts/PromiseLayout";
 import HomePage from "pages/HomePage";
 import PromisePage from "pages/PromisePage";
+import NotificationPage from "pages/NotificationPage";
 
 export default function Router() {
   return (
@@ -21,9 +24,17 @@ export default function Router() {
           <Route element={<ProtectedRoute />}>
             <Route path="/*">
               {/* 네비게이션 바가 있는 나머지 페이지 */}
-              {/* 아래(home,promise)는 예시로 만들어둔거라 자유롭게 편집해주세요! */}
-              <Route path="home" element={<HomePage />} />
-              <Route path="promise" element={<PromisePage />} />
+              <Route path="promise" element={<PromiseLayout />}>
+                {/* 아래 PromisePage.jsx는 예시로 만들어둔거라 자유롭게 편집해주세요! */}
+                <Route path="" element={<PromisePage />} />
+              </Route>
+              <Route path="home" element={<HomeLayout />}>
+                {/* 아래 HomePage.jsx는 예시로 만들어둔거라 자유롭게 편집해주세요! */}
+                <Route path="" element={<HomePage />} />
+              </Route>
+              <Route path="notification" element={<Outlet />}>
+                <Route path="" element={<NotificationPage />} />
+              </Route>
             </Route>
           </Route>
         </Routes>
