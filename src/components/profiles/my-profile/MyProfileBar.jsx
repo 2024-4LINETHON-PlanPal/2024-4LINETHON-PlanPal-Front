@@ -1,4 +1,4 @@
-import * as A from "./ProfileBar.Style.jsx";
+import * as A from "components/profiles/my-profile/MyProfileBar.Style.jsx";
 
 export default function MyProfileBar() {
   return (
