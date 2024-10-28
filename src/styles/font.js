@@ -12,6 +12,7 @@ const font = {
 
   regular_10: FONT({ weight: 400, size: 1.0 }),
   regular_12: FONT({ weight: 400, size: 1.2 }),
+  bold_15: FONT({ weight: 700, size: 1.5 }),
 };
 
 export default font;

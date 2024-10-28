@@ -78,7 +78,6 @@ export const ProfileName = styled.p`
   text-align: center;
 
   ${() => font.regular_12};
-  color: ${() => color.black};
 
   white-space: nowrap; /* 한 줄로 표시 */
   overflow: hidden; /* 넘치는 부분 숨기기 */
