@@ -1,4 +1,4 @@
-import * as A from "components/profiles/profile-list/ProfileListBar.Style.jsx";
+import * as A from "components/profiles/profile-list/ProfileListBar.Style";
 import LogoPng from "assets/common/logo-mini-35x46.png";
 import PlusIconPng from "assets/common/plus-icon-30x30.png";
 import ProfileComponent from "components/profiles/profile-list/ProfileComponent";
