@@ -12,6 +12,7 @@ const font = {
 
   regular_10: FONT({ weight: 400, size: 1.0 }),
   regular_12: FONT({ weight: 400, size: 1.2 }),
+  medium_18: FONT({ weight: 500, size: 1.8 }),
   bold_15: FONT({ weight: 700, size: 1.5 }),
   bold_20: FONT({ weight: 700, size: 2.0 }),
 };
