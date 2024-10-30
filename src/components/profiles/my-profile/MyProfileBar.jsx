@@ -24,7 +24,25 @@ export default function MyProfileBar() {
         </A.ProfileInfoContainer>
       </A.BarContainer>
 
-      {toggleModal && <ModalBase setCloseModal={setToggleModal} InsideComponent={MyProfileInfo} />}
+      {toggleModal && (
+        <ModalBase
+          setCloseModal={setToggleModal}
+          InsideComponent={MyProfileInfo}
+          // ModalCategoryText="내 정보"
+          // ModalIntroduceText="내 정보를 확인해보세요"
+          modalCategoryText="[필수]modalCategoryText"
+          modalIntroduceText="modalIntroduceText"
+          tripleBtnText1="tripleBtnText1"
+          tripleBtnText3="tripleBtnText3"
+          tripleBtnText2="tripleBtnText2"
+          doubleBtnText1="doubleBtnText1"
+          doubleBtnText2="doubleBtnText2"
+          longSingleBtnText1="longSingleBtnText1"
+          longSingleBtnText2="longSingleBtnText2"
+          bigSingleBtnText="bigSingleBtnText"
+          modalHeight="51rem"
+        />
+      )}
     </>
   );
 }
