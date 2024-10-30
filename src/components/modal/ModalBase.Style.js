@@ -95,7 +95,7 @@ export const TripleButton2 = styled(ModalButtonBase)`
   color: ${() => color.primary_black};
 `;
 export const TripleButton3 = styled(ModalButtonBase)`
-  background-color: ${() => color.orange_nomal};
+  background-color: ${() => color.orange_normal};
 `;
 // 가로 - 더블
 export const DoubleButton1 = styled(ModalButtonBase)`
