@@ -4,10 +4,10 @@ import MyProfileBar from "components/profiles/my-profile/MyProfileBar";
 
 export default function HomeLayout() {
   return (
-    <>
+    <div className="container">
       <ProfileListBar />
       <MyProfileBar />
       <Outlet />
-    </>
+    </div>
   );
 }

@@ -16,8 +16,8 @@ const ItemWrapper = styled.div `
 
 export default function PromisePage() {
   return (
-    <>
-      <Wrapper>
+
+      <Wrapper >
         <PromiseHeader/> 
         <ItemWrapper>
           <PromiseItem/>
@@ -32,7 +32,7 @@ export default function PromisePage() {
         <PromiseMaking/>
       </Wrapper>
       
-    </>
+
     
   );
 }

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Landing() {
   return (
-    <>
+    <div className="container">
       <p style={{ fontSize: "2rem" }}>랜딩(로그인)페이지입니다.</p>
       <br />
       <Link to="/landing">
@@ -11,6 +11,6 @@ export default function Landing() {
       <Link to="/home">
         <p style={{ fontSize: "2rem" }}>홈 화면으로 가기</p>
       </Link>
-    </>
+    </div>
   );
 }

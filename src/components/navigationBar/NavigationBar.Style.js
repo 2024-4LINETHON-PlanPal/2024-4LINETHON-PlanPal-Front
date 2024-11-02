@@ -5,12 +5,11 @@ import color from "styles/color";
 export const BarContainer = styled.div`
   margin: 0;
   /* padding: 0.4rem 4.2rem; */
-  padding: 0.4rem calc(10vw + 0.3rem);
-  width: 100%;
+  padding : 4rem;
+  width: inherit;
   height: 6.9rem;
-
-  position: fixed;
-  bottom: 0;
+  position : fixed;
+  bottom : 0;
 
   display: flex;
   justify-content: space-between;
