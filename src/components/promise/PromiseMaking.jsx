@@ -5,8 +5,8 @@ import color from "styles/color";
 
 const MakingWrapper = styled.div`
     position: fixed;
-    bottom: 70px;
-    width: calc(100% - 50px);
+    bottom: 90px;
+    width: 340px;
     left: 50%;
     transform: translateX(-50%);
     background-color: ${color.primary_white};

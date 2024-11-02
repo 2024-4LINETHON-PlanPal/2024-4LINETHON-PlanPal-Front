@@ -1,40 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PlanPal</title>
 
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        font-size: 10px;
-        position: relative;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlanPal</title>
 
-        background-color: #f6f6f6;
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      position: relative;
 
-        color: #171717;
-      }
-      * {
-        margin: 0;
-        box-sizing: border-box;
-      }
-      ul,
-      ol {
-        padding: 0;
-      }
-      li {
-        list-style: none;
-      }
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+      background-color: #000000;
+      justify-content: center;
+      display: flex;
+      color: #171717;
+    }
+
+    .container {
+      display: flex;
+      width: 390px;
+      flex-direction: column;
+      background: #F6F6F6;
+      height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    * {
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    ul,
+    ol {
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
 </html>
