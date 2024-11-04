@@ -14,11 +14,13 @@ const font = {
   regular_12: FONT({ weight: 400, size: 1.2 }),
   regular_15: FONT({ weight: 400, size: 1.5 }),
   medium_12: FONT({ weight: 500, size: 1.2}),
+  medium_15: FONT({ weight: 500, size: 1.5}),
   medium_18: FONT({ weight: 500, size: 1.8 }),
   medium_20: FONT({ weight: 500, size: 2.0 }),
   bold_15: FONT({ weight: 700, size: 1.5 }),
   bold_20: FONT({ weight: 700, size: 2.0 }),
   semibold_12: FONT({ weight: 600, size: 1.2 }),
+  extrabold_20: FONT({ weight: 800, size: 2.0}),
   black_18: FONT({ weight: 900, size: 1.8}),
   black_25: FONT({ weight: 900, size: 2.5 })
 };
