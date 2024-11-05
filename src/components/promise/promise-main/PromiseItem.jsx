@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import ModalBase from "components/modal/ModalBase";
+import ItemModal from "components/promise/promise-modal/ItemModal";
+
 import font from "styles/font";
 import color from "styles/color";
+
 
 import staroff from "assets/promise/star-icon-off.svg";
 import staron from "assets/promise/star-icon-on.svg";
@@ -73,13 +77,19 @@ const ItemBtn = styled.button`
 
 export default function PromiseItem() {
     const [isStarred, setIsStarred] = useState(false);
+    const [isItemModalOpen, setIsItemModalOpen] = useState(false);
 
     const handleStarClick = () => {
         setIsStarred((prev) => !prev);
     };
 
+    // item 모달
+    const openItemModal = () => setIsItemModalOpen(true);
+    const closeItemModal = () => setIsItemModalOpen(false);
+
     return (
-        <ItemDiv>
+        <>
+        <ItemDiv onClick={openItemModal}>
             <StarIcon
                 src={isStarred ? staron : staroff}
                 alt="star icon"
@@ -99,5 +109,20 @@ export default function PromiseItem() {
                 <ItemBtn>수정</ItemBtn>
             </ButtonContainer>
         </ItemDiv>
+
+        {isItemModalOpen && (
+            <ModalBase
+            setCloseModal={closeItemModal}
+            InsideComponent={ItemModal}
+            modalCategoryText="약속 정보"
+            modalIntroduceText="약속 정보를 확인하세요."
+            modalHeight="600px"
+            tripleBtnText3="공유하기"
+            tripleBtnText2="삭제하기"
+            tripleBtnText1="수정하기"
+            />
+        )}
+        </>
+
     );
 }

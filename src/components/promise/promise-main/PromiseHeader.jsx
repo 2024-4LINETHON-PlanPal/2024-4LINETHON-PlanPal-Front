@@ -82,7 +82,9 @@ export default function PromiseHeader() {
 
   return (
       <PromiseWrapper>
-        <PromiseTitle>{nickname}의 약속</PromiseTitle>
+        {/* <PromiseTitle>{nickname}의 약속</PromiseTitle> */}
+        <PromiseTitle>닉네임의 약속</PromiseTitle>
+
         <SortButton onClick={toggleSortMenu}>
           <Img src={sortIcon} />
           {sortType ? sortType : "정렬 기준"}

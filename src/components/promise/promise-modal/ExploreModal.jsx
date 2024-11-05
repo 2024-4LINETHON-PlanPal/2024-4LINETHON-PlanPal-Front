@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import * as P from "components/promise/promiseModal/PromiseStyle";
+import * as P from "components/promise/promise-modal/PromiseStyle";
 import SearchIcon from "assets/promise/search-icon.svg"; 
 import DashIcon from "assets/promise/dash-icon.svg"
 import UpArrowIcon from "assets/promise/up-arrow-icon.svg";
 import DownArrowIcon from "assets/promise/down-arrow-icon.svg";
 
-export default function Promise1({ title, setTitle, friendSearch, setFriendSearch }) {
+export default function ExploreModal({ title, setTitle, friendSearch, setFriendSearch, selectedFriends, setSelectedFriends}) {
   const [isEditing, setIsEditing] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -24,6 +24,7 @@ export default function Promise1({ title, setTitle, friendSearch, setFriendSearc
   const handleBlur = () => {
     setIsEditing(false);
   };
+
 
   const incrementHours = () => {
     setHours((prevHours) => prevHours + 1);
@@ -63,7 +64,6 @@ export default function Promise1({ title, setTitle, friendSearch, setFriendSearc
           type="text"
           placeholder="친구의 플랜팔 닉네임을 입력해주세요."
           value={friendSearch}
-          onChange={(e) => setFriendSearch(e.target.value)}
         />
         <img src={SearchIcon} alt="searchicon" />
       </P.FriendInputWrapper>
@@ -127,7 +127,6 @@ export default function Promise1({ title, setTitle, friendSearch, setFriendSearc
           </P.ArrowButton>
         </P.ArrowWrapper>
       </P.TimeLengthWrapper>
-
 
     </P.PromiseWrapper>
   );
