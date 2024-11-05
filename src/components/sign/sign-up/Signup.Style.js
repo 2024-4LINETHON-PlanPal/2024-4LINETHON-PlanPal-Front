@@ -20,7 +20,7 @@ export const IconImg = styled.img`
 `;
 export const ButtonContainer = styled.div`
   margin: 0;
-  width: 100%;
+  width: 390px;
   position: fixed;
   bottom: 3.4rem;
 
