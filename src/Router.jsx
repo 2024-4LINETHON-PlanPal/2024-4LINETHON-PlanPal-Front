@@ -2,9 +2,11 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 import NotFound from "pages/NotFound";
-import Landing from "pages/Landing";
 import ProtectedRoute from "layouts/ProtectedRoute";
 import { AuthProvider } from "layouts/AuthContext";
+import LandingPage from "pages/LandingPage";
+import LoginPage from "pages/sign/LoginPage";
+import SignupPage from "pages/sign/SignupPage";
 import HomeLayout from "layouts/HomeLayout";
 import PromiseLayout from "layouts/PromiseLayout";
 import HomePage from "pages/HomePage";
@@ -18,7 +20,9 @@ export default function Router() {
         <Routes>
           <Route path="*" element={<NotFound />} />
           {/* 로그인 페이지 */}
-          <Route path="/landing" element={<Landing />} />
+          <Route path="/landing" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/sign-up" element={<SignupPage />} />
 
           {/* 미로그인시 랜딩페이지로 이동 및 네비게이션 바 추가 */}
           <Route element={<ProtectedRoute />}>
