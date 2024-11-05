@@ -6,6 +6,6 @@ export default function PromiseLayout() {
     <div className="container">
       <ProfileListBar />
       <Outlet />
-      </div>
+    </div>
   );
 }

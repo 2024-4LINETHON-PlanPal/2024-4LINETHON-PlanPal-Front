@@ -32,6 +32,7 @@ export const LogoImg = styled.img`
 export const ProfileListContainer = styled.ul`
   padding: 0;
   width: calc(100% - 7.5rem - 7rem);
+  height: 8.8rem;
 
   display: flex;
   justify-content: flex-start;
