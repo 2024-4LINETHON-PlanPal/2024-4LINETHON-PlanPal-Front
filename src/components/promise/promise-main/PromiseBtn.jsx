@@ -13,7 +13,7 @@ const MakingWrapper = styled.div`
 `;
 
 const MakingBtn = styled.button`
-    width: 100%; /* MakingWrapper 내에서 꽉 채우기 */
+    width: 100%;
     text-align: center;
     border-radius: 15px;
     color: ${color.primary_white};
@@ -23,10 +23,10 @@ const MakingBtn = styled.button`
     cursor: pointer;
 `;
 
-export default function PromiseMaking() {
+export default function PromiseBtn({ onClick }) {
   return (
     <MakingWrapper>
-      <MakingBtn>약속시간 탐색하기</MakingBtn>
+      <MakingBtn onClick={onClick}>약속시간 탐색하기</MakingBtn>
     </MakingWrapper>
   );
 }

@@ -20,6 +20,10 @@ export default function ModalBase({
   bigSingleBtnText,
   // 모달 세로 길이(모달 위치 조절용)
   modalHeight,
+  // 버튼 클릭 핸들러
+  onLongSingleBtnClick,
+  onLongSingleBtnClick2,
+
 }) {
   // 높이 조절 필요
   return (
@@ -54,8 +58,8 @@ export default function ModalBase({
         {/* 세로 정렬 버튼 */}
         <A.ModalVerticalButtonContainer>
           {/* 가로로 긴 싱글/더블 버튼 - 약속시간 확정하기 */}
-          {longSingleBtnText1 && <A.LongSingleButton1>{longSingleBtnText1}</A.LongSingleButton1>}
-          {longSingleBtnText2 && <A.LongSingleButton2>{longSingleBtnText2}</A.LongSingleButton2>}
+          {longSingleBtnText1 && <A.LongSingleButton1 onClick={onLongSingleBtnClick}>{longSingleBtnText1}</A.LongSingleButton1>}
+          {longSingleBtnText2 && <A.LongSingleButton2 onClick={onLongSingleBtnClick2}>{longSingleBtnText2}</A.LongSingleButton2>}
           {/* 세로가 긴 버튼 - 친구 추가하기 */}
           {bigSingleBtnText && <A.BigSingleButton>{bigSingleBtnText}</A.BigSingleButton>}
         </A.ModalVerticalButtonContainer>
