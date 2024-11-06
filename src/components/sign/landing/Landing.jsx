@@ -57,7 +57,7 @@ export default function Landing() {
       </LogoImgContainer>
 
       <Link to="/login">
-        <LoginButton btnText="로그인" />
+        <LoginButton btnText="로그인" backgroundColor="white" />
       </Link>
 
       <ContainerMargin>

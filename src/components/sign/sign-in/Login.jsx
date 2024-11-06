@@ -29,11 +29,15 @@ export default function Login() {
           {/* <A.ErrorText>아이디와 비밀번호가 일치하지 않습니다.</A.ErrorText> */}
         </label>
 
-        <LoginButton btnText="로그인" handleOnClickEvent={handleMoveToHomePage} />
+        <LoginButton
+          btnText="로그인"
+          handleOnClickEvent={handleMoveToHomePage}
+          backgroundColor="black"
+        />
       </A.FormContainer>
 
       <Link to="/sign-up">
-        <LoginButton btnText="플랜팔과 함께 할래요! 회원가입" />
+        <LoginButton backgroundColor="d9" isSignup={true} />
       </Link>
     </A.PageContainer>
   );

@@ -49,9 +49,13 @@ export default function Signup() {
 
       <A.ButtonContainer>
         {step !== 4 ? (
-          <LoginButton btnText="다음" handleOnClickEvent={nextStep} />
+          <LoginButton btnText="다음" handleOnClickEvent={nextStep} backgroundColor="black" />
         ) : (
-          <LoginButton btnText="로그인 하러가기" handleOnClickEvent={handleMoveToLoginPage} />
+          <LoginButton
+            btnText="로그인 하러가기"
+            handleOnClickEvent={handleMoveToLoginPage}
+            backgroundColor="black"
+          />
         )}
       </A.ButtonContainer>
     </>
