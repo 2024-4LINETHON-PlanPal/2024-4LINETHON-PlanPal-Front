@@ -9,6 +9,7 @@ export default function ModalBase({
   // 모달 정보 - 모달 카테고리 및 한줄소개
   modalCategoryText,
   modalIntroduceText,
+  modalIntroduceText2,
   // 버튼
   tripleBtnText1,
   tripleBtnText2,
@@ -23,7 +24,6 @@ export default function ModalBase({
   // 버튼 클릭 핸들러
   onLongSingleBtnClick,
   onLongSingleBtnClick2,
-
 }) {
   // 높이 조절 필요
   return (
@@ -36,7 +36,13 @@ export default function ModalBase({
           </A.ImgContainer>
           <A.ModalCategory>{modalCategoryText}</A.ModalCategory>
         </A.ModalTopbarContainer>
-        {modalIntroduceText && <A.ModalIntroduce>{modalIntroduceText}</A.ModalIntroduce>}
+        {modalIntroduceText && (
+          <A.ModalIntroduce>
+            {modalIntroduceText}
+            <br />
+            {modalIntroduceText2}
+          </A.ModalIntroduce>
+        )}
 
         {InsideComponent && <InsideComponent />}
 
@@ -58,8 +64,16 @@ export default function ModalBase({
         {/* 세로 정렬 버튼 */}
         <A.ModalVerticalButtonContainer>
           {/* 가로로 긴 싱글/더블 버튼 - 약속시간 확정하기 */}
-          {longSingleBtnText1 && <A.LongSingleButton1 onClick={onLongSingleBtnClick}>{longSingleBtnText1}</A.LongSingleButton1>}
-          {longSingleBtnText2 && <A.LongSingleButton2 onClick={onLongSingleBtnClick2}>{longSingleBtnText2}</A.LongSingleButton2>}
+          {longSingleBtnText1 && (
+            <A.LongSingleButton1 onClick={onLongSingleBtnClick}>
+              {longSingleBtnText1}
+            </A.LongSingleButton1>
+          )}
+          {longSingleBtnText2 && (
+            <A.LongSingleButton2 onClick={onLongSingleBtnClick2}>
+              {longSingleBtnText2}
+            </A.LongSingleButton2>
+          )}
           {/* 세로가 긴 버튼 - 친구 추가하기 */}
           {bigSingleBtnText && <A.BigSingleButton>{bigSingleBtnText}</A.BigSingleButton>}
         </A.ModalVerticalButtonContainer>

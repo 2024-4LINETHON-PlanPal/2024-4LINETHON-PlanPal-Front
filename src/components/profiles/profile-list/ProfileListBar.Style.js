@@ -49,8 +49,6 @@ export const ProfileItem = styled.li`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  cursor: pointer;
 `;
 export const ImgContainer = styled.div`
   margin: 0;
@@ -62,8 +60,6 @@ export const ImgContainer = styled.div`
   border: none;
   border-radius: 50%;
   overflow: hidden;
-
-  cursor: pointer;
 `;
 export const Img = styled.img`
   width: 100%;
