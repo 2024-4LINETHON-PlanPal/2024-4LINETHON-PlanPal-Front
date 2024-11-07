@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import * as P from "components/promise/promise-modal/PromiseStyle";
-import color from "styles/color";
-import font from "styles/font"
 
 const MembersDiv = styled.div`
   width: 100%;  

@@ -12,36 +12,43 @@ export const SubTitle = styled.p`
     margin-top: 25px;
 `;
 
-export const BoldInput = styled.input`
+export const BoldInputDiv = styled.div`
+  .textfield {
     width: 100%;
-    ${font.extrabold_20};
-    color: ${(props) => (props.isPlaceholder ? color.grayscale_bc : color.primary_black)};
     border: none;
     outline: none;
-    background: none;
+    color: ${color.primary_black};
+    background-color: ${color.primary_white};
+    ${font.extrabold_20};
 
     &::placeholder {
-        color: ${color.grayscale_bc};
+      color: ${color.grayscale_bc}; 
     }
+  }
+`
+export const FriendInputWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    gap: 7px;
 `;
 
 export const OvalInput = styled.input`
     width: 100%;
     height: 32px;
-    padding: 9px 20px;
-    border: 1px solid ${color.grayscale_bc};
+    padding: 8px 18px;
     border-radius: 50px;
+    outline: none;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
+    border: 1px solid ${color.grayscale_bc};
+    color: ${color.primary_black};
+    background-color: transparent;
     ${font.regular_12};
-
+    
     &::placeholder {
-        color: ${color.grayscale_bc};
+        color: ${color.grayscale_bc}; 
     }
 `;
 
-export const FriendInputWrapper = styled.div`
-    display: flex;
-    gap: 7px;
-`;
 
 export const DateAndTimeWrapper = styled.div`
     display: flex;
@@ -105,7 +112,7 @@ export const MemberDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px;
+    width: auto;
     height: 20px;
     border-radius: 50px;
     padding: 13px 10px;
@@ -126,6 +133,7 @@ export const MemoTextarea = styled.textarea`
     height: 110px;
     padding: 10px;
     resize: none;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
     border: 1px solid ${color.grayscale_bc};
     border-radius: 10px;
     outline: none;

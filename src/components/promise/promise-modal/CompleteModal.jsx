@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import color from "styles/color";
 import font from "styles/font";
 import styled from "styled-components";
-import checkicon from "assets/promise/check-icon.svg"
+import checkicon from "assets/promise/check-icon.png"
 
 const Wrapper = styled.div`
     display: flex;

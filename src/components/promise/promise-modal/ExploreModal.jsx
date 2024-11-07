@@ -1,71 +1,50 @@
 import React, { useState } from "react";
 import * as P from "components/promise/promise-modal/PromiseStyle";
 import SearchIcon from "assets/promise/search-icon.svg"; 
-import DashIcon from "assets/promise/dash-icon.svg"
+import DashIcon from "assets/promise/dash-icon.svg";
 import UpArrowIcon from "assets/promise/up-arrow-icon.svg";
 import DownArrowIcon from "assets/promise/down-arrow-icon.svg";
 
-export default function ExploreModal({ title, setTitle, friendSearch, setFriendSearch, selectedFriends, setSelectedFriends}) {
-  const [isEditing, setIsEditing] = useState(false);
+export default function ExploreModal({ title, setTitle, friendSearch, setFriendSearch }) {
+  const [promiseName, setPromiseName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [hours, setHours] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleTitleClick = () => {
     setIsEditing(true);
-  };
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
   };
 
   const handleBlur = () => {
     setIsEditing(false);
   };
 
-
-  const incrementHours = () => {
-    setHours((prevHours) => prevHours + 1);
-  };
-
-  const decrementHours = () => {
-    setHours((prevHours) => (prevHours > 0 ? prevHours - 1 : 0));
-  };
-
   return (
     <P.PromiseWrapper>
       <P.SubTitle>약속명</P.SubTitle>
-      {isEditing ? (
-        <P.BoldInput
+      <P.BoldInputDiv>
+        <input 
+          className="textfield"
           type="text"
-          value={title}
-          onChange={handleTitleChange}
-          onBlur={handleBlur}
-          autoFocus
+          value={promiseName}
           placeholder="약속명을 입력해주세요"
-          isPlaceholder={!title}
-        />
-      ) : (
-        <P.BoldInput
-          type="text"
-          value={title}
+          onChange={(e) => setPromiseName(e.target.value)}
           onClick={handleTitleClick}
-          readOnly
-          placeholder="약속명을 입력해주세요"
-          isPlaceholder={!title}
+          onBlur={handleBlur}
         />
-      )}
+      </P.BoldInputDiv>
       
       <P.SubTitle>참여자</P.SubTitle>
       <P.FriendInputWrapper>
-        <P.OvalInput
-          type="text"
-          placeholder="친구의 플랜팔 닉네임을 입력해주세요."
-          value={friendSearch}
+        <P.OvalInput 
+          placeholder="친구의 플랜팔 닉네임을 입력해주세요"
+          // value={friendSearch}
+          // onChange={(e) => setFriendSearch(e.target.value)}
         />
-        <img src={SearchIcon} alt="searchicon" />
+        <img src={SearchIcon} alt="searchicon"/>
       </P.FriendInputWrapper>
 
       <P.SubTitle>약속 가능 시간</P.SubTitle>
@@ -88,6 +67,7 @@ export default function ExploreModal({ title, setTitle, friendSearch, setFriendS
           onBlur={(e) => (e.target.type = "text")}
         />
       </P.DateAndTimeWrapper>
+
       <P.DateAndTimeWrapper>
         <P.OvalInput
           type="text"
@@ -119,15 +99,14 @@ export default function ExploreModal({ title, setTitle, friendSearch, setFriendS
         />
         <P.SpanText15>h</P.SpanText15>
         <P.ArrowWrapper>
-          <P.ArrowButton onClick={incrementHours}>
+          <P.ArrowButton onClick={() => setHours(hours + 1)}>
             <img src={UpArrowIcon} alt="increment" />
           </P.ArrowButton>
-          <P.ArrowButton onClick={decrementHours}>
+          <P.ArrowButton onClick={() => setHours(hours > 0 ? hours - 1 : 0)}>
             <img src={DownArrowIcon} alt="decrement" />
           </P.ArrowButton>
         </P.ArrowWrapper>
       </P.TimeLengthWrapper>
-
     </P.PromiseWrapper>
   );
 }

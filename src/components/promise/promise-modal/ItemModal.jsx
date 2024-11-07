@@ -10,12 +10,14 @@ export default function ItemModal() {
       <PromiseMember/>
 
       <P.SubTitle>일시</P.SubTitle>
-      <P.BoldInput
-        type="text"
-        value="2024. 10. 19. 22시"
-        readOnly
-      />
-
+      <P.BoldInputDiv>
+        <input
+          className="textfield"
+          type="text"
+          value="2024. 10. 19. 22시"
+          readOnly
+        />
+      </P.BoldInputDiv>
       <P.SubTitle>메모</P.SubTitle>
       <P.MemoTextarea/>
 
