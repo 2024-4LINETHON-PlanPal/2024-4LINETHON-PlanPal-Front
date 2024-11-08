@@ -13,16 +13,17 @@ const bgColors = [
     "linear-gradient(328deg, #A97C50 0%, #A97C50 28.07%, #D4BDA7 100%)"
 ];
 
+const primaryColors = ["#FF6A3B", "#4076BA", "#C04277", "#16857A", "#A97C50"];
+
 const TimeDiv = styled.div`
   width: 250px;
-  height: 160px;
   border-radius: 15px;
   padding: 20px;
   margin: 10px;
   text-align: center;
   background: ${(props) => bgColors[props.colorIndex % bgColors.length]};
   box-shadow: ${(props) =>
-    props.isSelected ? `0px 0px 10px 0px ${bgColors[props.colorIndex % bgColors.length].split(' ')[1]}` : "none"};
+    props.isSelected ? `0px 0px 10px 0px ${primaryColors[props.colorIndex % primaryColors.length]}` : "none"};
   cursor: pointer;
   transition: box-shadow 0.3s ease;
 `;
@@ -35,30 +36,49 @@ const CenteredMembersWrapper = styled.div`
     gap: 5px;
 `;
 
-const LightMemberDiv = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 20px;
-    border-radius: 50px;
-    padding: 13px 10px;
-    color: ${color.primary_black};
-    background-color: ${color.grayscale_f6};
-    ${font.regular_12};
-`;
+const GrayDiv = styled.div`
+    height: 80px;
+    width: calc(100% + 20*2); 
+    margin: 10px -20px -20px -20px;
+    padding: 15px;
+    border-radius: 0 0 15px 15px;
+    color: ${(props) => bgColors[props.colorIndex % bgColors.length]};
+    background-color: ${color.grayscale_e6};
+`
 
-export default function TimeSuggestion({ colorIndex, onClick, isSelected }) {
-    return (
+export default function TimeSuggestion({ colorIndex, onClick, isSelected, showVoteCount }) {
+  const memberDivStyle = {
+    color: color.primary_white,
+    backgroundColor: primaryColors[colorIndex % primaryColors.length]
+  };
+
+  const textColor = primaryColors[colorIndex % primaryColors.length];
+    
+  return (
       <TimeDiv onClick={onClick} isSelected={isSelected} colorIndex={colorIndex}>
           <P.Black23text>2024. 10. 25 fri</P.Black23text>
           <P.Light20text>18:00 - 22:00</P.Light20text>
           <P.Medium13text>참여자 전원이 참여 가능한 약속 시간입니다</P.Medium13text>
           <CenteredMembersWrapper>
-              <LightMemberDiv>바구현</LightMemberDiv>
-              <LightMemberDiv>수진</LightMemberDiv>
-              <LightMemberDiv>꼉</LightMemberDiv>
+              <P.MemberDiv style={{color: color.primary_black, backgroundColor: color.primary_white}}>
+                바구현
+              </P.MemberDiv>
+              <P.MemberDiv style={{color: color.primary_black, backgroundColor: color.primary_white}}>
+                수진
+              </P.MemberDiv>
+              <P.MemberDiv style={{color: color.primary_black, backgroundColor: color.primary_white}}>
+                꼉
+              </P.MemberDiv>
           </CenteredMembersWrapper>
+          {showVoteCount && (
+              <GrayDiv colorIndex={colorIndex}>
+                <P.Medium13text style={{color: textColor}}>총 2명이 투표한 약속 시간입니다</P.Medium13text>
+                <CenteredMembersWrapper>
+                  <P.MemberDiv style={memberDivStyle}>바구현</P.MemberDiv>
+                  <P.MemberDiv style={memberDivStyle}>수진</P.MemberDiv>
+                </CenteredMembersWrapper>
+              </GrayDiv>
+          )}
       </TimeDiv>
     );
 }

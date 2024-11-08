@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { PromiseItem1, PromiseItem2, PromiseItem3, PromiseItem4, PromiseItem5, PromiseItem6 } from 
+"components/promise/promise-item/PromiseItems";
 import PromiseItem from "components/promise/promise-main/PromiseItem";
 import PromiseHeader from "components/promise/promise-main/PromiseHeader";
 import PromiseBtn from "components/promise/promise-main/PromiseBtn";
@@ -8,9 +10,10 @@ import ExploreModal from "components/promise/promise-modal/ExploreModal";
 import SuggestModal from "components/promise/promise-modal/SuggestModal";
 import SelectModal from "components/promise/promise-modal/SelectModal";
 import CompleteModal from "components/promise/promise-modal/CompleteModal";
-import ResultModal from "components/promise/promise-modal/ResultModal";
-
-
+import StatusModal from "components/promise/promise-modal/StatusModal";
+import ItemModal from "components/promise/promise-modal/ItemModal";
+import ModifyModal from "components/promise/promise-modal/ModifyModal";
+import ShareModal from "components/promise/promise-modal/ShareModal";
 
 const Wrapper = styled.div`
   padding: 25px;
@@ -25,15 +28,13 @@ const ItemWrapper = styled.div`
   justify-content: center;
 `;
 
+const items = [PromiseItem1, PromiseItem2, PromiseItem3, PromiseItem4, PromiseItem5, PromiseItem6];
+
 export default function PromisePage() {
-  // 모달 상태를 관리하는 상태값
   const [currentModal, setCurrentModal] = useState(null);
-
-  // 현재 모달 닫고 다음 모달 열기
-  const openNextModal = (modalName) => setCurrentModal(modalName);
   const closeModal = () => setCurrentModal(null);
+  const openNextModal = (modalName) => setCurrentModal(modalName);
 
-  // 약속명과 참여자 상태
   const [title, setTitle] = useState("");
   const [friendSearch, setFriendSearch] = useState("");
   const [selectedFriends, setSelectedFriends] = useState([]);
@@ -43,12 +44,67 @@ export default function PromisePage() {
       <Wrapper>
         <PromiseHeader />
         <ItemWrapper>
-          {[...Array(8)].map((_, index) => (
-            <PromiseItem key={index} />
+          {items.map((Component, index) => (
+            <Component
+              key={index}
+              openItemModal={() => openNextModal("itemModal")}
+              openShareModal={() => openNextModal("shareModal")}
+              openModifyModal={() => openNextModal("modifyModal")}
+              openStatusModal={() => openNextModal("voteStatusModal")}
+            />
           ))}
         </ItemWrapper>
         <PromiseBtn onClick={() => openNextModal("exploreModal")} />
       </Wrapper>
+
+      {/* 약속 세부정보 모달 */}
+      {currentModal === "itemModal" && (
+        <ModalBase
+          setCloseModal={closeModal}
+          InsideComponent={() => (
+            <ItemModal 
+              openModifyModal={() => openNextModal("modifyModal")}
+              onDeleteClick={closeModal} 
+              openShareModal={() => openNextModal("shareModal")}
+            />
+          )}
+          modalCategoryText="약속 정보"
+          modalIntroduceText="약속 정보를 확인하세요."
+          modalHeight="600px"
+          tripleBtnText1="수정하기"
+          tripleBtnText2="삭제하기"
+          tripleBtnText3="공유하기"
+          tripleBtnClickHandlers={[
+            () => openNextModal("modifyModal"),  
+            closeModal,                           
+            () => openNextModal("shareModal"),    
+          ]}
+        />
+      )}
+
+      {/* 약속 수정 모달 */}
+      {currentModal === "modifyModal" && (
+        <ModalBase
+          setCloseModal={closeModal}
+          InsideComponent={ModifyModal}
+          modalCategoryText="약속 정보"
+          modalIntroduceText="약속 정보를 수정하세요."
+          modalHeight="600px"
+          tripleBtnText1="저장하기"
+        />
+      )}
+
+      {/* 약속 공유 모달 */}
+      {currentModal === "shareModal" && (
+        <ModalBase
+          setCloseModal={closeModal}
+          InsideComponent={ShareModal}
+          modalCategoryText="약속 공유"
+          modalIntroduceText="여기톤 모여의 약속시간을"
+          modalIntroduceText2="친구들과 공유해보세요"
+          modalHeight="-420px"
+      />
+      )}
 
       {/* 약속시간 탐색 모달 */}
       {currentModal === "exploreModal" && (
@@ -123,16 +179,16 @@ export default function PromisePage() {
           InsideComponent={() => <CompleteModal/>}
           modalCategoryText="약속시간 투표"
           longSingleBtnText1="투표 현황 확인하기"
-          onLongSingleBtnClick={() => openNextModal("voteResultModal")}
+          onLongSingleBtnClick={() => openNextModal("voteStatusModal")}
         />
       )}
 
       {/* 투표 현황 모달 */}
-      {currentModal === "voteResultModal" && (
+      {currentModal === "voteStatusModal" && (
         <ModalBase
           modalHeight="600px"
           setCloseModal={closeModal}
-          InsideComponent={() => <ResultModal/>}
+          InsideComponent={() => <StatusModal/>}
           modalCategoryText="약속시간 투표 현황 "
         />
       )}
