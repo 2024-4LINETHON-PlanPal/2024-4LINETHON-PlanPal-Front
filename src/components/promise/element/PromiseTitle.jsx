@@ -11,11 +11,14 @@ export default function PromiseTitle() {
     return (
         <TitleDiv>
             <P.SubTitle>약속명</P.SubTitle>
-            <P.BoldInput
+            <P.BoldInputDiv>
+                <input 
+                className="textfield"
                 type="text"
                 value="여기톤 모여"
                 readOnly
-            /> 
+                />
+            </P.BoldInputDiv>
         </TitleDiv>
     );
 }

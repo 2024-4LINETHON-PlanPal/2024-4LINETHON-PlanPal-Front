@@ -4,7 +4,7 @@ import PromiseTitle from "components/promise/element/PromiseTitle";
 import TimeSuggestion from "components/promise/element/TimeSuggestion";
 import questionicon from "assets/promise/question-mark.svg"
 
-export default function ResultModal() {
+export default function StatusModal() {
     const [activeIndex, setActiveIndex] = useState(0);
     const [showTooltip, setShowTooltip] = useState(false);
     const timeSuggestionWrapperRef = useRef(null);
@@ -34,7 +34,6 @@ export default function ResultModal() {
         } else {
             document.removeEventListener("mousedown", handleClickOutside);
         }
-        
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -62,20 +61,20 @@ export default function ResultModal() {
             <P.SubTitle>약속시간 투표현황</P.SubTitle>
             <P.QuestionIcon src={questionicon} onClick={handleIconClick}/>
             {showTooltip && (
-                    <P.Tooltip ref={tooltipRef}>
-                        투표가 동률일 경우<br />
-                        1. 참여 가능 인원이 많은 순<br />
-                        2. 약속 시간이 빠른 순<br />
-                        으로 자체 결정하여 제안합니다.
-                    </P.Tooltip>
-                )}
+                <P.Tooltip ref={tooltipRef}>
+                    투표가 동률일 경우<br />
+                    1. 참여 가능 인원이 많은 순<br />
+                    2. 약속 시간이 빠른 순<br />
+                    으로 자체 결정하여 제안합니다.
+                </P.Tooltip>
+            )}
         </P.HorizontalDiv>
         
         <P.TimeSuggestionWrapper ref={timeSuggestionWrapperRef} onScroll={handleScroll}>
-                {[0, 1, 2, 3, 4].map((index) => (
-                    <TimeSuggestion key={index} colorIndex={index} />
-                ))}
-            </P.TimeSuggestionWrapper>
+            {[0, 1, 2, 3, 4].map((index) => (
+                <TimeSuggestion key={index} colorIndex={index} showVoteCount={true} />
+            ))}
+        </P.TimeSuggestionWrapper>
 
         <P.DotWrapper>
             {[0, 1, 2, 3, 4].map((index) => (
