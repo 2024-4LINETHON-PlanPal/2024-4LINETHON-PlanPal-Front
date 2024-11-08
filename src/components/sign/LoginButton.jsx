@@ -32,10 +32,20 @@ const Span2 = styled.span`
   color: ${color.primary_black};
 `;
 
-export default function LoginButton({ handleOnClickEvent, backgroundColor, btnText, isSignup }) {
+export default function LoginButton({
+  handleOnClickEvent,
+  backgroundColor,
+  btnText,
+  isSignup,
+  btnType,
+}) {
   return (
     <>
-      <ButtonContainer onClick={handleOnClickEvent} $backgroundColor={backgroundColor}>
+      <ButtonContainer
+        type={btnType ? btnType : "button"}
+        onClick={btnType !== "submit" ? handleOnClickEvent : undefined}
+        $backgroundColor={backgroundColor}
+      >
         {btnText}
 
         {isSignup && (
