@@ -88,7 +88,7 @@ export default function Signup() {
   const onSubmit = async (data) => {
     console.log("폼 데이터 제출: ", data);
     const isSuccess = await registerUser(data);
-    // 실패하면 안 넘어가도록 설정 필요...
+
     if (isSuccess) {
       setStep(step + 1);
     }
