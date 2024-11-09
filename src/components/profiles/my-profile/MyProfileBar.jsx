@@ -4,56 +4,29 @@ import DefaultProfile04PNG from "assets/common/default-profile-4star-45x45.png";
 import ModalBase from "components/modal/ModalBase";
 import MyProfileInfo from "components/modal/profile/MyProfileInfo";
 import { getMyProfile } from "apis/getMyProfile";
-import axios from "axios";
 
 export default function MyProfileBar() {
   const [toggleModal, setToggleModal] = useState(false);
+  const [userProfileData, setUserProfileData] = useState({});
 
   // const toggleModal = () => {
   //   setIsModalOn(!isModalOn);
   // };
 
   // api 연결
-  // api 연결
-  // api 연결
-  const getMyProfileData = async (username) => {
-    const { result } = await getMyProfile(username);
-    console.log("내 프로필 api: ", result);
-  };
-
   useEffect(() => {
     const username = localStorage.getItem("username");
-    console.log("localStorage - username : ", username); // "planpal123"
+    // console.log("localStorage - username : ", username);
     // console.log(localStorage.length);
     // localStorage.clear();
 
-    getMyProfileData(username);
+    const fetchMyProfileData = async () => {
+      const result = await getMyProfile(username);
+      // console.log("내 프로필 api: ", result);
+      setUserProfileData(result);
+    };
+    fetchMyProfileData(username);
   }, []);
-
-  // api 연결
-  // api 연결
-  // api 연결
-  // const api = axios.create({
-  //   baseURL: "https://planpal.kro.kr/",
-  // });
-
-  // const username = localStorage.getItem("username");
-  // console.log("localStorage - username : ", username);
-
-  // useEffect(() => {
-  //   async function profileUser() {
-  //     try {
-  //       const response = await api.get(`users/profile/${username}/`);
-
-  //       console.log("api 연결 성공:", response.data);
-  //       return true;
-  //     } catch (error) {
-  //       console.error("api 연결 실패:", error.response?.data || error.message);
-  //       return false;
-  //     }
-  //   }
-  //   profileUser();
-  // }, []);
 
   return (
     <>
@@ -63,8 +36,8 @@ export default function MyProfileBar() {
         </A.ImgContainer>
 
         <A.ProfileInfoContainer>
-          <A.ProfileName>내 닉네임</A.ProfileName>
-          <A.ProfileIntroduce>한줄소개</A.ProfileIntroduce>
+          <A.ProfileName>{userProfileData.nickname}</A.ProfileName>
+          <A.ProfileIntroduce>{userProfileData.intro}</A.ProfileIntroduce>
         </A.ProfileInfoContainer>
       </A.BarContainer>
 
