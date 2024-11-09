@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as A from "components/sign/sign-up/Signup.Style";
@@ -30,7 +30,7 @@ export default function Signup() {
       nickname: yup
         .string()
         .required("닉네임을 반드시 입력해주세요.")
-        .max(10, "닉네임은 10자 이하여야 합니다."),
+        .max(20, "닉네임은 20자 이하여야 합니다."),
     }),
   ];
 
@@ -63,34 +63,37 @@ export default function Signup() {
     }
   };
 
-  // 제출
-  const onSubmit = (data) => {
-    console.log("폼 데이터 제출:", data);
-    setStep(step + 1);
-  };
-  console.log("렌더링"); //
-
   // api 연결
   const api = axios.create({
     baseURL: "https://planpal.kro.kr/",
   });
 
-  const registerUser = async () => {
+  async function registerUser({ id, password, nickname }) {
     try {
       const response = await api.post("users/register/", {
-        username: "test",
-        password: "test1234@",
-        password2: "test1234@",
-        nickname: "테스트",
+        username: id,
+        password: password,
+        nickname: nickname,
       });
 
       console.log("회원가입 성공:", response.data);
+      return true;
     } catch (error) {
       console.error("회원가입 실패:", error.response?.data || error.message);
+      return false;
+    }
+  }
+
+  // 제출
+  const onSubmit = async (data) => {
+    console.log("폼 데이터 제출: ", data);
+    const isSuccess = await registerUser(data);
+    // 실패하면 안 넘어가도록 설정 필요...
+    if (isSuccess) {
+      setStep(step + 1);
     }
   };
-  // 함수 호출
-  registerUser();
+  // console.log("렌더링"); //
 
   // 화면
   // 화면
