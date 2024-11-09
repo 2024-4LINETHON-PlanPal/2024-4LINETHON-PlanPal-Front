@@ -11,6 +11,12 @@ export default function MyProfileBar() {
   //   setIsModalOn(!isModalOn);
   // };
 
+  // username(아이디) 가져오기
+  // const username = localStorage.getItem("username");
+  // console.log("localStorage - username : ", username); // "planpal123"
+  // console.log(localStorage.length);
+  // localStorage.clear();
+
   return (
     <>
       <A.BarContainer onClick={() => setToggleModal(true)}>

@@ -1,6 +1,13 @@
 import * as A from "components/sign/sign-up/Signup.Style";
 
-export default function SignStep({ categoryTitle, postposition, prevText }) {
+export default function SignStep({
+  categoryTitle,
+  postposition,
+  prevText,
+  register,
+  errors,
+  registerName,
+}) {
   return (
     <>
       <A.CategoryChip>{categoryTitle} 설정</A.CategoryChip>
@@ -10,7 +17,17 @@ export default function SignStep({ categoryTitle, postposition, prevText }) {
         <br />
         입력해주세요
       </A.TitleText>
-      <A.InputText placeholder={prevText} />
+      <A.InputBox
+        type="text"
+        placeholder={prevText}
+        {...register(registerName, {
+          required: true,
+          // onChange: (e) => {
+          //   console.log(`현재 ${registerName}의 값: ${e.target.value}`); //
+          // },
+        })}
+      />
+      <p style={{ color: "red" }}>{errors[registerName]?.message}</p>
     </>
   );
 }

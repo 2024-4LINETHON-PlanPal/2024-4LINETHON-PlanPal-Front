@@ -66,7 +66,7 @@ export const CategoryChip = styled.p`
   color: ${() => color.primary_black};
   color: ${() => color.primary_white};
 `;
-export const InputText = styled.input`
+export const InputBox = styled.input`
   margin-top: 6.8rem;
   padding: 0;
   width: 33.4rem;

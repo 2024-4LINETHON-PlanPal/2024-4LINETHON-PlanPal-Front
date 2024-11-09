@@ -3,12 +3,45 @@ import { Link, useNavigate } from "react-router-dom";
 import * as A from "components/sign/sign-in/Login.Style";
 import LoginButton from "components/sign/LoginButton";
 import LogoPng from "assets/sign/logo-regular-88x106.png";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleMoveToHomePage = () => {
-    navigate(`/home`);
+  // api 연결
+  const api = axios.create({
+    baseURL: "https://planpal.kro.kr/",
+  });
+
+  async function loginUser({ id, password }) {
+    try {
+      console.log("로그인 id: ", id); //
+      console.log("로그인 password: ", password); //
+
+      const response = await api.post("users/login/", {
+        username: id,
+        password: password,
+      });
+
+      console.log("로그인 성공:", response.data);
+      return true;
+    } catch (error) {
+      console.error("로그인 실패:", error.response?.data || error.message);
+      return false;
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // await loginUser({ id: "planpal123", password: "qlalfqjsgh123" });
+    const isSuccess = await loginUser({ id: username, password: password });
+
+    if (isSuccess) {
+      localStorage.setItem("username", username);
+      navigate(`/home`);
+    }
   };
 
   return (
@@ -17,23 +50,29 @@ export default function Login() {
         <A.LogoImg src={LogoPng} alt="PlanPal" />
       </A.LogoImgContainer>
 
-      <A.FormContainer>
+      <A.FormContainer onSubmit={handleSubmit}>
         <label>
           <A.InputTitle>아이디</A.InputTitle>
-          <A.InputBox type="text" placeholder="아이디를 입력해주세요" />
+          <A.InputBox
+            type="text"
+            placeholder="아이디를 입력해주세요"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </label>
         <label>
           <A.InputTitle>비밀번호</A.InputTitle>
-          <A.InputBox type="password" placeholder="비밀번호를 입력해주세요" />
+          <A.InputBox
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <A.ErrorText></A.ErrorText>
           {/* <A.ErrorText>아이디와 비밀번호가 일치하지 않습니다.</A.ErrorText> */}
         </label>
 
-        <LoginButton
-          btnText="로그인"
-          handleOnClickEvent={handleMoveToHomePage}
-          backgroundColor="black"
-        />
+        <LoginButton btnText="로그인" btnType="submit" backgroundColor="black" />
       </A.FormContainer>
 
       <Link to="/sign-up">

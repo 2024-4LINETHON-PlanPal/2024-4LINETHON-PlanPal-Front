@@ -24,6 +24,7 @@ const font = {
   bold_23: FONT({ weight: 700, size: 2.3 }),
   bold_40: FONT({ weight: 700, size: 4.0 }),
   semibold_12: FONT({ weight: 600, size: 1.2 }),
+  extrabold_15: FONT({ weight: 800, size: 1.5 }),
   extrabold_20: FONT({ weight: 800, size: 2.0 }),
   black_18: FONT({ weight: 900, size: 1.8 }),
   black_23: FONT({ weight: 900, size: 2.3 }),
