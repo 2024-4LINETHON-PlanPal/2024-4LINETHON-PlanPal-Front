@@ -20,6 +20,7 @@ export default function Router() {
         <Routes>
           <Route path="*" element={<NotFound />} />
           {/* 로그인 페이지 */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignupPage />} />
