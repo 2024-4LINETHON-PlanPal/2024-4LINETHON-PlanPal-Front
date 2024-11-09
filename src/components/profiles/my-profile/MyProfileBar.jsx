@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as A from "components/profiles/my-profile/MyProfileBar.Style";
 import DefaultProfile04PNG from "assets/common/default-profile-4star-45x45.png";
 import ModalBase from "components/modal/ModalBase";
 import MyProfileInfo from "components/modal/profile/MyProfileInfo";
+import { getMyProfile } from "apis/getMyProfile";
+import axios from "axios";
 
 export default function MyProfileBar() {
   const [toggleModal, setToggleModal] = useState(false);
@@ -11,11 +13,47 @@ export default function MyProfileBar() {
   //   setIsModalOn(!isModalOn);
   // };
 
-  // username(아이디) 가져오기
+  // api 연결
+  // api 연결
+  // api 연결
+  const getMyProfileData = async (username) => {
+    const { result } = await getMyProfile(username);
+    console.log("내 프로필 api: ", result);
+  };
+
+  useEffect(() => {
+    const username = localStorage.getItem("username");
+    console.log("localStorage - username : ", username); // "planpal123"
+    // console.log(localStorage.length);
+    // localStorage.clear();
+
+    getMyProfileData(username);
+  }, []);
+
+  // api 연결
+  // api 연결
+  // api 연결
+  // const api = axios.create({
+  //   baseURL: "https://planpal.kro.kr/",
+  // });
+
   // const username = localStorage.getItem("username");
-  // console.log("localStorage - username : ", username); // "planpal123"
-  // console.log(localStorage.length);
-  // localStorage.clear();
+  // console.log("localStorage - username : ", username);
+
+  // useEffect(() => {
+  //   async function profileUser() {
+  //     try {
+  //       const response = await api.get(`users/profile/${username}/`);
+
+  //       console.log("api 연결 성공:", response.data);
+  //       return true;
+  //     } catch (error) {
+  //       console.error("api 연결 실패:", error.response?.data || error.message);
+  //       return false;
+  //     }
+  //   }
+  //   profileUser();
+  // }, []);
 
   return (
     <>
