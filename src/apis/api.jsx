@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-catch */
+/* eslint-disable */
 import axios from "axios";
 
 const baseURL = "https://planpal.kro.kr/";
@@ -18,7 +19,8 @@ const request = async ({ url, method, body = {}, params }) => {
       {};
     return data;
   } catch (error) {
-    throw error;
+    console.error("api 연동 에러:", error.response?.data || error.message);
+    return error;
   }
 };
 

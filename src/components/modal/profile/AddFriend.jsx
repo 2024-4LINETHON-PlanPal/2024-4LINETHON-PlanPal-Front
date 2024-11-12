@@ -1,6 +1,8 @@
 import * as A from "components/modal/profile/AddFriend.Style";
 import SearchPng from "assets/profile/search-icon-32x32.png";
 import ClosePng from "assets/profile/close-icon-13x13.png";
+import { useEffect, useState } from "react";
+import { postAddFriend } from "apis/postAddFriend";
 
 function FriendItem({ friendName }) {
   return (
@@ -14,24 +16,49 @@ function FriendItem({ friendName }) {
 }
 
 export default function AddFriend() {
+  const [targetUsername, setTargetUsername] = useState("");
+  const [notiText, setNotiText] = useState("");
+  const [errorText, setErrorText] = useState("");
+
+  // api 연결
+  const myUsername = localStorage.getItem("username");
+
+  const fetchAddFriend = async (e) => {
+    e.preventDefault();
+    const result = await postAddFriend(myUsername, targetUsername);
+    console.log("친구추가 api: ", result);
+    // 친구를 추가했습니다: 201
+    // 이미 친구: 200
+    // 없는 아이디: 404
+    // 나 자신: 400
+    if (result) {
+      setNotiText(result.message);
+      setErrorText("");
+    } else {
+      setErrorText("해당 닉네임은 존재하지 않습니다.");
+      setNotiText("");
+    }
+  };
+
   return (
     <>
       <label>
-        <A.InputTitle>내 친구 찾기</A.InputTitle>
-        <A.InputContainer>
-          <A.InputBox placeholder="친구의 플랜팔 닉네임을 입력해주세요" />
-          <A.SubmitButton>
+        <A.InputTitle>친구 추가하기</A.InputTitle>
+        <A.InputForm onSubmit={fetchAddFriend}>
+          <A.InputBox
+            onChange={(e) => setTargetUsername(e.target.value)}
+            placeholder="친구의 아이디를 입력해주세요"
+          />
+          <A.SubmitButton type="submit">
             <A.ButtonImg src={SearchPng} alt="검색" />
           </A.SubmitButton>
-        </A.InputContainer>
+        </A.InputForm>
       </label>
-      {/* <A.ErrorText>해당 닉네임은 존재하지 않습니다.</A.ErrorText> */}
+      {notiText && <A.NotiText>{notiText}</A.NotiText>}
+      {errorText && <A.ErrorText>{errorText}</A.ErrorText>}
       <A.FriendList>
-        <FriendItem friendName="수진" />
-        <FriendItem friendName="꼉" />
-        <FriendItem friendName="박태경" />
-        <FriendItem friendName="가은이" />
-        <FriendItem friendName="승혀니" />
+        {/* <FriendItem friendName="수진" />
+        <FriendItem friendName="꼉" /> */}
       </A.FriendList>
     </>
   );

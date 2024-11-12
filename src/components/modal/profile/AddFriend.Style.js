@@ -7,7 +7,7 @@ export const InputTitle = styled.p`
 
   ${() => font.bold_15}
 `;
-export const InputContainer = styled.div`
+export const InputForm = styled.form`
   margin-top: 0.8rem;
   display: flex;
 `;
@@ -50,6 +50,9 @@ export const ErrorText = styled.p`
   height: 1.6rem;
   color: ${() => color.orange_normal};
   ${font.regular_10}
+`;
+export const NotiText = styled(ErrorText)`
+  color: ${() => color.blue_normal};
 `;
 export const FriendList = styled.ul`
   margin: 0.8rem 0 4rem 0;

@@ -32,7 +32,7 @@ export default function MyProfileBar() {
     <>
       <A.BarContainer onClick={() => setToggleModal(true)}>
         <A.ImgContainer>
-          <A.Img src={DefaultProfile04PNG} alt="PlanPal" />
+          <A.Img src={userProfileData.image} alt="profile" />
         </A.ImgContainer>
 
         <A.ProfileInfoContainer>
