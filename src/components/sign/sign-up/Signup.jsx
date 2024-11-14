@@ -9,10 +9,14 @@ import LoginButton from "components/sign/LoginButton";
 import SignStep from "components/sign/sign-up/SignStep";
 import SignStartEnd from "components/sign/sign-up/SignStartEnd";
 import IconPng from "assets/sign/back-icon-30x30.png";
+import { getIdIsValid } from "apis/getIdIsValid";
 
 export default function Signup() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const [id, setId] = useState("");
+  const [errorTextId, setErrorTextId] = useState("");
+  const [errorTextNickname, setErrorTextNickname] = useState("");
 
   // 유효성 검사
   const schemas = [
@@ -43,12 +47,35 @@ export default function Signup() {
     resolver: yupResolver(schemas[step - 1]),
   });
 
-  // 페이지 이동 - 로그인
-  const handleMoveToLoginPage = () => {
-    navigate(`/login`);
+  // api 연결 - 아이디 중복 검사
+  const fetchValidId = async () => {
+    const username = id;
+    const result = await getIdIsValid(username);
+    // console.log("아이디 중복 검사 api: ", result.status);
+    // console.log("아이디 중복 검사 api: ", result.data.message); // 가능한 아이디:200
+    // console.log("아이디 중복 검사 api: ", result.response.data.mesage); // 중복 아이디: 400
+
+    if (result.status === 200) {
+      // console.log("200, 가능한 아이디");
+      setErrorTextId("");
+      return true;
+    } else {
+      // console.log("400, 중복 아이디");
+      setErrorTextId("이미 존재하는 아이디입니다.");
+      return false;
+    }
   };
 
   // 페이지 이동 - 회원가입
+  const nextStepWithID = async () => {
+    const isValid = await trigger();
+    const isValidIDWithApi = await fetchValidId();
+    // console.log(isValidIDWithApi); //
+
+    if (isValid && isValidIDWithApi) {
+      setStep(step + 1);
+    }
+  };
   const nextStep = async () => {
     const isValid = await trigger();
     if (isValid) {
@@ -63,7 +90,12 @@ export default function Signup() {
     }
   };
 
-  // api 연결
+  // 페이지 이동 - 로그인
+  const handleMoveToLoginPage = () => {
+    navigate(`/login`);
+  };
+
+  // api 연결 - 제출
   const api = axios.create({
     baseURL: "https://planpal.kro.kr/",
   });
@@ -80,6 +112,7 @@ export default function Signup() {
       return true;
     } catch (error) {
       console.error("회원가입 실패:", error.response?.data || error.message);
+      console.error("회원가입 실패:", error.status);
       return false;
     }
   }
@@ -90,7 +123,10 @@ export default function Signup() {
     const isSuccess = await registerUser(data);
 
     if (isSuccess) {
+      setErrorTextNickname("");
       setStep(step + 1);
+    } else {
+      setErrorTextNickname("이미 존재하는 닉네임입니다.");
     }
   };
   // console.log("렌더링"); //
@@ -100,10 +136,12 @@ export default function Signup() {
   // 화면
   return (
     <>
+      {/* 뒤로가기 */}
       <A.IconImgContainer onClick={prevStep}>
         {step !== 4 && <A.IconImg src={IconPng} alt="go-back" />}
       </A.IconImgContainer>
 
+      {/* 안내 및 입력요소 */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <A.ComponentContainer>
           {step === 0 && (
@@ -121,6 +159,8 @@ export default function Signup() {
               register={register}
               registerName="id"
               errors={errors}
+              errorText={errorTextId}
+              setId={setId}
             />
           )}
           {step === 2 && (
@@ -141,6 +181,7 @@ export default function Signup() {
               register={register}
               registerName="nickname"
               errors={errors}
+              errorText={errorTextNickname}
             />
           )}
           {step === 4 && (
@@ -152,6 +193,7 @@ export default function Signup() {
           )}
         </A.ComponentContainer>
 
+        {/* 다음 버튼 */}
         <A.ButtonContainer>
           {step === 0 && (
             <LoginButton
@@ -160,7 +202,14 @@ export default function Signup() {
               backgroundColor="black"
             />
           )}
-          {step <= 2 && step >= 1 && (
+          {step === 1 && (
+            <LoginButton
+              btnText="다음"
+              handleOnClickEvent={nextStepWithID}
+              backgroundColor="black"
+            />
+          )}
+          {step === 2 && (
             <LoginButton btnText="다음" handleOnClickEvent={nextStep} backgroundColor="black" />
           )}
           {step === 3 && <LoginButton btnText="다음" backgroundColor="black" btnType="submit" />}

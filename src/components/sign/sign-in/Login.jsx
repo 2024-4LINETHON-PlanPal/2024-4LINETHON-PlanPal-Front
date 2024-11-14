@@ -9,6 +9,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   // api 연결
   const api = axios.create({
@@ -17,8 +18,8 @@ export default function Login() {
 
   async function loginUser({ id, password }) {
     try {
-      console.log("로그인 id: ", id); //
-      console.log("로그인 password: ", password); //
+      // console.log("로그인 id: ", id); //
+      // console.log("로그인 password: ", password); //
 
       const response = await api.post("users/login/", {
         username: id,
@@ -29,6 +30,7 @@ export default function Login() {
       return true;
     } catch (error) {
       console.error("로그인 실패:", error.response?.data || error.message);
+      setErrorText("아이디와 비밀번호가 올바르지 않습니다.");
       return false;
     }
   }
@@ -68,8 +70,7 @@ export default function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <A.ErrorText></A.ErrorText>
-          {/* <A.ErrorText>아이디와 비밀번호가 일치하지 않습니다.</A.ErrorText> */}
+          <A.ErrorText>{errorText}</A.ErrorText>
         </label>
 
         <LoginButton btnText="로그인" btnType="submit" backgroundColor="black" />
