@@ -1,10 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import * as P from "components/promise/promise-modal/PromiseStyle";
+import * as P from "components/promise/PromiseStyle";
 import PromiseTitle from "components/promise/element/PromiseTitle";
 import TimeSuggestion from "components/promise/element/TimeSuggestion";
 import questionicon from "assets/promise/question-mark.svg"
 
-export default function StatusModal() {
+export default function StatusModal({
+    promiseName, 
+    members, 
+    responseData, 
+    selectedIndex, 
+    setSelectedIndex, 
+    setSelectedOptionId
+}) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [showTooltip, setShowTooltip] = useState(false);
     const timeSuggestionWrapperRef = useRef(null);
@@ -41,7 +48,7 @@ export default function StatusModal() {
 
   return (
     <P.PromiseWrapper>
-        <PromiseTitle/>
+        <PromiseTitle promiseName={promiseName} />
 
         <P.SubTitle>약속 참여자</P.SubTitle>
         <P.MembersWrapper>

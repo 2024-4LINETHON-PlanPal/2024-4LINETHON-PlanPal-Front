@@ -1,5 +1,5 @@
 import React from "react";
-import * as P from "components/promise/promise-modal/PromiseStyle";
+import * as P from "components/promise/PromiseStyle";
 import styled from "styled-components";
 
 const TitleDiv = styled.div`
@@ -7,16 +7,16 @@ const TitleDiv = styled.div`
   height: 50px;
 `;
 
-export default function PromiseTitle() {
+export default function PromiseTitle({ promiseName }) {
     return (
         <TitleDiv>
             <P.SubTitle>약속명</P.SubTitle>
             <P.BoldInputDiv>
                 <input 
-                className="textfield"
-                type="text"
-                value="여기톤 모여"
-                readOnly
+                    className="textfield"
+                    type="text"
+                    value={promiseName}
+                    readOnly
                 />
             </P.BoldInputDiv>
         </TitleDiv>

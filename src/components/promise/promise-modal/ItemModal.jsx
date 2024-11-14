@@ -1,5 +1,5 @@
 import React from "react";
-import * as P from "components/promise/promise-modal/PromiseStyle";
+import * as P from "components/promise/PromiseStyle";
 import PromiseTitle from "components/promise/element/PromiseTitle";
 import PromiseMember from "components/promise/element/PromiseMember";
 

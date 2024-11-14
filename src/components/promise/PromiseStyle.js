@@ -2,8 +2,20 @@ import { styled } from "styled-components";
 import font from "styles/font";
 import color from "styles/color";
 
+export const Wrapper = styled.div`
+    padding: 25px;
+`
+export const ItemWrapper = styled.div`
+    padding-top: 15px;
+    padding-bottom: 110px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+`;
+
 export const PromiseWrapper = styled.div`
-    padding: 25px 0px;
+    padding-top: 25px;
 `;
 
 export const SubTitle = styled.p`
@@ -115,7 +127,7 @@ export const MemberDiv = styled.div`
     width: auto;
     height: 20px;
     border-radius: 50px;
-    padding: 13px 10px;
+    padding: 12px 10px;
     color: ${color.primary_black};
     background-color: ${color.grayscale_d9};
     ${font.regular_12};
@@ -173,9 +185,11 @@ export const TimeSuggestionWrapper = styled.div`
 export const DotWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
   gap: 8px;
 `;
+
 
 export const Dot = styled.div`
   width: 8px;
@@ -211,3 +225,32 @@ export const Tooltip = styled.div`
     white-space: pre-line;
     z-index: 1;
 `;
+
+export const OnclickButton = styled.button`
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 1.5rem;
+    ${font.medium_18};
+    color: ${color.primary_white};
+    background-color: ${color.primary_black};
+`
+export const PlusBtn = styled.button`
+    margin-left: 5px;
+    border-radius: 10px;
+    border: none;
+    background-color: ${color.primary_black};
+    color: ${color.primary_white};
+`
+export const MakingWrapper = styled.div`
+    margin-top: 15px;
+`
+export const MakingBtn = styled.button`
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 1.5rem;
+    ${font.medium_18};
+    color: ${color.primary_white};
+    background-color: ${color.primary_black};
+`
