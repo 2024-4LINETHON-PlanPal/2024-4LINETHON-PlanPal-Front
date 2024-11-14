@@ -35,9 +35,9 @@ export default function Notification() {
       </A.TopBarContainer>
 
       {/* map함수 */}
+      {/* <NotiComp />
       <NotiComp />
-      <NotiComp />
-      <NotiComp />
+      <NotiComp /> */}
     </>
   );
 }
