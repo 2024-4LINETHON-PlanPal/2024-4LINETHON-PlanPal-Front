@@ -28,38 +28,44 @@ const DayCalendar = ({ username, today }) => {
     setPlanModalOpen(false);
     setShareModalOpen(false);
     setSelectedCategoryId(null);
+    setSelectedPlanId(null);
   };
 
   const hours = Array.from({ length: 25 }, (_, i) =>
     String(i).padStart(2, "0")
   );
 
-  useEffect(() => {
+  const fetchPlans = () => {
     axios
       .get(`https://planpal.kro.kr/plan/plans/${username}/daily/?date=${today}`)
       .then((response) => {
         if (response.status === 200) {
           setSchedules(response.data.result.time_slots || {});
-
+          console.log(response.data.message);
+        
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [username, today, plans]);
+  };
+
 
   useEffect(() => {
     axios
       .get(`https://planpal.kro.kr/plan/categories/${username}/`)
       .then((response) => {
         if (response.status === 200) {
+          fetchPlans();
           setCategories(response.data.result);
+          console.log(response.data.message);
+
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [username, isModalOpen, isPlanModalOpen]);
+  }, [username, today]);
 
   useEffect(() => {
     axios
@@ -67,16 +73,18 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result);
+          console.log(response.data.message);
+        
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [username, isModalOpen, isPlanModalOpen]);
+  }, [username, today]);
 
-  const handleDotsClick = (planId) => {
-    setSelectedPlanId(planId);
-    setPlanModalOpen(true);
+  const handleCategoryClick = (categoryId) => {
+    setSelectedCategoryId(categoryId);
+    setModalOpen(true);
   };
 
   const handleCompletionToggle = (plan) => {
@@ -89,18 +97,27 @@ const DayCalendar = ({ username, today }) => {
       memo: plan.memo,
       is_completed: !plan.is_completed,
     };
+    
     axios
       .put(`https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`, updatedPlan)
       .then((response) => {
         if (response.status === 200) {
+          fetchPlans();
           setPlans((prevPlans) =>
-            prevPlans.map((p) => (p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p))
+            prevPlans.map((p) =>
+              p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p
+            )
           );
         }
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const handleDotsClick = (planId) => {
+    setSelectedPlanId(planId);
+    setPlanModalOpen(true);
   };
 
   return (
@@ -110,16 +127,14 @@ const DayCalendar = ({ username, today }) => {
           <C.Time key={hour}>{hour}</C.Time>
         ))}
       </C.TimeWrap>
-      <C.MakerWrap>
-        {hours.map((hour, index) => {
-          const timeSlot = schedules[`${hour}:00`] || [];
 
+      <C.MakerWrap>
+        {hours.map((hour) => {
+          const timeSlot = schedules[`${hour}:00`] || []; 
           return (
             <C.Hours key={hour}>
-              {timeSlot
-              
-                .filter((slot) => slot.date === today)
-                .map((slot, idx) => (
+              {timeSlot.length > 0 &&  
+                timeSlot.map((slot, idx) => (
                   <C.HalfHours
                     key={idx}
                     style={{
@@ -130,10 +145,12 @@ const DayCalendar = ({ username, today }) => {
                   >
                     {slot.title}
                   </C.HalfHours>
-                ))}
+                ))
+              }
             </C.Hours>
           );
         })}
+
       </C.MakerWrap>
 
       <C.CheckWrap>
@@ -141,10 +158,7 @@ const DayCalendar = ({ username, today }) => {
           categories.map((category) => (
             <C.CheckBox key={category.id}>
               <C.CheckTitle
-                onClick={() => {
-                  setSelectedCategoryId(category.id);
-                  setModalOpen(true);
-                }}
+                onClick={() => handleCategoryClick(category.id)}
                 style={{
                   borderLeft: `2px solid ${category.color || "#4076ba"}`,
                 }}
@@ -192,7 +206,7 @@ const DayCalendar = ({ username, today }) => {
       {isPlanModalOpen && (
         <PlanModal onClose={closeModal} plan_id={selectedPlanId} />
       )}
-      {isShareModalOpen && <ShareModal onClose={closeModal} />}
+      {isShareModalOpen && <ShareModal onClose={closeModal} plan_id={selectedPlanId} />}
     </C.Wrap>
   );
 };

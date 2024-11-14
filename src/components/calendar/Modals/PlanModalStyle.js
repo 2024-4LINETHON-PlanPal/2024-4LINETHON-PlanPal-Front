@@ -206,7 +206,39 @@ border: 1px solid #bcbcbc;
 background: #f6f6f6;
 box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
 cursor: pointer;
+
 `;
+
+export const FriendsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+`;
+
+export const FriendItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+
+  input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  label {
+    cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked + label {
+    font-weight: bold;
+    color: #ff6a3b;
+  }
+`;
+
+
 export const LongRoundBox = styled.input`
   display: flex;
   width: 240px;
@@ -232,11 +264,15 @@ export const People = styled.div`
     display: flex;
     justify-content: space-around;
     flex-direction: row;
+    .wrap{
+      option{
+        :hover{
+          background-color: aliceblue;
+        }
+      }
+    }
   
 `;
-
-export const FriendItem = styled.div`
-`
 
 export const LongTextfield = styled.input`
   width: 288px;
