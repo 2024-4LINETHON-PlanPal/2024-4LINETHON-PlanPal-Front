@@ -60,16 +60,20 @@ const AllowButton = styled.img`
 export default function HomePage() {
   const cate = ["월", "주", "일"];
   const [selectedCategory, setSelectedCategory] = useState("월");
-  const [currentDate, setCurrentDate] = useState(new Date()); // 초기값: 오늘 날짜
+  const [currentDate, setCurrentDate] = useState(new Date()); 
   const username = localStorage.getItem("username");
 
+
+
   const getMondayDate = (date) => {
-    const dayOfWeek = date.getDay();
+    
+    const dayOfWeek = date.getUTCDay();
     const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
     const monday = new Date(date);
-    monday.setDate(date.getDate() - diff);
-    return monday.toISOString().split("T")[0];
+    monday.setUTCDate(date.getUTCDate() - diff); 
+    return monday.toISOString().split("T")[0]; 
   };
+  
 
   const [mondayDate, setMondayDate] = useState(getMondayDate(new Date()));
 

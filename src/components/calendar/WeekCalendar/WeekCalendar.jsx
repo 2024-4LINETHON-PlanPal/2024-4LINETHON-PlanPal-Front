@@ -16,6 +16,7 @@ const WeekCalendar = ({ username, currentDate }) => {
         setPlans(response.data.result || {});
         setLoading(false);
         console.log(response.data.message);
+        console.log(currentDate);
       })
       .catch((error) => {
         console.error(error);
