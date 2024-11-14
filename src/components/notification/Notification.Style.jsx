@@ -33,3 +33,35 @@ export const SubBar = styled.div`
 
   cursor: pointer;
 `;
+
+// 알림 컴포넌트
+export const NotiCompContainer = styled.div`
+  padding: 2rem;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  border-bottom: 1px solid ${color.grayscale_d9};
+  /* cursor: pointer; */
+`;
+export const ImgContainer = styled.div`
+  width: 2.4rem;
+  height: 2.4rem;
+`;
+export const Img = styled.img`
+  width: 2.4rem;
+  height: 2.4rem;
+
+  object-fit: cover;
+`;
+export const TextContainer = styled.div`
+  margin-left: 1.2rem;
+`;
+export const NotiTitleText = styled.p`
+  ${font.bold_15}
+`;
+export const NotiInfoText = styled.p`
+  ${font.regular_15}
+  color: ${color.grayscale_8c};
+`;

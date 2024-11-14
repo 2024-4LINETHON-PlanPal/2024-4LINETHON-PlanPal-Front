@@ -15,6 +15,7 @@ const color = {
   grayscale_e6: "#E6E6E6",
   grayscale_d9: "#D9D9D9",
   grayscale_bc: "#BCBCBC",
+  grayscale_8c: "#8C8C8C",
 
   grayscale_58percent: "#00000094",
 };
