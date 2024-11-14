@@ -2,12 +2,42 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import font from "styles/font";
 import color from "styles/color";
-import x from "assets/calendar/x.svg";
-import under from "assets/calendar/underr.svg";
-import serch from "assets/calendar/serch.svg";
-import ShareModal from "./ShareModal";
 
-const Background = styled.div`
+
+export const OvalInput = styled.input`
+  width: 200px;
+    height: 32px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    outline: none;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
+    border: 1px solid ${color.grayscale_bc};
+    color: ${color.primary_black};
+    background-color: transparent;
+    ${font.regular_12};
+    &[type="date"] {
+      width: 200px;
+      padding: 8px ;
+    }
+    &::placeholder {
+        color: ${color.grayscale_bc}; 
+    }
+`;
+
+
+export const DateAndTimeWrapper = styled.div`
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+`;
+
+export const TimeLengthWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+`;
+
+export const Background = styled.div`
   background: rgba(23, 23, 27, 0.85);
   display: flex;
   justify-content: center;
@@ -20,7 +50,7 @@ const Background = styled.div`
   left: 0;
 `;
 
-const ModalWrap = styled.div`
+export const ModalWrap = styled.div`
   border-radius: 20px;
   background: #f6f6f6;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
@@ -34,7 +64,7 @@ const ModalWrap = styled.div`
   }
 `;
 
-const CloseButton = styled.img`
+export const CloseButton = styled.img`
   position: absolute;
   top: 22px;
   right: 22px;
@@ -43,7 +73,7 @@ const CloseButton = styled.img`
   height: 30px;
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,7 +93,7 @@ const Title = styled.div`
   }
 `;
 
-const Selection = styled.div`
+export const Selection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -79,7 +109,7 @@ const Selection = styled.div`
   }
 `;
 
-const Name = styled.div`
+export const Name = styled.div`
   ::placeholder {
     ${font.bold_20};
     color: ${color.grayscale_bc};
@@ -100,7 +130,7 @@ const Name = styled.div`
   }
 `;
 
-const DropdownContainer = styled.div`
+export const DropdownContainer = styled.div`
   display: flex;
   height: 32px;
   padding: 17px 15px;
@@ -111,7 +141,7 @@ const DropdownContainer = styled.div`
   position: relative;
 `;
 
-const DropdownButton = styled.div`
+export const DropdownButton = styled.div`
   width: 288px;
   padding: 10px;
   border-radius: 100px;
@@ -127,7 +157,7 @@ const DropdownButton = styled.div`
   cursor: pointer;
 `;
 
-const DropdownList = styled.div`
+export const DropdownList = styled.div`
   position: absolute;
   top: 100%;
   left: 0;
@@ -140,7 +170,7 @@ const DropdownList = styled.div`
   margin-top: 5px;
 `;
 
-const ListItem = styled.div`
+export const ListItem = styled.div`
   padding: 10px;
   cursor: pointer;
   &:hover {
@@ -148,7 +178,7 @@ const ListItem = styled.div`
   }
 `;
 
-const RoundBox = styled.div`
+export const RoundBox = styled.div`
   display: flex;
   width: 120px;
   height: 32px;
@@ -162,7 +192,7 @@ const RoundBox = styled.div`
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
   cursor: pointer;
 `;
-const LongRoundBox = styled.div`
+export const LongRoundBox = styled.input`
   display: flex;
   width: 240px;
   height: 32px;
@@ -176,13 +206,13 @@ const LongRoundBox = styled.div`
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
   cursor: pointer;
 `;
-const Line = styled.div`
+export const Line = styled.div`
   width: 15px;
   height: 1px;
   background: #bcbcbc;
 `;
 
-const People = styled.div`
+export const People = styled.div`
   .wrap {
     display: flex;
     justify-content: space-around;
@@ -190,23 +220,24 @@ const People = styled.div`
   }
 `;
 
-const LongTextfield = styled.div`
+export const LongTextfield = styled.input`
   width: 288px;
   height: 70px;
   border: 1px solid #bcbcbc;
+  padding: 0 10px;
   border-radius: 10px;
   background: #f6f6f6;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
   cursor: pointer;
 `;
 
-const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 50px;
 `;
-const SaveBtn = styled.div`
+export const SaveBtn = styled.div`
   display: flex;
   width: 94px;
   height: 40px;
@@ -221,7 +252,7 @@ const SaveBtn = styled.div`
   ${font.medium_18};
 `;
 
-const DelBtn = styled.div`
+export const DelBtn = styled.div`
   display: flex;
   width: 94px;
   height: 40px;
@@ -231,11 +262,11 @@ const DelBtn = styled.div`
   cursor: pointer;
   border-radius: 15px;
   background: #fff;
-  border: #17171B 1px solid;
-  color: #17171B;
+  border: #17171b 1px solid;
+  color: #17171b;
   ${font.medium_18};
 `;
-const ShareBtn = styled.div`
+export const ShareBtn = styled.div`
   display: flex;
   width: 94px;
   height: 40px;
@@ -244,107 +275,9 @@ const ShareBtn = styled.div`
   gap: 10px;
   cursor: pointer;
   border-radius: 15px;
-  background: #FF6A3B;
+  background: #ff6a3b;
 
   color: ${color.grayscale_f6};
   ${font.medium_18};
 `;
 
-const PlanModal = ({ onClose }) => {
-  const [planName, setPlanName] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState("카테고리를 선택해주세요");
-  const items = ["Item 1", "Item 2", "Item 3", "Item 4"];
-
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
-    setIsOpen(false);
-  };
-  const handleShareClick = () => {
-    setShowShareModal(true); 
-  };
-
-  const handleClose = () => {
-    setShowShareModal(false); 
-    onClose(); 
-  };
-
-
-  return (
-    <>
-    {showShareModal ? (
-      <ShareModal onClose={handleClose} /> // ShareModal 표시
-    ) : (
-      <Background>
-        <ModalWrap>
-          <Title>
-            <div className="text">계획수립</div>
-            <CloseButton src={x} alt="닫기" onClick={onClose} />
-          </Title>
-          <h5>계획을 수립해보세요</h5>
-
-          <Selection>
-            <Name>
-              <div className="title">이름</div>
-              <input
-                className="textfield"
-                type="text"
-                value={planName}
-                placeholder="계획명을 입력해주세요"
-                onChange={(e) => setPlanName(e.target.value)}
-              />
-            </Name>
-            <div className="title">카테고리</div>
-            <DropdownContainer>
-              <DropdownButton onClick={toggleDropdown}>
-                {selectedItem}
-                <img src={under} alt="dropdown arrow" />
-              </DropdownButton>
-              {isOpen && (
-                <DropdownList>
-                  {items.map((item, index) => (
-                    <ListItem key={index} onClick={() => handleItemClick(item)}>
-                      {item}
-                    </ListItem>
-                  ))}
-                </DropdownList>
-              )}
-            </DropdownContainer>
-            <div className="title">기간</div>
-            <div className="day">
-              <RoundBox>dfd</RoundBox>
-              <Line />
-              <RoundBox>dfds</RoundBox>
-            </div>
-            <div className="time">
-              <RoundBox>dfd</RoundBox>
-              <Line />
-              <RoundBox>dfdf</RoundBox>
-            </div>
-
-            <div className="title">참여자</div>
-            <People>
-              <div className="wrap">
-                <LongRoundBox></LongRoundBox>
-                <img src={serch} alt="" />
-              </div>
-            </People>
-
-            <div className="title">메모</div>
-            <LongTextfield></LongTextfield>
-          </Selection>
-          <ButtonContainer>
-            <ShareBtn onClick={handleShareClick}>떠벌리기</ShareBtn> {/* 떠벌리기 버튼 클릭 시 handleShareClick 호출 */}
-            <DelBtn onClick={onClose}>삭제하기</DelBtn>
-            <SaveBtn onClick={onClose}>저장하기</SaveBtn>
-          </ButtonContainer>
-        </ModalWrap>
-      </Background>
-    )}
-  </>
-  );
-};
-
-export default PlanModal;
