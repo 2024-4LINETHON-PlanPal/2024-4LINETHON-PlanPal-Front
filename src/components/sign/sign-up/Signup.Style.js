@@ -81,3 +81,9 @@ export const InputBox = styled.input`
     color: ${() => color.grayscale_bc};
   }
 `;
+export const ErrorText = styled.p`
+  margin-top: 0.8rem;
+  height: 1.6rem;
+  color: ${() => color.orange_normal};
+  ${font.regular_12}
+`;

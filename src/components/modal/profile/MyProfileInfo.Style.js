@@ -60,3 +60,24 @@ export const InputBox1 = styled.input`
 export const InputBox2 = styled(InputBox1)`
   width: 28.8rem;
 `;
+// 수정완료 버튼
+export const ModalHorizontalButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
+export const TripleButton1 = styled.button`
+  box-sizing: border-box;
+
+  margin-left: 0.9rem;
+  width: 9rem;
+  height: 4rem;
+
+  border: none;
+  border-radius: 1.5rem;
+  background-color: ${() => color.primary_black};
+
+  ${() => font.medium_18};
+  color: ${() => color.primary_white};
+
+  cursor: pointer;
+`;

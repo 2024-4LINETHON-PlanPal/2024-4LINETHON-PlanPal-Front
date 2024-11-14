@@ -44,10 +44,9 @@ export default function MyProfileBar() {
       {toggleModal && (
         <ModalBase
           setCloseModal={setToggleModal}
-          InsideComponent={MyProfileInfo}
+          InsideComponent={() => <MyProfileInfo userProfileData={userProfileData} />}
           modalCategoryText="내 정보"
           modalIntroduceText="내 정보를 확인해보세요"
-          tripleBtnText1="수정완료"
           modalHeight="40.8rem"
         />
       )}
