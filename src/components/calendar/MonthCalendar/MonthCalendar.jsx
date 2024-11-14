@@ -14,7 +14,6 @@ const MonthCalendar = ({ year, month }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result || {});
-          console.log(response.data.result );
         }
       })
       .catch((error) => {

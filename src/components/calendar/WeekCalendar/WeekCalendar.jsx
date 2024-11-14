@@ -71,7 +71,7 @@ const WeekCalendar = ({ username, currentDate }) => {
                 </W.ColTitle>
                 <W.LongItem>
                   {Array.from({ length: 24 }, (_, hourIndex) => {
-                    // 시간대에 해당하는 계획 가져오기
+          
                     const plansForHour = dailyPlans.filter(
                       (plan) =>
                         new Date(plan.start).getHours() <= hourIndex &&

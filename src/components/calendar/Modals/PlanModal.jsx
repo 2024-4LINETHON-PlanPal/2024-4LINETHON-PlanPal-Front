@@ -7,7 +7,6 @@ import ShareModal from "./ShareModal";
 import DashIcon from "assets/promise/dash-icon.svg";
 import * as P from "./PlanModalStyle.js";
 
-// 30분 단위 시간 목록
 const generateTimeOptions = () => {
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
@@ -26,6 +25,8 @@ const PlanModal = ({ onClose, plan_id }) => {
   const [selectedItem, setSelectedItem] = useState("카테고리를 선택해주세요");
   const [items, setItems] = useState([]);
   const [startDate, setStartDate] = useState("");
+  const [friends, setFriends] = useState([]);
+  const [selectedFriends, setSelectedFriends] = useState([]);
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
@@ -33,7 +34,7 @@ const PlanModal = ({ onClose, plan_id }) => {
   const [memo, setMemo] = useState("");
   const username = localStorage.getItem("username");
 
-  const [timeOptions] = useState(generateTimeOptions()); // 30분 단위 시간 옵션
+  const [timeOptions] = useState(generateTimeOptions());
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const handleItemClick = (item) => {
@@ -79,6 +80,17 @@ const PlanModal = ({ onClose, plan_id }) => {
     }
   }, [plan_id, username]);
 
+  useEffect(() => {
+    axios
+      .get(`https://planpal.kro.kr/users/friends/${username}/`)
+      .then((response) => {
+        if (response.status === 200) {
+          setFriends(response.data.result);
+        }
+      })
+      .catch((error) => console.error("친구 목록 불러오기 실패:", error));
+  }, [username]);
+
   const handleSaveClick = () => {
     const selectedCategory = items.find((item) => item.title === selectedItem);
     const start = `${startDate}T${startTime}:00`;
@@ -89,7 +101,7 @@ const PlanModal = ({ onClose, plan_id }) => {
       category: selectedCategory ? selectedCategory.id : null,
       start,
       end,
-      participant: ["test22"],
+      participant: selectedFriends,
       memo,
       is_completed: false,
     };
@@ -102,7 +114,7 @@ const PlanModal = ({ onClose, plan_id }) => {
     request
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
-          console.log(payload);
+       
           alert("플랜이 성공적으로 저장되었습니다!");
           onClose();
         }
@@ -131,6 +143,17 @@ const PlanModal = ({ onClose, plan_id }) => {
 
   const isStartDateValid = (date) => date >= today;
   const isEndDateValid = (start, end) => start <= end;
+
+  const handleFriendSelection = (friend) => {
+    setSelectedFriends((prevSelected) => {
+      if (prevSelected.includes(friend.username)) {
+        return prevSelected.filter((f) => f !== friend.username);
+      } else {
+        return [...prevSelected, friend.username];
+      }
+    });
+  };
+
 
   return (
     <>
@@ -228,10 +251,34 @@ const PlanModal = ({ onClose, plan_id }) => {
 
               <div className="title">참여자</div>
               <P.People>
-                <div className="wrap">
-                  <P.LongRoundBox></P.LongRoundBox>
-                  <img src={serch} alt="" />
-                </div>
+                <P.LongSelect
+                
+                  multiple
+                  value={selectedFriends}
+                  onChange={(e) => {
+                    const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
+                    setSelectedFriends(selectedValues);
+                  }}
+                  style={{
+                    
+                   
+                  }}
+                >
+                  {friends.map((friend) => (
+                    <option
+                      key={friend.username}
+                      value={friend.username}
+                      style={{
+                        backgroundColor: selectedFriends.includes(friend.username)
+                          ? "#FF6A3B"
+                          : "transparent",
+                      }}
+                    >
+                      {friend.nickname}
+                    </option>
+                  ))}
+                </P.LongSelect>
+                <img src={serch} alt="" />
               </P.People>
 
               <div className="title">메모</div>

@@ -192,6 +192,21 @@ export const RoundBox = styled.div`
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
   cursor: pointer;
 `;
+
+export const LongSelect = styled.select`
+display: flex;
+width: 220px;
+height: 32px;
+padding: 17px 13px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 100px;
+border: 1px solid #bcbcbc;
+background: #f6f6f6;
+box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
+cursor: pointer;
+`;
 export const LongRoundBox = styled.input`
   display: flex;
   width: 240px;
@@ -213,12 +228,15 @@ export const Line = styled.div`
 `;
 
 export const People = styled.div`
-  .wrap {
+  
     display: flex;
     justify-content: space-around;
     flex-direction: row;
-  }
+  
 `;
+
+export const FriendItem = styled.div`
+`
 
 export const LongTextfield = styled.input`
   width: 288px;

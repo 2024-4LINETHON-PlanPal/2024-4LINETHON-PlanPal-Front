@@ -16,7 +16,7 @@ const DayCalendar = ({ username, today }) => {
   const [schedules, setSchedules] = useState([]);
   const [categories, setCategories] = useState([]);
   const [plans, setPlans] = useState([]);
-  const [selectedPlanId, setSelectedPlanId] = useState(null);  
+  const [selectedPlanId, setSelectedPlanId] = useState(null);
 
   const handleShareClick = () => {
     setPlanModalOpen(false);
@@ -40,8 +40,7 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setSchedules(response.data.result.time_slots || {});
-          console.log(today);
-          console.log(response.data.result.time_slots);
+
         }
       })
       .catch((error) => {
@@ -76,7 +75,7 @@ const DayCalendar = ({ username, today }) => {
   }, [username, isModalOpen, isPlanModalOpen]);
 
   const handleDotsClick = (planId) => {
-    setSelectedPlanId(planId);  
+    setSelectedPlanId(planId);
     setPlanModalOpen(true);
   };
 
@@ -117,22 +116,26 @@ const DayCalendar = ({ username, today }) => {
 
           return (
             <C.Hours key={hour}>
-              {timeSlot.map((slot, idx) => (
-                <C.HalfHours
-                  key={idx}
-                  style={{
-                    borderLeft: `4px solid ${slot?.category?.color || "#4076ba"}`,
-                    backgroundColor: slot.is_completed ? "#D9D9D9" : `${slot?.category?.color}80`,
-                    marginTop: idx > 0 ? '-1px' : '0',
-                  }}
-                >
-                  {slot.title}
-                </C.HalfHours>
-              ))}
+              {timeSlot
+              
+                .filter((slot) => slot.date === today)
+                .map((slot, idx) => (
+                  <C.HalfHours
+                    key={idx}
+                    style={{
+                      borderLeft: `4px solid ${slot?.category?.color || "#4076ba"}`,
+                      backgroundColor: slot.is_completed ? "#D9D9D9" : `${slot?.category?.color}80`,
+                      marginTop: idx > 0 ? '-1px' : '0',
+                    }}
+                  >
+                    {slot.title}
+                  </C.HalfHours>
+                ))}
             </C.Hours>
           );
         })}
       </C.MakerWrap>
+
       <C.CheckWrap>
         {categories.length > 0 ? (
           categories.map((category) => (
@@ -165,7 +168,7 @@ const DayCalendar = ({ username, today }) => {
                       <div className="todo">{plan.title}</div>
                       <div
                         className="img"
-                        onClick={() => handleDotsClick(plan.id)} 
+                        onClick={() => handleDotsClick(plan.id)}
                       >
                         <img src={dots} alt="dots icon" />
                       </div>
@@ -187,7 +190,7 @@ const DayCalendar = ({ username, today }) => {
         <CateModal onClose={closeModal} categoryId={selectedCategoryId} />
       )}
       {isPlanModalOpen && (
-        <PlanModal onClose={closeModal} plan_id={selectedPlanId} /> 
+        <PlanModal onClose={closeModal} plan_id={selectedPlanId} />
       )}
       {isShareModalOpen && <ShareModal onClose={closeModal} />}
     </C.Wrap>
