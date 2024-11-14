@@ -14,6 +14,7 @@ const MonthCalendar = ({ year, month }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result || {});
+          console.log(response.data.message);
         }
       })
       .catch((error) => {
@@ -51,7 +52,9 @@ const MonthCalendar = ({ year, month }) => {
       <div
         key={index}
         className="plan"
-        style={{
+        style={{ borderLeft: `4px solid ${
+          plan.category?.color || "transparent"
+        }`,
           backgroundColor: plan.is_completed ? "#D9D9D9" : `${plan.category?.color}80`, // 완료된 계획은 #f1f1f1 배경색
         }}
       >

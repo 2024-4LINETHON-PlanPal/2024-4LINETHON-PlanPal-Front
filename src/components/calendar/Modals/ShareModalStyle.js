@@ -67,16 +67,26 @@ export const Selection = styled.div`
     ${font.bold_15};
   }
 `;
-export const LongTextfield = styled.div`
+export const Name = styled.div`
+
+    ${font.bold_20};
+    color: ${color.primary_black};
+    margin-bottom: 10px;
+  
+
+`;
+
+export const LongTextfield = styled.input`
   width: 288px;
   height: 70px;
   border: 1px solid #bcbcbc;
   border-radius: 10px;
   background: #f6f6f6;
+  padding:  10px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.05) inset;
   cursor: pointer;
 `;
-export const LongRoundBox = styled.div`
+export const LongRoundBox = styled.select`
   display: flex;
   width: 240px;
   height: 32px;

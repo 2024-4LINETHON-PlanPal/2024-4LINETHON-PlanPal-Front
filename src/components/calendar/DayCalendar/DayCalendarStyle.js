@@ -6,6 +6,7 @@ export const Wrap = styled.div`
   width: 90%;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 100px;
 `;
 
 export const TimeWrap = styled.div`

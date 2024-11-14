@@ -114,7 +114,7 @@ const PlanModal = ({ onClose, plan_id }) => {
     request
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
-       
+
           alert("플랜이 성공적으로 저장되었습니다!");
           onClose();
         }
@@ -154,11 +154,10 @@ const PlanModal = ({ onClose, plan_id }) => {
     });
   };
 
-
   return (
     <>
       {showShareModal ? (
-        <ShareModal onClose={handleClose} />
+        <ShareModal onClose={handleClose} plan_id={plan_id} />
       ) : (
         <P.Background>
           <P.ModalWrap>
@@ -250,37 +249,21 @@ const PlanModal = ({ onClose, plan_id }) => {
               </P.DateAndTimeWrapper>
 
               <div className="title">참여자</div>
-              <P.People>
-                <P.LongSelect
-                
-                  multiple
-                  value={selectedFriends}
-                  onChange={(e) => {
-                    const selectedValues = Array.from(e.target.selectedOptions, (option) => option.value);
-                    setSelectedFriends(selectedValues);
-                  }}
-                  style={{
-                    
-                   
-                  }}
-                >
-                  {friends.map((friend) => (
-                    <option
-                      key={friend.username}
-                      value={friend.username}
-                      style={{
-                        backgroundColor: selectedFriends.includes(friend.username)
-                          ? "#FF6A3B"
-                          : "transparent",
-                      }}
-                    >
-                      {friend.nickname}
-                    </option>
-                  ))}
-                </P.LongSelect>
-                <img src={serch} alt="" />
-              </P.People>
-
+              <P.FriendsList>
+                {friends.map((friend) => (
+                  <P.FriendItem key={friend.username}>
+                    <input
+                      type="checkbox"
+                      id={friend.username}
+                      checked={selectedFriends.includes(friend.username)}
+                      onChange={() => handleFriendSelection(friend)}
+                    />
+                    <label htmlFor={friend.username}>{friend.username}</label>
+                  </P.FriendItem>
+                ))}
+              </P.FriendsList>
+              
+          
               <div className="title">메모</div>
               <P.LongTextfield
                 type="text"

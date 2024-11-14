@@ -60,22 +60,21 @@ const AllowButton = styled.img`
 export default function HomePage() {
   const cate = ["월", "주", "일"];
   const [selectedCategory, setSelectedCategory] = useState("월");
-  const [currentDate, setCurrentDate] = useState(new Date());
- 
-  const [today] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date()); // 초기값: 오늘 날짜
   const username = localStorage.getItem("username");
 
   const getMondayDate = (date) => {
     const dayOfWeek = date.getDay();
-    const diff = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+    const diff = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
     const monday = new Date(date);
     monday.setDate(date.getDate() - diff);
-    return monday.toISOString().split("T")[0]; 
+    return monday.toISOString().split("T")[0];
   };
 
   const [mondayDate, setMondayDate] = useState(getMondayDate(new Date()));
+
   useEffect(() => {
-    setMondayDate(getMondayDate(currentDate) ); 
+    setMondayDate(getMondayDate(currentDate));
   }, [currentDate]);
 
   const handleCategoryChange = () => {
@@ -86,25 +85,24 @@ export default function HomePage() {
 
   const handleDateChange = (increment) => {
     const newDate = new Date(currentDate);
-  
+
     if (selectedCategory === "월") {
       newDate.setMonth(newDate.getMonth() + increment);
     } else if (selectedCategory === "주") {
       newDate.setDate(newDate.getDate() + 7 * increment);
     } else if (selectedCategory === "일") {
-      newDate.setDate(newDate.getDate() + increment);  
+      newDate.setDate(newDate.getDate() + increment);
     }
-  
-    setCurrentDate(newDate); 
+
+    setCurrentDate(newDate);
   };
-  
 
   const renderCalendar = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
 
-    const formattedToday = new Date(today).toISOString().split("T")[0];
+    const formattedCurrentDate = currentDate.toISOString().split("T")[0]; // currentDate를 사용하여 날짜 전달
 
     switch (selectedCategory) {
       case "월":
@@ -112,7 +110,7 @@ export default function HomePage() {
       case "주":
         return <WeekCalendar username={username} currentDate={mondayDate} />;
       case "일":
-        return <DayCalendar username={username} today={formattedToday} />;
+        return <DayCalendar username={username} today={formattedCurrentDate} />;
       default:
         return <MonthCalendar username={username} year={year} month={month} />;
     }
@@ -136,3 +134,4 @@ export default function HomePage() {
     </WrapDiv>
   );
 }
+
