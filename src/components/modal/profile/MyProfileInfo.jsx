@@ -3,7 +3,7 @@ import DefaultProfile04PNG from "assets/common/default-profile-4star-45x45.png";
 import { useEffect, useState } from "react";
 import { patchMyProfile } from "apis/patchMyProfile";
 
-export default function MyProfileInfo({ userProfileData }) {
+export default function MyProfileInfo({ userProfileData, setToggleModal }) {
   const [checkFirstRender, setCheckFirstRender] = useState(false);
   const [myProfileData, setMyProfileData] = useState(userProfileData);
   const [inputNickname, setInputNickname] = useState(myProfileData.nickname);
@@ -31,6 +31,7 @@ export default function MyProfileInfo({ userProfileData }) {
     if (checkFirstRender) {
       // console.log("전송한 프로필 api: ", myProfileData); //
       fetchModifyMyProfile();
+      setToggleModal(false);
     }
   }, [myProfileData]);
 

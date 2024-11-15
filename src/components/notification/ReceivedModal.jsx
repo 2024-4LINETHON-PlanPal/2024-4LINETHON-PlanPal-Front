@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as R from './ReceivedModalStyle.js';
+import * as R from "./ReceivedModalStyle.js";
 import x from "assets/calendar/x.svg";
 import axios from "axios";
 
@@ -8,8 +8,7 @@ const ReceivedModal = ({ onClose, data }) => {
 
   const username = localStorage.getItem("username");
 
-console.log(data);
-
+  console.log(data);
 
   return (
     <R.Background>
