@@ -1,10 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
-import * as P from "components/promise/promise-modal/PromiseStyle";
+import * as P from "components/promise/PromiseStyle";
 import PromiseTitle from "components/promise/element/PromiseTitle";
 import TimeSuggestion from "components/promise/element/TimeSuggestion";
 import questionicon from "assets/promise/question-mark.svg"
 
-export default function StatusModal() {
+export default function StatusModal({
+    promiseName, 
+    members, 
+    responseData, 
+    selectedIndex, 
+    setSelectedIndex, 
+    setSelectedOptionId
+}) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [showTooltip, setShowTooltip] = useState(false);
     const timeSuggestionWrapperRef = useRef(null);
@@ -41,20 +48,20 @@ export default function StatusModal() {
 
   return (
     <P.PromiseWrapper>
-        <PromiseTitle/>
+        <PromiseTitle promiseName={promiseName} />
 
         <P.SubTitle>약속 참여자</P.SubTitle>
         <P.MembersWrapper>
-            <P.MemberDiv>수진</P.MemberDiv>
-            <P.MemberDiv>홍길동</P.MemberDiv>
-            <P.MemberDiv>바구현</P.MemberDiv>
-            <P.MemberDiv>정해인</P.MemberDiv>
+            {responseData.members.map((member, index) => (
+                <P.MemberDiv key={index}>{member.nickname}</P.MemberDiv>
+            ))}
         </P.MembersWrapper>
 
         <P.SubTitle>투표 참여자</P.SubTitle>
         <P.MembersWrapper>
-            <P.MemberDiv>수진</P.MemberDiv>
-            <P.MemberDiv>홍길동</P.MemberDiv>
+            {responseData.promise_options.vote_members.map((member, index) => (
+                <P.MemberDiv key={index}>{member.nickname}</P.MemberDiv>
+            ))}
         </P.MembersWrapper>
 
         <P.HorizontalDiv>
@@ -69,16 +76,29 @@ export default function StatusModal() {
                 </P.Tooltip>
             )}
         </P.HorizontalDiv>
-        
-        <P.TimeSuggestionWrapper ref={timeSuggestionWrapperRef} onScroll={handleScroll}>
-            {[0, 1, 2, 3, 4].map((index) => (
-                <TimeSuggestion key={index} colorIndex={index} showVoteCount={true} />
+
+        <P.TimeSuggestionWrapper
+            ref={timeSuggestionWrapperRef}
+            onScroll={handleScroll}>
+            {responseData.promise_options.slice(0, 5).map((item, index) => (
+            <TimeSuggestion
+                key={item.id}
+                colorIndex={index}
+                start={item.start}
+                length={item.length}
+                members={{
+                all: item.members_can_attend.map((member) => member.nickname),
+                voted: item.vote_members.map((member) => member.nickname),
+                }}
+                isSelected={selectedIndex === index} 
+                showVoteCount={true}
+            />
             ))}
         </P.TimeSuggestionWrapper>
 
         <P.DotWrapper>
-            {[0, 1, 2, 3, 4].map((index) => (
-            <P.Dot key={index} isActive={index === activeIndex} />
+            {responseData.promise_options.slice(0, 5).map((_, index) => (
+                <P.Dot key={index} isActive={index === activeIndex} />
             ))}
         </P.DotWrapper>
 
