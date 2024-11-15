@@ -29,7 +29,7 @@ export default function MyProfileInfo({ userProfileData }) {
 
   useEffect(() => {
     if (checkFirstRender) {
-      // console.log("전송한 프로필 데이터: ", myProfileData); //
+      // console.log("전송한 프로필 api: ", myProfileData); //
       fetchModifyMyProfile();
     }
   }, [myProfileData]);
@@ -40,6 +40,7 @@ export default function MyProfileInfo({ userProfileData }) {
         <A.ImgContainer>
           <A.Img src={DefaultProfile04PNG} alt="프로필 사진" />
         </A.ImgContainer>
+
         <A.VerticalContainer1>
           <A.InputTitle>닉네임</A.InputTitle>
           <A.InputBox1
@@ -58,6 +59,7 @@ export default function MyProfileInfo({ userProfileData }) {
           placeholder={"플랜팔 짱"}
         />
       </A.VerticalContainer2>
+
       <A.ModalHorizontalButtonContainer onClick={handleSubmitButton}>
         <A.TripleButton1>수정완료</A.TripleButton1>
       </A.ModalHorizontalButtonContainer>

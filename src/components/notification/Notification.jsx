@@ -80,47 +80,50 @@ export default function Notification() {
         </A.SubBarContainer>
       </A.TopBarContainer>
 
-      {isSelected === 1 ? (
-        notiData1.doesDataExist ? (
-          notiData1.messageData.map((data) => (
+      <A.NotiListContainer>
+        {isSelected === 1 ? (
+          notiData1.doesDataExist ? (
+            notiData1.messageData.map((data) => (
+              <NotiComp
+                key={data.id}
+                notiType="plan"
+                titleText={data.message.split("\n")[0]}
+                subText={data.message.split("\n")[1]}
+              />
+            ))
+          ) : (
+            <A.NoNotiText>알림이 없습니다.</A.NoNotiText>
+          )
+        ) : isSelected === 2 ? (
+          notiData2.doesDataExist ? (
+            notiData2.messageData.map((data) => (
+              <NotiComp
+                key={data.id}
+                notiType="promise"
+                titleText={data.message.split("\n")[0]}
+                subText={data.message.split("\n")[1]}
+              />
+            ))
+          ) : (
+            <A.NoNotiText>알림이 없습니다.</A.NoNotiText>
+          )
+        ) : notiData3.doesDataExist ? (
+          notiData3.messageData.map((data) => (
             <NotiComp
               key={data.id}
-              notiType="plan"
+              notiType="friend"
               titleText={data.message.split("\n")[0]}
               subText={data.message.split("\n")[1]}
             />
           ))
         ) : (
-          <p>알림이 없습니다.</p>
-        )
-      ) : isSelected === 2 ? (
-        notiData2.doesDataExist ? (
-          notiData2.messageData.map((data) => (
-            <NotiComp
-              key={data.id}
-              notiType="promise"
-              titleText={data.message.split("\n")[0]}
-              subText={data.message.split("\n")[1]}
-            />
-          ))
-        ) : (
-          <p>알림이 없습니다.</p>
-        )
-      ) : notiData3.doesDataExist ? (
-        notiData3.messageData.map((data) => (
-          <NotiComp
-            key={data.id}
-            notiType="friend"
-            titleText={data.message.split("\n")[0]}
-            subText={data.message.split("\n")[1]}
-            onClick={() => handleModalOpen(data)}
-          />
-        ))
-      ) : (
-        <p>알림이 없습니다.</p>
-      )}
+          <A.NoNotiText>알림이 없습니다.</A.NoNotiText>
+        )}
+      </A.NotiListContainer>
 
-      {showReceivedModal && <ReceivedModal   data={selectedData} onClose={() => setShowReceivedModal(false)} />}
+      <A.BottomMarginBox>
+        <A.BottomMarginBox />
+      </A.BottomMarginBox>
     </>
   );
 }

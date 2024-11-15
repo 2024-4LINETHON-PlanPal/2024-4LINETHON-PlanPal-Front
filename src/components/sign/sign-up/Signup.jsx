@@ -108,18 +108,18 @@ export default function Signup() {
         nickname: nickname,
       });
 
-      console.log("회원가입 성공:", response.data);
+      // console.log("회원가입 성공:", response.data);
       return true;
     } catch (error) {
       console.error("회원가입 실패:", error.response?.data || error.message);
-      console.error("회원가입 실패:", error.status);
+      // console.error("회원가입 실패:", error.status);
       return false;
     }
   }
 
   // 제출
   const onSubmit = async (data) => {
-    console.log("폼 데이터 제출: ", data);
+    // console.log("폼 데이터 제출: ", data);
     const isSuccess = await registerUser(data);
 
     if (isSuccess) {

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import * as P from "components/promise/promise-modal/PromiseStyle";
+import * as P from "components/promise/PromiseStyle";
 import PromiseTitle from "components/promise/element/PromiseTitle";
 import closeicon from "assets/promise/close-icon.svg"
 

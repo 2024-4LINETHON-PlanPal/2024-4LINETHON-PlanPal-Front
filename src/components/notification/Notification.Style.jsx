@@ -35,7 +35,11 @@ export const SubBar = styled.div`
 `;
 
 // 알림 컴포넌트
-export const NotiCompContainer = styled.div`
+export const NotiListContainer = styled.ul`
+  height: auto;
+  overflow: scroll;
+`;
+export const NotiCompContainer = styled.li`
   padding: 2rem;
 
   display: flex;
@@ -67,4 +71,20 @@ export const NotiTitleText = styled.p`
 export const NotiInfoText = styled.p`
   ${font.regular_15}
   color: ${color.grayscale_8c};
+`;
+
+// 알림 없음
+export const NoNotiText = styled.p`
+  margin-top: 10rem;
+  width: 100%;
+
+  text-align: center;
+  ${font.regular_15}
+  color: ${color.grayscale_8c};
+`;
+export const BottomMarginBox = styled.div`
+  width: 100%;
+  height: 8rem;
+
+  background-color: ${color.primary_white};
 `;

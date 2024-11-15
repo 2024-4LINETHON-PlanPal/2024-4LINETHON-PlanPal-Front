@@ -3,6 +3,7 @@ import styled from "styled-components";
 import font from "styles/font";
 import color from "styles/color";
 import sortIcon from "assets/promise/lets-icons_sort-arrow.svg";
+import { GET } from "apis/api";
 
 const PromiseWrapper = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const PromiseTitle = styled.p`
 
 const SortButton = styled.button`
   display: flex;
-  align-items: center; 
+  align-items: center;
   padding: 8px 12px;
   width: auto;
   border: none;
@@ -28,7 +29,7 @@ const SortButton = styled.button`
   ${font.semibold_12};
   border-radius: 10px;
   cursor: pointer;
-  gap: 5px; 
+  gap: 5px;
 `;
 
 const SortMenu = styled.div`
@@ -60,17 +61,22 @@ const Img = styled.img`
 `;
 
 export default function PromiseHeader() {
-  const [nickname, setNickname] = useState("");
+  const [nickname, setNickname] = useState(""); 
   const [sortOpen, setSortOpen] = useState(false);
   const [sortType, setSortType] = useState("");
 
   useEffect(() => {
-    async function fetchNickname() {
-      const response = await fetch("/api/user/nickname");
-      const data = await response.json();
-      setNickname(data.nickname);
+    async function fetchUserData() {
+      try {
+        const username = localStorage.getItem("username");
+        const response = await GET(`/users/profile/${username}/`);
+       
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     }
-    fetchNickname();
+    fetchUserData();
   }, []);
 
   const toggleSortMenu = () => setSortOpen(!sortOpen);
@@ -81,19 +87,17 @@ export default function PromiseHeader() {
   };
 
   return (
-      <PromiseWrapper>
-        {/* <PromiseTitle>{nickname}의 약속</PromiseTitle> */}
-        <PromiseTitle>닉네임의 약속</PromiseTitle>
-
-        <SortButton onClick={toggleSortMenu}>
-          <Img src={sortIcon} />
-          {sortType ? sortType : "정렬 기준"}
-        </SortButton>
-        <SortMenu open={sortOpen}>
-          <SortMenuItem onClick={() => handleSortChange("즐겨찾기순")}>즐겨찾기순</SortMenuItem>
-          <SortMenuItem onClick={() => handleSortChange("약속등록순")}>약속등록순</SortMenuItem>
-          <SortMenuItem onClick={() => handleSortChange("약속임박순")}>약속임박순</SortMenuItem>
-        </SortMenu>
-      </PromiseWrapper>
+    <PromiseWrapper>
+      <PromiseTitle>{nickname}의 약속</PromiseTitle>
+      <SortButton onClick={toggleSortMenu}>
+        <Img src={sortIcon} />
+        {sortType ? sortType : "정렬 기준"}
+      </SortButton>
+      <SortMenu open={sortOpen}>
+        <SortMenuItem onClick={() => handleSortChange("즐겨찾기순")}>즐겨찾기순</SortMenuItem>
+        <SortMenuItem onClick={() => handleSortChange("약속등록순")}>약속등록순</SortMenuItem>
+        <SortMenuItem onClick={() => handleSortChange("약속임박순")}>약속임박순</SortMenuItem>
+      </SortMenu>
+    </PromiseWrapper>
   );
 }

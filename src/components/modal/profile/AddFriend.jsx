@@ -42,24 +42,27 @@ export default function AddFriend() {
 
   return (
     <>
-      <label>
-        <A.InputTitle>친구 추가하기</A.InputTitle>
-        <A.InputForm onSubmit={fetchAddFriend}>
+      <A.InputTitle>친구 추가하기</A.InputTitle>
+      <A.InputForm onSubmit={fetchAddFriend}>
+        <label>
           <A.InputBox
             onChange={(e) => setTargetUsername(e.target.value)}
             placeholder="친구의 아이디를 입력해주세요"
           />
-          <A.SubmitButton type="submit">
+        </label>
+        {/* <A.SubmitButton type="submit">
             <A.ButtonImg src={SearchPng} alt="검색" />
-          </A.SubmitButton>
-        </A.InputForm>
-      </label>
-      {notiText && <A.NotiText>{notiText}</A.NotiText>}
-      {errorText && <A.ErrorText>{errorText}</A.ErrorText>}
-      <A.FriendList>
-        {/* <FriendItem friendName="수진" />
+          </A.SubmitButton> */}
+        {notiText && <A.NotiText>{notiText}</A.NotiText>}
+        {errorText && <A.ErrorText>{errorText}</A.ErrorText>}
+        <A.FriendList>
+          {/* 마진 */}
+          {/* <FriendItem friendName="수진" />
         <FriendItem friendName="꼉" /> */}
-      </A.FriendList>
+        </A.FriendList>
+
+        <A.SubmitBtn type="submit">친구 추가하기</A.SubmitBtn>
+      </A.InputForm>
     </>
   );
 }

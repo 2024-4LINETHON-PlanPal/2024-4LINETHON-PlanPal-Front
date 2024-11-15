@@ -1,66 +1,63 @@
 <!DOCTYPE html>
 <html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlanPal</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PlanPal</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-size: 10px;
+        position: relative;
 
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      font-size: 10px;
-      position: relative;
+        background-color: #000000;
+        justify-content: center;
+        display: flex;
+        color: #171717;
+      }
 
-      background-color: #000000;
-      justify-content: center;
-      display: flex;
-      color: #171717;
-    }
+      ::-webkit-scrollbar {
+        display: none;
+      }
 
-    ::-webkit-scrollbar {
-      display: none;
+      .container {
+        display: flex;
+        width: 390px;
+        flex-direction: column;
+        background: #f6f6f6;
+        height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
 
-    }
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
 
-    .container {
-      display: flex;
-      width: 390px;
-      flex-direction: column;
-      background: #F6F6F6;
-      height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-    }
+      ul,
+      ol {
+        padding: 0;
+      }
 
-    * {
-      margin: 0;
-      box-sizing: border-box;
-    }
+      li {
+        list-style: none;
+      }
 
-    ul,
-    ol {
-      padding: 0;
-    }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      input {
+        outline: none;
+      }
+    </style>
+  </head>
 
-    li {
-      list-style: none;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    input{
-      outline: none;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="root"></div>
-</body>
-
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
