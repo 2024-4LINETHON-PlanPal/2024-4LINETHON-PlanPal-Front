@@ -22,7 +22,7 @@ const PromiseItem = ({
   const fetchPromiseData = async () => {
     if (promiseId) {  // 조건 강화
       try {
-        const response = await GET(`promises/promise/${promiseId}/`);
+        const response = localStorage.getItem("promises");
         if (response.data) {
           setResponseData(response.data);
           localStorage.setItem("id", response.data.id);
