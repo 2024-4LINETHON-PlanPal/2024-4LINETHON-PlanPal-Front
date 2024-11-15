@@ -38,7 +38,8 @@ export const ProfileListContainer = styled.ul`
   justify-content: flex-start;
   align-items: center;
 
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: scroll;
 `;
 export const ProfileItem = styled.li`
   margin: 0.7rem 0.3rem 0 0.3rem;

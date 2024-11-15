@@ -9,11 +9,12 @@ export const InputTitle = styled.p`
 `;
 export const InputForm = styled.form`
   margin-top: 0.8rem;
-  display: flex;
+  /* display: flex; */
 `;
 export const InputBox = styled.input`
   padding: 0.9rem 1.8rem;
-  width: 24.9rem;
+  /* width: 24.9rem; */
+  width: 28.8rem;
   height: 3.2rem;
 
   border: 1px solid ${color.grayscale_bc};
@@ -27,29 +28,29 @@ export const InputBox = styled.input`
     color: ${() => color.grayscale_bc};
   }
 `;
-export const SubmitButton = styled.button`
-  margin-left: 0.7rem;
-  padding: 0;
-  width: 3.2rem;
-  height: 3.2rem;
+// export const SubmitButton = styled.button`
+//   margin-left: 0.7rem;
+//   padding: 0;
+//   width: 3.2rem;
+//   height: 3.2rem;
 
-  border: none;
-  border-radius: 50%;
+//   border: none;
+//   border-radius: 50%;
 
-  overflow: hidden;
-  cursor: pointer;
-`;
-export const ButtonImg = styled.img`
-  width: 100%;
-  height: 100%;
+//   overflow: hidden;
+//   cursor: pointer;
+// `;
+// export const ButtonImg = styled.img`
+//   width: 100%;
+//   height: 100%;
 
-  object-fit: cover;
-`;
+//   object-fit: cover;
+// `;
 export const ErrorText = styled.p`
   margin-top: 0.4rem;
   height: 1.6rem;
   color: ${() => color.orange_normal};
-  ${font.regular_10}
+  ${font.regular_12}
 `;
 export const NotiText = styled(ErrorText)`
   color: ${() => color.blue_normal};
@@ -85,4 +86,20 @@ export const IconImg = styled.img`
   height: 100%;
 
   object-fit: cover;
+`;
+
+// 제출 버튼
+export const SubmitBtn = styled.button`
+  box-sizing: border-box;
+  width: 28.8rem;
+  height: 5.4rem;
+
+  border: none;
+  border-radius: 1.5rem;
+  background-color: ${() => color.primary_black};
+
+  ${() => font.medium_18};
+  color: ${() => color.primary_white};
+
+  cursor: pointer;
 `;

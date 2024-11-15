@@ -59,7 +59,6 @@ export default function ProfileListBar() {
           modalCategoryText="친구 추가"
           modalIntroduceText="플랜팔을 함께할 친구를"
           modalIntroduceText2="찾아보세요"
-          bigSingleBtnText="친구 추가하기"
           modalHeight="42.8rem"
         />
       )}

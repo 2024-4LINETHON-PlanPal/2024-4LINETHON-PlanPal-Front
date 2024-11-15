@@ -22,7 +22,7 @@ export default function MyProfileBar() {
 
     const fetchMyProfileData = async () => {
       const result = await getMyProfile(username);
-      // console.log("내 프로필 api: ", result);
+      // console.log("내 프로필 api: ", result); //
       setUserProfileData(result);
     };
     fetchMyProfileData(username);

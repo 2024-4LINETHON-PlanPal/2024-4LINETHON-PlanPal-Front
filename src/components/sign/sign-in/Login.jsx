@@ -26,11 +26,11 @@ export default function Login() {
         password: password,
       });
 
-      console.log("로그인 성공:", response.data);
+      // console.log(response.data.message); // 로그인 성공
       return true;
     } catch (error) {
       console.error("로그인 실패:", error.response?.data || error.message);
-      setErrorText("아이디와 비밀번호가 올바르지 않습니다.");
+      setErrorText("아이디와 비밀번호가 올바르지 않습니다."); //
       return false;
     }
   }
