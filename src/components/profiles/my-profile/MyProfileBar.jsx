@@ -8,6 +8,7 @@ import { getMyProfile } from "apis/getMyProfile";
 export default function MyProfileBar() {
   const [toggleModal, setToggleModal] = useState(false);
   const [userProfileData, setUserProfileData] = useState({});
+  const [imageUrl, setImageUrl] = useState("");
 
   // const toggleModal = () => {
   //   setIsModalOn(!isModalOn);
@@ -22,17 +23,25 @@ export default function MyProfileBar() {
 
     const fetchMyProfileData = async () => {
       const result = await getMyProfile(username);
-      // console.log("내 프로필 api: ", result); //
+      console.log("내 프로필 api: ", result); //
       setUserProfileData(result);
+
+      // http://3.107.196.3:8080/media/default.png
+      const url = result.image;
+      url && setImageUrl(`https://4line-planpal.netlify.app/media${url.split("/media")[1]}`);
     };
     fetchMyProfileData(username);
   }, []);
+
+  useEffect(() => {
+    console.log("imageUrl: ", imageUrl);
+  }, [imageUrl]);
 
   return (
     <>
       <A.BarContainer onClick={() => setToggleModal(true)}>
         <A.ImgContainer>
-          <A.Img src={userProfileData.image} alt="profile" />
+          <A.Img src={imageUrl} alt="profile" />
         </A.ImgContainer>
 
         <A.ProfileInfoContainer>
