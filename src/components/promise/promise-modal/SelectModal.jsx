@@ -22,6 +22,9 @@ export default function SelectModal({
     setActiveIndex(index);
   };
 
+  console.log(responseData.id);
+
+
   return (
     <P.PromiseWrapper>
       <PromiseTitle promiseName={promiseName} />
@@ -32,7 +35,7 @@ export default function SelectModal({
         ref={timeSuggestionWrapperRef}
         onScroll={handleScroll}
       >
-        {responseData && responseData.slice(0, 5).map((item, index) => (
+        {responseData.promise_options.slice(0, 5).map((item, index) => (
           <TimeSuggestion
             key={item.id}
             colorIndex={index}
@@ -52,7 +55,7 @@ export default function SelectModal({
       </P.TimeSuggestionWrapper>
 
       <P.DotWrapper>
-        {responseData && responseData.slice(0, 5).map((_, index) => (
+        {responseData.promise_options.slice(0, 5).map((_, index) => (
           <P.Dot key={index} isActive={index === activeIndex} />
         ))}
       </P.DotWrapper>

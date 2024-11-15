@@ -4,10 +4,16 @@ import TimeSuggestion from "components/promise/element/TimeSuggestion";
 import PromiseTitle from "components/promise/element/PromiseTitle";
 import PromiseMember from "components/promise/element/PromiseMember";
 
-export default function SuggestModal({ promiseName, members, responseData }) {
+export default function SuggestModal({ 
+  promiseName, 
+  members, 
+  responseData, 
+  selectedIndex, 
+  setSelectedIndex, 
+  setSelectedOptionId
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const timeSuggestionWrapperRef = useRef(null);
-  const limitedResponseData = responseData.slice(0, 5);
 
   const handleScroll = () => {
     const scrollLeft = timeSuggestionWrapperRef.current.scrollLeft;
@@ -28,6 +34,9 @@ export default function SuggestModal({ promiseName, members, responseData }) {
       </P.PromiseWrapper>
     );
   }
+  console.log(responseData);
+  console.log(responseData.id);
+
 
   return (
     <P.PromiseWrapper>
@@ -35,8 +44,11 @@ export default function SuggestModal({ promiseName, members, responseData }) {
       <PromiseMember members={members} />
 
       <P.SubTitle>약속 시간 제안</P.SubTitle>
-      <P.TimeSuggestionWrapper ref={timeSuggestionWrapperRef} onScroll={handleScroll}>
-        {limitedResponseData.map((item, index) => (
+      <P.TimeSuggestionWrapper 
+        ref={timeSuggestionWrapperRef} 
+        onScroll={handleScroll}
+      >
+      {responseData.promise_options.slice(0, 5).map((item, index) => (
           <TimeSuggestion
             key={item.id}
             colorIndex={index}
@@ -47,13 +59,13 @@ export default function SuggestModal({ promiseName, members, responseData }) {
               voted: item.vote_members.map((member) => member.nickname),
             }}
             // isSelected={index === activeIndex}
-            showVoteCount={item.vote_members.length > 0}
+            // showVoteCount={item.vote_members.length > 0}
           />
-        ))}
+      ))}
       </P.TimeSuggestionWrapper>
 
       <P.DotWrapper>
-        {responseData && responseData.slice(0, 5).map((_, index) => (
+        {responseData.promise_options.slice(0, 5).map((_, index) => (
           <P.Dot key={index} isActive={index === activeIndex} />
         ))}
       </P.DotWrapper>

@@ -1,105 +1,69 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import font from "styles/font";
-import color from "styles/color";
-import staroff from "assets/promise/star-icon-off.svg";
-import staron from "assets/promise/star-icon-on.svg";
-import ModifyModal from "components/promise/promise-modal/ModifyModal";
+import React, { useState, useEffect } from "react";
+import { PromiseItemBase } from "components/promise/promise-item/PromiseItemBase";
+import starIconOff from "assets/promise/star-icon-off.svg";
+import starIconOn from "assets/promise/star-icon-on.svg";
+import { GET } from "apis/api"; 
 
-const ItemDiv = styled.div`
-  width: 150px;
-  height: 200px;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: ${color.grayscale_eb};
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  cursor: pointer;
-`;
+const PromiseItem = ({ 
+  promiseId,
+  username,
+  promiseName, 
+  members, 
+  responseData, 
+  setResponseData,
+  selectedIndex, 
+  setSelectedIndex, 
+  selectedOptionId,
+  setSelectedOptionId
+}) => {
+  // const [responseData, setResponseData] = useState(responseData);
 
-const StarIcon = styled.img`
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-`;
-
-const ItemTitle = styled.p`
-  ${font.black_18};
-  margin-top: 10px;
-  margin-bottom: 5px;
-`;
-
-const ItemInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-`;
-
-const ItemStrongText = styled.span`
-  ${font.bold_15};
-`;
-
-const ItemText = styled.span`
-  ${font.regular_15};
-`;
-
-const ItemMemo = styled.div`
-  width: 130px;
-  height: 50px;
-  padding: 7px 10px;
-  margin-top: 5px;
-  border-radius: 5px;
-  background-color: ${color.primary_white};
-  ${font.regular_12};
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 4px;
-  margin-top: 10px;
-`;
-
-const ItemBtn = styled.button`
-  padding: 5px 13px;
-  border-radius: 50px;
-  color: ${color.white};
-  background-color: ${color.primary_black};
-  ${font.medium_12};
-`;
-
-export default function PromiseItem({ openItemModal, openModifyModal, openShareModal }) {
-  const [isStarred, setIsStarred] = useState(false);
-
-  const handleStarClick = (e) => {
-    e.stopPropagation();
-    setIsStarred((prev) => !prev);
+  // Fetch Promise Data
+  const fetchPromiseData = async () => {
+    if (promiseId) {  // 조건 강화
+      try {
+        const response = await GET(`promises/promise/${promiseId}/`);
+        if (response.data) {
+          setResponseData(response.data);
+          localStorage.setItem("id", response.data.id);
+        } else {
+          console.warn("No data returned for promise.");
+        }
+      } catch (error) {
+        console.error("Error fetching promise data:", error);
+      }
+    } else {
+      console.error("Promise ID가 설정되지 않았습니다.");
+    }
   };
 
+  useEffect(() => {
+    if (!responseData) {
+      fetchPromiseData();  // responseData가 없을 때만 데이터 로드
+    } else {
+      setResponseData(responseData);  // responseData가 있으면 바로 사용
+    }
+  }, [responseData, promiseId]);
+
   return (
-    <ItemDiv onClick={openItemModal}>
-      <StarIcon
-        src={isStarred ? staron : staroff}
-        alt="star icon"
-        onClick={handleStarClick}
+    responseData && (
+      <PromiseItemBase
+        title={responseData.title || "제목 없음"}  // 기본 제목을 추가할 수 있습니다.
+        host={responseData.user ? responseData.user.nickname : "호스트 없음"}  // user 객체가 없을 경우 대체값
+        count={responseData.members ? responseData.members.length : 0}  // members가 없으면 0으로 처리
+        datetime={responseData.promise_options && responseData.promise_options[0] ? responseData.promise_options[0].start : "시간 미정"}  // start 시간이 없을 경우 기본값
+        memo={responseData.memos}  // 메모가 없을 경우 기본값
+        
+        iconSrc={{
+          on: starIconOn,
+          off: starIconOff,
+        }}
+        showShareButton={true} 
+        showModifyButton={true}
+        status={responseData.status}
       />
-      <ItemInfo>
-        <ItemTitle>여기톤 모여</ItemTitle>
-        <div>
-          <ItemStrongText>수진</ItemStrongText>
-          <ItemText> 외 3인</ItemText>
-        </div>
-        <ItemText>2024. 10. 19. 22시</ItemText>
-      </ItemInfo>
-      <ItemMemo>숙대입구역</ItemMemo>
-      <ButtonContainer>
-        <ItemBtn onClick={(e) => { e.stopPropagation(); openShareModal(); }}>공유</ItemBtn>
-        <ItemBtn onClick={(e) => { e.stopPropagation(); openModifyModal(); }}>수정</ItemBtn>
-      </ButtonContainer>
-    </ItemDiv>
+    )
   );
-}
+};
+
+export default PromiseItem;

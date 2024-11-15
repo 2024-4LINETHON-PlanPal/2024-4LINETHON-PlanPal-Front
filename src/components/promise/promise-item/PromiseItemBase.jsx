@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "components/promise/promise-item/PromiseItemStyle";
+import { GET, POST, DELETE } from "apis/api";
 
 export function PromiseItemBase({
   title,
@@ -16,12 +17,39 @@ export function PromiseItemBase({
   showModifyButton = false,
   showStatusButton = false,
   status = null,
+  username = localStorage.getItem("username"),
+  promiseId
 }) {
   const [isStarred, setIsStarred] = useState(false);
 
-  const handleStarClick = (e) => {
+  console.log(promiseId);
+
+
+  useEffect(() => {
+    async function fetchStarStatus() {
+      try {
+        const response = await GET(`promises/promise/mark/${username}/${promiseId}/`);
+        setIsStarred(response.data.isStarred);
+      } catch (error) {
+        console.error("Error fetching star status:", error);
+      }
+    }
+    fetchStarStatus();
+  }, [username, promiseId]);
+
+  const handleStarClick = async (e) => {
     e.stopPropagation();
-    setIsStarred((prev) => !prev);
+    try {
+      if (isStarred) {
+        await DELETE(`promises/promise/mark/${username}/${promiseId}/`);
+      } 
+      else {
+        await POST(`promises/promise/mark/${username}/${promiseId}/`);
+      }
+      setIsStarred((prev) => !prev);
+    } catch (error) {
+      console.error("Error updating star status:", error);
+    }
   };
 
   return (
@@ -31,7 +59,6 @@ export function PromiseItemBase({
         alt="star icon"
         onClick={handleStarClick}
       />
-
       <S.ItemInfo>
         <S.ItemTitle>{title}</S.ItemTitle>
         <div>
@@ -42,7 +69,7 @@ export function PromiseItemBase({
       </S.ItemInfo>
       
       <S.ItemMemo>
-        {status === 'confirming' ? "약속확정중입니다" :
+        {status === 'confirming' ? "약속 확정 중입니다" :
          status === 'voting' ? "투표중입니다" : memo}
       </S.ItemMemo>
       <S.ButtonContainer>

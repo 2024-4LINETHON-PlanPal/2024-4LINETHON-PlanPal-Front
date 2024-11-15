@@ -49,16 +49,28 @@ export default function TimeSuggestion({
   onClick, isSelected, colorIndex, showVoteCount
 }) {
   // Date 객체를 사용하여 약속 날짜와 시간 파싱
-  const startDateTime = new Date(start);
-  if (isNaN(startDateTime)) return null; // start가 유효하지 않은 경우 컴포넌트를 렌더링하지 않음
+  // const startDateTime = new Date(start);
+  // if (isNaN(startDateTime)) return null; // start가 유효하지 않은 경우 컴포넌트를 렌더링하지 않음
   
-  const startDate = startDateTime.toLocaleDateString("ko-KR"); // 약속 날짜 (예: 2024-11-16)
-  const startTime = startDateTime.toTimeString().slice(0, 5); // 시작 시간 (hh:mm)
+  const startDate = start.slice(0, 10);
+  const startTime = start.slice(11, 16); // 시작 시간 (hh:mm)
+
+  // startTime을 Date 객체로 변환 (현재 날짜와 startTime을 결합하여 Date 객체로 생성)
+  const [hour, minute] = startTime.split(':').map(Number);
+  const startDateTime = new Date(`${startDate}T${startTime}:00`);
+
+// length 만큼 시간을 더하기
+startDateTime.setHours(startDateTime.getHours() + length);  // length는 시간 단위로 가정
+
+// 새로운 endTime 계산
+const endTime = startDateTime.toTimeString().slice(0, 5); // hh:mm 형식으로 변환
+
+console.log("End Time: ", endTime);
 
   // 종료 시간 계산 (length 시간 후)
-  const endDateTime = new Date(startDateTime);
-  endDateTime.setHours(startDateTime.getHours() + length);
-  const endTime = endDateTime.toTimeString().slice(0, 5); // 종료 시간 (hh:mm)
+  // const endDateTime = new Date(startDateTime);
+  // endDateTime.setHours(startDateTime.getHours() + length);
+  // const endTime = endDateTime.toTimeString().slice(0, 5); // 종료 시간 (hh:mm)
 
   const allMembers = Array.isArray(members.all) ? members.all : [];
   const votedMembers = Array.isArray(members.voted) ? members.voted : [];
