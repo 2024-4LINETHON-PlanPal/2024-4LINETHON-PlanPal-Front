@@ -47,6 +47,16 @@ const PlanModal = ({ onClose, plan_id }) => {
     setShowShareModal(false);
     onClose();
   };
+  const handleFriendSelect = (event) => {
+    const selectedFriend = friends.find(friend => friend.id === parseInt(event.target.value));
+    if (selectedFriend && !selectedFriends.includes(selectedFriend)) {
+      setSelectedFriends([...selectedFriends, selectedFriend]);
+    }
+  };
+  const handleRemoveFriend = (friendId) => {
+    setSelectedFriends(selectedFriends.filter(friend => friend.id !== friendId));
+  };
+
 
   useEffect(() => {
     axios
@@ -54,6 +64,7 @@ const PlanModal = ({ onClose, plan_id }) => {
       .then((response) => {
         if (response.status === 200) {
           setItems(response.data.result);
+
         }
       })
       .catch((error) => console.error("카테고리 조회 실패:", error));
@@ -74,11 +85,20 @@ const PlanModal = ({ onClose, plan_id }) => {
             setEndTime(planData.end.split("T")[1].slice(0, 5));
             setMemo(planData.memo || "");
             setIsEditing(true);
+  
+
+            if (planData.participant) {
+              setSelectedFriends(planData.participant.map(participant => ({
+                id: participant.id,
+                nickname: participant.nickname
+              })));
+            }
           }
         })
         .catch((error) => console.error("플랜 조회 실패:", error));
     }
   }, [plan_id, username]);
+  
 
   useEffect(() => {
     axios
@@ -86,6 +106,7 @@ const PlanModal = ({ onClose, plan_id }) => {
       .then((response) => {
         if (response.status === 200) {
           setFriends(response.data.result);
+          console.log(response.data.result);
         }
       })
       .catch((error) => console.error("친구 목록 불러오기 실패:", error));
@@ -249,21 +270,29 @@ const PlanModal = ({ onClose, plan_id }) => {
               </P.DateAndTimeWrapper>
 
               <div className="title">참여자</div>
-              <P.FriendsList>
-                {friends.map((friend) => (
-                  <P.FriendItem key={friend.username}>
-                    <input
-                      type="checkbox"
-                      id={friend.username}
-                      checked={selectedFriends.includes(friend.username)}
-                      onChange={() => handleFriendSelection(friend)}
-                    />
-                    <label htmlFor={friend.username}>{friend.username}</label>
-                  </P.FriendItem>
+              <P.People>
+                <div className="wrap">
+                  <P.LongRoundBox onChange={handleFriendSelect}>
+                    <option value=" ">친구를 선택하세요</option>
+                    {friends.map((friend) => (
+                      <option key={friend.id} value={friend.id}>
+                        {friend.nickname}
+                      </option>
+                    ))}
+                  </P.LongRoundBox>
+                  <img src={serch} alt="검색" />
+                </div>
+              </P.People>
+              <P.PeopleWrap>
+                {selectedFriends.map((friend) => (
+                  <P.SelectedPeople key={friend.id}>
+                    <div className="name">{friend.nickname}</div>
+                    <img src={x} alt="제거" onClick={() => handleRemoveFriend(friend.id)} />
+                  </P.SelectedPeople>
                 ))}
-              </P.FriendsList>
-              
-          
+              </P.PeopleWrap>
+
+
               <div className="title">메모</div>
               <P.LongTextfield
                 type="text"
@@ -273,13 +302,16 @@ const PlanModal = ({ onClose, plan_id }) => {
             </P.Selection>
 
             <P.ButtonContainer>
-              <P.ShareBtn onClick={handleShareClick} color="#8F8F8F">
-                떠벌리기
-              </P.ShareBtn>
               {isEditing && (
-                <P.DelBtn onClick={handleDeleteClick} color="#9E9E9E">
-                  삭제
-                </P.DelBtn>
+                <>
+                  <P.ShareBtn onClick={handleShareClick} color="#8F8F8F">
+                    떠벌리기
+                  </P.ShareBtn>
+
+                  <P.DelBtn onClick={handleDeleteClick} color="#9E9E9E">
+                    삭제
+                  </P.DelBtn>
+                </>
               )}
               <P.SaveBtn onClick={handleSaveClick} color="#FF6A3B">
                 저장

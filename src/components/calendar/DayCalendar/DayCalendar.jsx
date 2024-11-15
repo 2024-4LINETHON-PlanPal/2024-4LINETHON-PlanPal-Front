@@ -74,6 +74,7 @@ const DayCalendar = ({ username, today }) => {
         if (response.status === 200) {
           setPlans(response.data.result);
           console.log(response.data.message);
+          console.log(response.data.result);
         
         }
       })
@@ -102,6 +103,7 @@ const DayCalendar = ({ username, today }) => {
       .put(`https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`, updatedPlan)
       .then((response) => {
         if (response.status === 200) {
+         
           fetchPlans();
           setPlans((prevPlans) =>
             prevPlans.map((p) =>
@@ -169,25 +171,26 @@ const DayCalendar = ({ username, today }) => {
                 </div>
               </C.CheckTitle>
               <C.TodoItem>
-                {plans
-                  .filter((plan) => plan.category.id === category.id)
-                  .map((plan, index) => (
-                    <div className="wrap" key={index}>
-                      <div
-                        className="box"
-                        onClick={() => handleCompletionToggle(plan)}
-                      >
-                        {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
-                      </div>
-                      <div className="todo">{plan.title}</div>
-                      <div
-                        className="img"
-                        onClick={() => handleDotsClick(plan.id)}
-                      >
-                        <img src={dots} alt="dots icon" />
-                      </div>
-                    </div>
-                  ))}
+              {plans
+  .filter((plan) => plan.category?.id === category.id) // category가 null인 경우 방지
+  .map((plan, index) => (
+    <div className="wrap" key={index}>
+      <div
+        className="box"
+        onClick={() => handleCompletionToggle(plan)}
+      >
+        {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
+      </div>
+      <div className="todo">{plan.title}</div>
+      <div
+        className="img"
+        onClick={() => handleDotsClick(plan.id)}
+      >
+        <img src={dots} alt="dots icon" />
+      </div>
+    </div>
+  ))}
+
               </C.TodoItem>
             </C.CheckBox>
           ))

@@ -55,7 +55,7 @@ export const ModalWrap = styled.div`
   background: #f6f6f6;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
   width: 336px;
-  height: 687px;
+  min-height: 687px;
   padding: 24px;
   position: relative;
 
@@ -129,7 +129,35 @@ export const Name = styled.div`
     line-height: normal;
   }
 `;
+export const PeopleWrap = styled.div`
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: auto;
+  flex-wrap: wrap;
 
+`;
+export const SelectedPeople = styled.div`
+  display: flex;
+  height: 24px;
+  padding: 0 10px;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: rgba(217, 217, 217, 0.8);
+  gap: 5px;
+  .name {
+    ${font.regular_12};
+    display: flex;
+    width: fit-content;
+  }
+  img {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+  }
+`;
 export const DropdownContainer = styled.div`
   display: flex;
   height: 32px;
@@ -209,39 +237,10 @@ cursor: pointer;
 
 `;
 
-export const FriendsList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-`;
-
-export const FriendItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: #333;
-
-  input[type="checkbox"] {
-    transform: scale(1.2);
-    cursor: pointer;
-  }
-
-  label {
-    cursor: pointer;
-  }
-
-  input[type="checkbox"]:checked + label {
-    font-weight: bold;
-    color: #ff6a3b;
-  }
-`;
-
-
-export const LongRoundBox = styled.input`
+export const LongRoundBox = styled.select`
   display: flex;
   width: 240px;
+  outline: none;
   height: 32px;
   padding: 17px 13px;
   justify-content: center;
@@ -260,18 +259,11 @@ export const Line = styled.div`
 `;
 
 export const People = styled.div`
-  
+  .wrap {
     display: flex;
     justify-content: space-around;
     flex-direction: row;
-    .wrap{
-      option{
-        :hover{
-          background-color: aliceblue;
-        }
-      }
-    }
-  
+  }
 `;
 
 export const LongTextfield = styled.input`
@@ -289,7 +281,7 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 50px;
+  margin-top: 30px;
 `;
 export const SaveBtn = styled.div`
   display: flex;

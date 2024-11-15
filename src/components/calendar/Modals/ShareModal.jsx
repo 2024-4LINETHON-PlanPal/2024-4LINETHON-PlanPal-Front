@@ -8,7 +8,7 @@ const ShareModal = ({ onClose, plan_id }) => {
   const [friends, setFriends] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [plan, setPlan] = useState({});
-  const [memo, setMemo] = useState(""); // memo 상태 추가
+  const [memo, setMemo] = useState("");
   const username = localStorage.getItem("username");
 
   useEffect(() => {
@@ -48,19 +48,23 @@ const ShareModal = ({ onClose, plan_id }) => {
       alert("모든 항목을 채워주세요.");
       return;
     }
-  
+
     const payload = {
-      plan: plan.title,
+      plan : plan,
       recipient: selectedFriends.map(friend => friend.id),
       memo: memo
     };
-  console.log(payload);
+    console.log(payload);
     axios
-      .post(`https://planpal.kro.kr/notifications/brag/${username}/${plan_id}/`, payload, {
-        headers: {
-          'Content-Type': 'application/json', 
+      .post(
+        `https://planpal.kro.kr/notifications/brag/${username}/${plan_id}/`,
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
-      })
+      )
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
           alert("떠벌리기 요청이 성공적으로 전송되었습니다!");
@@ -69,8 +73,8 @@ const ShareModal = ({ onClose, plan_id }) => {
       })
       .catch((error) => console.error("떠벌리기 요청 실패:", error));
   };
-  
-  
+
+
   return (
     <S.Background>
       <S.ModalWrap>
@@ -106,9 +110,9 @@ const ShareModal = ({ onClose, plan_id }) => {
             ))}
           </S.PeopleWrap>
           <div className="title">한마디</div>
-          <S.LongTextfield 
-            value={memo} 
-            onChange={(e) => setMemo(e.target.value)} 
+          <S.LongTextfield
+            value={memo}
+            onChange={(e) => setMemo(e.target.value)}
             placeholder="친구들에게 보낼 메모를 입력하세요."
           />
         </S.Selection>

@@ -45,6 +45,9 @@ export const NotiCompContainer = styled.li`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  :hover{
+    cursor: pointer;
+  }
 
   border-bottom: 1px solid ${color.grayscale_d9};
   /* cursor: pointer; */
