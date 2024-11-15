@@ -31,10 +31,10 @@ export default function MyProfileBar() {
       url && setImageUrl(`https://4line-planpal.netlify.app/media${url.split("/media")[1]}`);
     };
     fetchMyProfileData(username);
-  }, []);
+  }, [toggleModal]);
 
   useEffect(() => {
-    console.log("imageUrl: ", imageUrl);
+    console.log("imageUrl: ", imageUrl); //
   }, [imageUrl]);
 
   return (
@@ -53,7 +53,9 @@ export default function MyProfileBar() {
       {toggleModal && (
         <ModalBase
           setCloseModal={setToggleModal}
-          InsideComponent={() => <MyProfileInfo userProfileData={userProfileData} />}
+          InsideComponent={() => (
+            <MyProfileInfo userProfileData={userProfileData} setToggleModal={setToggleModal} />
+          )}
           modalCategoryText="내 정보"
           modalIntroduceText="내 정보를 확인해보세요"
           modalHeight="40.8rem"

@@ -42,6 +42,7 @@ export default function Login() {
 
     if (isSuccess) {
       localStorage.setItem("username", username);
+      localStorage.setItem("currentPage", "home");
       navigate(`/home`);
     }
   };

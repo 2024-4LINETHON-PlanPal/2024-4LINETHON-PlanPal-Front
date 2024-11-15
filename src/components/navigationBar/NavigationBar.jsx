@@ -11,18 +11,21 @@ import notificationBlackPng from "assets/navigationBar-icons/notification-30x30.
 
 export default function NavigationBar() {
   const navigate = useNavigate();
-
-  const [navPage, setNavPage] = useState("home");
+  const currentPage = localStorage.getItem("currentPage");
+  const [navPage, setNavPage] = useState(currentPage);
 
   const handleMoveToPromise = () => {
+    localStorage.setItem("currentPage", "promise");
     navigate(`/promise`);
     setNavPage("promise");
   };
   const handleMoveToHome = () => {
+    localStorage.setItem("currentPage", "home");
     navigate(`/home`);
     setNavPage("home");
   };
   const handleMoveToNotification = () => {
+    localStorage.setItem("currentPage", "notification");
     navigate(`/notification`);
     setNavPage("notification");
   };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import NotiComp from "./NotiComp";
-import ReceivedModal from "./ReceivedModal"; 
+import ReceivedModal from "./ReceivedModal";
 import * as A from "./Notification.Style";
 import { getNotiPlan } from "apis/getNotiPlan";
 import { getNotiPromise } from "apis/getNotiPromise";
@@ -13,7 +13,7 @@ export default function Notification() {
   const [notiData3, setNotiData3] = useState({ doesDataExist: false });
   const [selectedData, setSelectedData] = useState(null);
 
-  const [showReceivedModal, setShowReceivedModal] = useState(false); 
+  const [showReceivedModal, setShowReceivedModal] = useState(false);
 
   // api 연결
   useEffect(() => {
@@ -41,11 +41,9 @@ export default function Notification() {
       // 친구
       const result3 = await getNotiFriend(username);
       if (result3.result.length > 0) {
-
         setNotiData3({
           messageData: result3.result,
           doesDataExist: true,
-          
         });
       }
     };
@@ -58,10 +56,8 @@ export default function Notification() {
       setSelectedData(data);
       setShowReceivedModal(true);
     } else {
-    
     }
   };
-
 
   return (
     <>
@@ -127,7 +123,7 @@ export default function Notification() {
       </A.BottomMarginBox>
 
       {showReceivedModal && (
-        <ReceivedModal data={selectedData} onClose={handleModalClose} />
+        <ReceivedModal data={selectedData} onClose={() => setShowReceivedModal(false)} />
       )}
     </>
   );
