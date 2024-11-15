@@ -22,6 +22,16 @@ export default function SelectModal({
     setActiveIndex(index);
   };
 
+  const handleTimeSuggestionClick = (index) => {
+    setActiveIndex(index); // 클릭한 요소의 index를 active로 설정
+    const suggestionWidth = 260;
+    const scrollPosition = index * suggestionWidth;
+    timeSuggestionWrapperRef.current.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth", // 부드러운 스크롤
+    });
+  };
+
   console.log(responseData.id);
 
 

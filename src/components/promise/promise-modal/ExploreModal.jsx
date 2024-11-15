@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GET, POST } from "apis/api"; // GET, POST 임포트
 import * as P from "components/promise/PromiseStyle";
 import PromiseTitle from "../element/PromiseTitle";
@@ -31,6 +31,13 @@ export default function ExploreModal({
 
   // 다음 모달로
   const openNextModal = (modalName) => setCurrentModal(modalName);
+
+  // 입력값 임시저장
+  const inputRef = useRef("");
+
+  const handleBlur = () => {
+    setPromiseName(inputRef.current); // 포커스가 벗어날 때 최종 업데이트
+  };
 
   // 친구 목록 불러오기
   const fetchFriendsList = async () => {
@@ -106,10 +113,10 @@ export default function ExploreModal({
         <input 
           className="textfield"
           type="text"
-          value={promiseName}
+          defaultValue={promiseName}
           placeholder="약속명을 입력해주세요"
-          onChange={(e) => setPromiseName(e.target.value)}
-          onBlur={() => setPromiseName(promiseName)}
+          onChange={(e) => (inputRef.current = e.target.value)} // 임시로 값 저장
+          onBlur={handleBlur}
         />
       </P.BoldInputDiv>
 

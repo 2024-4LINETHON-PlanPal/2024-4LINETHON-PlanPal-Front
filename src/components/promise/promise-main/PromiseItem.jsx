@@ -51,7 +51,7 @@ const PromiseItem = ({
         title={responseData.title || "제목 없음"}  // 기본 제목을 추가할 수 있습니다.
         host={responseData.user ? responseData.user.nickname : "호스트 없음"}  // user 객체가 없을 경우 대체값
         count={responseData.members ? responseData.members.length : 0}  // members가 없으면 0으로 처리
-        datetime={responseData.promise_options && responseData.promise_options[0] ? responseData.promise_options[0].start : "시간 미정"}  // start 시간이 없을 경우 기본값
+        datetime={responseData.promise_options && responseData.promise_options.start ? responseData.promise_options.start : "시간 미정"}  // start 시간이 없을 경우 기본값
         memo={responseData.memos}  // 메모가 없을 경우 기본값
         
         iconSrc={{

@@ -22,6 +22,7 @@ export default function SuggestModal({
     setActiveIndex(index);
   };
 
+  
   console.log("Response Data:", responseData);
 
   if (!responseData || responseData.length === 0) {
@@ -34,6 +35,7 @@ export default function SuggestModal({
       </P.PromiseWrapper>
     );
   }
+
   console.log(responseData);
   console.log(responseData.id);
 
