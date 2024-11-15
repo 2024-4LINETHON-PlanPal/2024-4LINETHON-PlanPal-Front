@@ -13,7 +13,7 @@ export default function Notification() {
   const [notiData3, setNotiData3] = useState({ doesDataExist: false });
   const [selectedData, setSelectedData] = useState(null);
 
-  const [showReceivedModal, setShowReceivedModal] = useState(false); // 모달 상태 추가
+  const [showReceivedModal, setShowReceivedModal] = useState(false); 
 
   // api 연결
   useEffect(() => {
@@ -114,6 +114,7 @@ export default function Notification() {
               notiType="friend"
               titleText={data.message.split("\n")[0]}
               subText={data.message.split("\n")[1]}
+              onClick={() => handleModalOpen(data)}
             />
           ))
         ) : (
@@ -124,6 +125,10 @@ export default function Notification() {
       <A.BottomMarginBox>
         <A.BottomMarginBox />
       </A.BottomMarginBox>
+
+      {showReceivedModal && (
+        <ReceivedModal data={selectedData} onClose={handleModalClose} />
+      )}
     </>
   );
 }
