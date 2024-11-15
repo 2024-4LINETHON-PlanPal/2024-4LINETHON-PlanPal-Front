@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import NotiComp from "./NotiComp";
+import ReceivedModal from "./ReceivedModal"; 
 import * as A from "./Notification.Style";
 import { getNotiPlan } from "apis/getNotiPlan";
 import { getNotiPromise } from "apis/getNotiPromise";
@@ -10,6 +11,9 @@ export default function Notification() {
   const [notiData1, setNotiData1] = useState({ doesDataExist: false });
   const [notiData2, setNotiData2] = useState({ doesDataExist: false });
   const [notiData3, setNotiData3] = useState({ doesDataExist: false });
+  const [selectedData, setSelectedData] = useState(null);
+
+  const [showReceivedModal, setShowReceivedModal] = useState(false); // 모달 상태 추가
 
   // api 연결
   useEffect(() => {
@@ -24,7 +28,6 @@ export default function Notification() {
           doesDataExist: true,
         });
       }
-      // console.log("계획 알림 api: ", result1); //
 
       // 약속
       const result2 = await getNotiPromise(username);
@@ -34,36 +37,43 @@ export default function Notification() {
           doesDataExist: true,
         });
       }
-      // console.log("약속 알림 api: ", result2); //
 
       // 친구
       const result3 = await getNotiFriend(username);
       if (result3.result.length > 0) {
+
         setNotiData3({
           messageData: result3.result,
           doesDataExist: true,
+          
         });
       }
-      // console.log("친구 알림 api: ", result3); //
     };
     fetchNotiData(username);
-    console.log("알림 데이터: ", notiData1, notiData2, notiData3); //
   }, []);
+
+  const handleModalOpen = (data) => {
+    console.log(data);
+    if (data.friend_nickname && data.plan_title) {
+      setSelectedData(data);
+      setShowReceivedModal(true);
+    } else {
+    
+    }
+  };
+
 
   return (
     <>
       <A.TopBarContainer>
         <A.TopBar>알림</A.TopBar>
         <A.SubBarContainer>
-          {/* plan */}
           <A.SubBar onClick={() => setIsSelected(1)} isSelected={isSelected === 1}>
             계획
           </A.SubBar>
-          {/* promise */}
           <A.SubBar onClick={() => setIsSelected(2)} isSelected={isSelected === 2}>
             약속
           </A.SubBar>
-          {/* friend */}
           <A.SubBar onClick={() => setIsSelected(3)} isSelected={isSelected === 3}>
             친구
           </A.SubBar>
@@ -103,11 +113,14 @@ export default function Notification() {
             notiType="friend"
             titleText={data.message.split("\n")[0]}
             subText={data.message.split("\n")[1]}
+            onClick={() => handleModalOpen(data)}
           />
         ))
       ) : (
         <p>알림이 없습니다.</p>
       )}
+
+      {showReceivedModal && <ReceivedModal   data={selectedData} onClose={() => setShowReceivedModal(false)} />}
     </>
   );
 }

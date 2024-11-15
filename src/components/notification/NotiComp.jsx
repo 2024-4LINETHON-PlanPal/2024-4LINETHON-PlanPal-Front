@@ -9,9 +9,9 @@ import Promise3PNG from "assets/notification/promise-icon3-24x24.png";
 import Friend2PNG from "assets/notification/friend-icon2-24x24.png";
 import Friend3PNG from "assets/notification/friend-icon3-24x24.png";
 
-export default function NotiComp({ titleText, subText, notiType }) {
+export default function NotiComp({ titleText, subText, notiType , onClick}) {
   return (
-    <A.NotiCompContainer>
+    <A.NotiCompContainer onClick={onClick}>
       <A.ImgContainer>
         {notiType === "plan" ? (
           <A.Img src={Plan1PNG} alt="icon" />
