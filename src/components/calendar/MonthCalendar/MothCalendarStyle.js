@@ -48,6 +48,7 @@ export const CalItem = styled.div`
   flex-direction: column;
   padding: 0px 5px;
   color: ${color.primary_black};
+  text-overflow: clip;
   cursor: pointer;
   :hover{
     cursor: pointer;
@@ -65,12 +66,12 @@ export const CalItem = styled.div`
     color: #c04277;
   }
   .plan {
-    width: calc(100% + 10px);
+    width: calc(100% );
     height: 20px;
     margin-left: -5px;
     background-color: #4077ba71;
     overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap;
     border-left: 2px solid #4076ba;
   }
 `;
