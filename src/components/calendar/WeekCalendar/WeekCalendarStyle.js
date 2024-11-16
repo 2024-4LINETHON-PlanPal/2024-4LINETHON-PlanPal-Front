@@ -8,6 +8,7 @@ export const RowTime = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: -9px;
+
 `;
 export const Loading = styled.div`
 
@@ -31,6 +32,7 @@ export const Wrap = styled.div`
 export const WeekWrap = styled.div`
   display: flex;
   width: 90%;
+  
 `;
 
 export const ColTitle = styled.div`
