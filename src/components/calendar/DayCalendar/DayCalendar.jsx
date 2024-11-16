@@ -101,8 +101,6 @@ const DayCalendar = ({ username, today }) => {
       .put(`https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`, updatedPlan)
       .then((response) => {
         if (response.status === 200) {
-
-          fetchPlans();
           setPlans((prevPlans) =>
             prevPlans.map((p) =>
               p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p
@@ -188,25 +186,7 @@ const DayCalendar = ({ username, today }) => {
                       </div>
                     </div>
                   ))}
-                {plans
-                  .filter((plan) => plan.category?.id === category.id) 
-                  .map((plan, index) => (
-                    <div className="wrap" key={index}>
-                      <div
-                        className="box"
-                        onClick={() => handleCompletionToggle(plan)}
-                      >
-                        {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
-                      </div>
-                      <div className="todo">{plan.title}</div>
-                      <div
-                        className="img"
-                        onClick={() => handleDotsClick(plan.id)}
-                      >
-                        <img src={dots} alt="dots icon" />
-                      </div>
-                    </div>
-                  ))}
+              
               </C.TodoItem>
             </C.CheckBox>
           ))
