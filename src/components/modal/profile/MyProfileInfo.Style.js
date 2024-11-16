@@ -17,7 +17,7 @@ export const ImgContainer = styled.div`
   border-radius: 50%;
 
   overflow: hidden;
-  cursor: pointer;
+  /* cursor: pointer; */
 `;
 export const Img = styled.img`
   width: 100%;
