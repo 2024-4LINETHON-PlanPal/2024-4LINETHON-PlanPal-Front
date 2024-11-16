@@ -16,12 +16,12 @@ import ModifyModal from "components/promise/promise-modal/ModifyModal";
 import ShareModal from "components/promise/promise-modal/ShareModal";
 
 export default function PromisePage({ username }) {
+  username = localStorage.getItem("username");
   const [currentModal, setCurrentModal] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [selectedOptionId, setSelectedOptionId] = useState(null);
   const [promiseId, setPromiseId] = useState(null);
   const [createdAt, setCreatedAt] = useState(null);
-  
   const closeModal = () => setCurrentModal(null);
   const openNextModal = (modalName) => setCurrentModal(modalName);
 
@@ -30,6 +30,8 @@ export default function PromisePage({ username }) {
   const [friendSearch, setFriendSearch] = useState("");
   const [members, setMembers] = useState([]);
   const [responseData, setResponseData] = useState([]);
+  const [selectedPromise, setSelectedPromise] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 생성 시간 계산
   const calculateRemainingTime = () => {
@@ -37,22 +39,58 @@ export default function PromisePage({ username }) {
     return Math.max(0, 24 - Math.floor(elapsedTime));
   };
 
-  // 초기 로드 시 기존 약속 데이터를 로컬 저장소에서 불러오기
-  useEffect(() => {
-    const savedPromises = localStorage.getItem("promises");
-    if (savedPromises) {
-      setPromises(JSON.parse(savedPromises));
+  // 약속 데이터 API 호출
+  const fetchPromises = async () => {
+    try {
+      const response = await GET(`promises/promise/${username}/${username}/`);
+      if (response.data && response.data.result) {
+        const newPromises = Array.isArray(response.data.result)
+          ? response.data.result
+          : [response.data.result];
+        setPromises(newPromises); // 각 약속 데이터를 promises에 저장
+      }
+    } catch (error) {
+      console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
     }
-  }, []);
-
-  // 새로운 약속을 로컬 저장소에 추가
-  const addPromiseToStorage = (newPromise) => {
-    setPromises((prevPromises) => {
-      const updatedPromises = [...prevPromises, newPromise];
-      localStorage.setItem("promises", JSON.stringify(updatedPromises));
-      return updatedPromises;
-    });
   };
+
+  // 모달 열기 함수
+  const openItemModal = (promise) => {
+    setSelectedPromise(promise); // 선택된 약속 정보 저장
+    setIsModalOpen(true); // 모달 열림 상태 설정
+  };
+
+  // 모달 닫기 함수
+  const closeItemModal = () => {
+    setSelectedPromise(null); // 선택된 약속 정보 초기화
+    setIsModalOpen(false); // 모달 닫기
+  };
+
+  useEffect(() => {
+    let isMounted = true; // 컴포넌트가 언마운트되었는지 체크
+    const fetchPromises = async () => {
+      try {
+        const response = await GET(`promises/promise/${username}/${username}/`);
+        if (response.data && response.data.result && isMounted) {
+          const newPromises = Array.isArray(response.data.result)
+            ? response.data.result
+            : [response.data.result];
+  
+          setPromises(newPromises); // 데이터를 한 번만 저장
+        }
+      } catch (error) {
+        console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
+      }
+    };
+  
+    fetchPromises();
+  
+    return () => {
+      isMounted = false; // 컴포넌트 언마운트 시 플래그 설정
+    };
+  }, [username]);
+
+  console.log("promises: ", promises);
 
   // 약속 생성 함수
   const handleCreatePromise = async (promiseData) => {
@@ -68,14 +106,6 @@ export default function PromisePage({ username }) {
     }
   };
 
-  // 모달 열 때 이전 입력 정보 초기화
-  const openExploreModal = () => {
-    setPromiseName("");
-    setFriendSearch("");
-    setMembers([]);
-    openNextModal("exploreModal");
-  };
-
   // 약속 확정 함수
   const handleConfirm = async () => {
     try {
@@ -83,7 +113,7 @@ export default function PromisePage({ username }) {
       const selectedOption = responseData.promise_options[selectedIndex];
       if (selectedOption && promiseId) {
         const response = await PUT(`promises/promise/confirm/${promiseId}/${selectedOption.id}/`);
-        
+
         if (response.data.message.includes("성공")) {
           const newPromise = {
             id: response.data.result.id,
@@ -95,9 +125,12 @@ export default function PromisePage({ username }) {
             user: { id: username, nickname: "user" },
             members: response.data.result.members || members,
           };
-          addPromiseToStorage(newPromise);
+
+          // 새로운 약속 데이터를 기존 상태에 추가
+          setPromises((prevPromises) => [...prevPromises, newPromise]);
+
           closeModal();
-          console.log(newPromise);
+          console.log("새로운 약속이 추가되었습니다:", newPromise);
         }
       }
     } catch (error) {
@@ -110,10 +143,10 @@ export default function PromisePage({ username }) {
     try {
       const username = localStorage.getItem("username");
       const promiseId = responseData.id;
-      const promiseOptionId = responseData.promise_options[selectedIndex].id;
-  
-      const response = await PUT(`promises/promise/vote/${username}/${promiseId}/${promiseOptionId}`)
-      
+      const selectedOptionId = responseData.promise_options[selectedIndex].id;
+
+      const response = await PUT(`promises/promise/vote/${username}/${promiseId}/${selectedOptionId}`);
+
       if (response.data.message.includes("성공")) {
         const newPromise = {
           id: response.data.result.id,
@@ -125,28 +158,27 @@ export default function PromisePage({ username }) {
           user: { id: username, nickname: "user" },
           members: response.data.result.members || members,
         };
-        // 약속을 저장하고 모달을 열기
-      if (addPromiseToStorage && typeof addPromiseToStorage === 'function') {
-        addPromiseToStorage(newPromise);
-      } else {
-        console.error("addPromiseToStorage 함수가 정의되지 않았습니다.");
-      }
 
-      console.log("투표가 성공적으로 등록되었습니다.");
+        // 새로운 약속 데이터를 기존 상태에 추가
+        setPromises((prevPromises) => [...prevPromises, newPromise]);
 
-      if (openNextModal && typeof openNextModal === 'function') {
+        console.log("투표가 성공적으로 등록되었습니다.");
         openNextModal("voteCompleteModal");
       } else {
-        console.error("openNextModal 함수가 정의되지 않았습니다.");
+        console.error("투표 중 오류가 발생했습니다.", response);
       }
-
-    } else {
-      console.error("투표 중 오류가 발생했습니다.", response);
+    } catch (error) {
+      console.error("투표 요청 중 오류가 발생했습니다.", error);
     }
-  } catch (error) {
-    console.error("투표 요청 중 오류가 발생했습니다.", error);
-  }
-};
+  };
+
+  // 모달 열 때 이전 입력 정보 초기화
+  const openExploreModal = () => {
+    setPromiseName(""); // 약속 이름 초기화
+    setFriendSearch(""); // 친구 검색 초기화
+    setMembers([]); // 멤버 초기화
+    openNextModal("exploreModal"); // 탐색 모달 열기
+  };
 
   return (
     <>
@@ -159,12 +191,13 @@ export default function PromisePage({ username }) {
               <PromiseItem
                 key={promise.id}
                 promiseId={promise.id}
-                username={promise.username}
+                username={promise.user.nickname}
                 promiseName={promise.title}
                 members={promise.members}
-                responseData={responseData}
-                setResponseData={setResponseData}
-                onClick={() => openNextModal("itemModal")}
+                datetime={promise.promise_options.start}
+                status={promise.status}
+                memo={promise.memos}
+                onClick={() => openItemModal(promise)}
               />
             ))
           ) : (
@@ -181,8 +214,9 @@ export default function PromisePage({ username }) {
           setCloseModal={closeModal}
           InsideComponent={() => (
             <ItemModal 
+              selectedPromise={selectedPromise}
               openModifyModal={() => openNextModal("modifyModal")}
-              onDeleteClick={closeModal} 
+              // onDeleteClick={closeModal} 
               openShareModal={() => openNextModal("shareModal")}
             />
           )}
