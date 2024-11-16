@@ -121,7 +121,7 @@ export default function Notification() {
           notiData3.messageData.map((data) => (
             <NotiComp
               key={data.id}
-              notiType="friend"
+              notiType={data.notification_type === "brag" ? "brag" : "friend"}
               titleText={data.message.split("\n")[0]}
               subText={data.message.split("\n")[1]}
               onClick={() => handleModalOpen(data)}

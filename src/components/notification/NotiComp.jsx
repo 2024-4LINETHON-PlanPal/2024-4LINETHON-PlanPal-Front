@@ -17,6 +17,8 @@ export default function NotiComp({ titleText, subText, notiType, onClick }) {
           <A.Img src={Plan1PNG} alt="icon" />
         ) : notiType === "promise" ? (
           <A.Img src={Promise1PNG} alt="icon" />
+        ) : notiType === "brag" ? (
+          <A.Img src={Friend3PNG} alt="icon" />
         ) : (
           <A.Img src={Friend1PNG} alt="icon" />
         )}
