@@ -30,6 +30,8 @@ export default function PromisePage({ username }) {
   const [friendSearch, setFriendSearch] = useState("");
   const [members, setMembers] = useState([]);
   const [responseData, setResponseData] = useState([]);
+  const [selectedPromise, setSelectedPromise] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 생성 시간 계산
   const calculateRemainingTime = () => {
@@ -37,32 +39,58 @@ export default function PromisePage({ username }) {
     return Math.max(0, 24 - Math.floor(elapsedTime));
   };
 
-  // 약속 데이터를 API로부터 가져오는 함수
+  // 약속 데이터 API 호출
   const fetchPromises = async () => {
     try {
       const response = await GET(`promises/promise/${username}/${username}/`);
-      console.log(response);
       if (response.data && response.data.result) {
         const newPromises = Array.isArray(response.data.result)
           ? response.data.result
-          : [response.data.result]; // 결과가 배열이 아닐 경우 배열로 변환
-        setPromises(newPromises); // 받아온 데이터를 상태에 저장
-        
+          : [response.data.result];
+        setPromises(newPromises); // 각 약속 데이터를 promises에 저장
       }
     } catch (error) {
-      console.error("약속 데이터를 가져오는데 실패했습니다.", error);
+      console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
     }
   };
 
-  // 페이지 로드 시 약속 데이터를 불러오는 useEffect
+  // 모달 열기 함수
+  const openItemModal = (promise) => {
+    setSelectedPromise(promise); // 선택된 약속 정보 저장
+    setIsModalOpen(true); // 모달 열림 상태 설정
+  };
+
+  // 모달 닫기 함수
+  const closeItemModal = () => {
+    setSelectedPromise(null); // 선택된 약속 정보 초기화
+    setIsModalOpen(false); // 모달 닫기
+  };
+
   useEffect(() => {
-    if (username) {
-      fetchPromises(username); // 약속 데이터 가져오기
-    }
+    let isMounted = true; // 컴포넌트가 언마운트되었는지 체크
+    const fetchPromises = async () => {
+      try {
+        const response = await GET(`promises/promise/${username}/${username}/`);
+        if (response.data && response.data.result && isMounted) {
+          const newPromises = Array.isArray(response.data.result)
+            ? response.data.result
+            : [response.data.result];
+  
+          setPromises(newPromises); // 데이터를 한 번만 저장
+        }
+      } catch (error) {
+        console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
+      }
+    };
+  
+    fetchPromises();
+  
+    return () => {
+      isMounted = false; // 컴포넌트 언마운트 시 플래그 설정
+    };
   }, [username]);
 
   console.log("promises: ", promises);
-
 
   // 약속 생성 함수
   const handleCreatePromise = async (promiseData) => {
@@ -98,6 +126,9 @@ export default function PromisePage({ username }) {
             members: response.data.result.members || members,
           };
 
+          // 새로운 약속 데이터를 기존 상태에 추가
+          setPromises((prevPromises) => [...prevPromises, newPromise]);
+
           closeModal();
           console.log("새로운 약속이 추가되었습니다:", newPromise);
         }
@@ -112,10 +143,10 @@ export default function PromisePage({ username }) {
     try {
       const username = localStorage.getItem("username");
       const promiseId = responseData.id;
-      const promiseOptionId = responseData.promise_options[selectedIndex].id;
-  
-      const response = await PUT(`promises/promise/vote/${username}/${promiseId}/${promiseOptionId}`)
-      
+      const selectedOptionId = responseData.promise_options[selectedIndex].id;
+
+      const response = await PUT(`promises/promise/vote/${username}/${promiseId}/${selectedOptionId}`);
+
       if (response.data.message.includes("성공")) {
         const newPromise = {
           id: response.data.result.id,
@@ -127,28 +158,19 @@ export default function PromisePage({ username }) {
           user: { id: username, nickname: "user" },
           members: response.data.result.members || members,
         };
-        // 약속을 저장하고 모달을 열기
-      // if (addPromiseToStorage && typeof addPromiseToStorage === 'function') {
-      //   addPromiseToStorage(newPromise);
-      // } else {
-      //   console.error("addPromiseToStorage 함수가 정의되지 않았습니다.");
-      // }
 
-      console.log("투표가 성공적으로 등록되었습니다.");
+        // 새로운 약속 데이터를 기존 상태에 추가
+        setPromises((prevPromises) => [...prevPromises, newPromise]);
 
-      if (openNextModal && typeof openNextModal === 'function') {
+        console.log("투표가 성공적으로 등록되었습니다.");
         openNextModal("voteCompleteModal");
       } else {
-        console.error("openNextModal 함수가 정의되지 않았습니다.");
+        console.error("투표 중 오류가 발생했습니다.", response);
       }
-
-    } else {
-      console.error("투표 중 오류가 발생했습니다.", response);
+    } catch (error) {
+      console.error("투표 요청 중 오류가 발생했습니다.", error);
     }
-  } catch (error) {
-    console.error("투표 요청 중 오류가 발생했습니다.", error);
-  }
-};
+  };
 
   // 모달 열 때 이전 입력 정보 초기화
   const openExploreModal = () => {
@@ -163,19 +185,19 @@ export default function PromisePage({ username }) {
       <P.Wrapper>
         <PromiseHeader />
         <P.ItemWrapper>
-          {/* 504 error */}
           {
             promises.length > 0 ? (
             promises.map((promise) => (
               <PromiseItem
                 key={promise.id}
                 promiseId={promise.id}
-                username={promise.username}
+                username={promise.user.nickname}
                 promiseName={promise.title}
                 members={promise.members}
-                responseData={responseData}
-                setResponseData={setResponseData}
-                onClick={() => openNextModal("itemModal")}
+                datetime={promise.promise_options.start}
+                status={promise.status}
+                memo={promise.memos}
+                onClick={() => openItemModal(promise)}
               />
             ))
           ) : (
@@ -192,8 +214,9 @@ export default function PromisePage({ username }) {
           setCloseModal={closeModal}
           InsideComponent={() => (
             <ItemModal 
+              selectedPromise={selectedPromise}
               openModifyModal={() => openNextModal("modifyModal")}
-              onDeleteClick={closeModal} 
+              // onDeleteClick={closeModal} 
               openShareModal={() => openNextModal("shareModal")}
             />
           )}
