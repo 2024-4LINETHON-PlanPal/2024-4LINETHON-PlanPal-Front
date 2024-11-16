@@ -20,7 +20,7 @@ export const ModalWrap = styled.div`
   background: #f6f6f6;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
   width: 336px;
-  min-height: 576px;
+  min-height: 426px;
   padding: 24px;
   position: relative;
 

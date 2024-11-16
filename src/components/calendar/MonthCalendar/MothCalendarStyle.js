@@ -48,6 +48,10 @@ export const CalItem = styled.div`
   flex-direction: column;
   padding: 0px 5px;
   color: ${color.primary_black};
+  cursor: pointer;
+  :hover{
+    cursor: pointer;
+  }
 
   &.gray-day {
     color: ${color.grayscale_bc};

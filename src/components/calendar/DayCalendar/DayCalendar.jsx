@@ -29,6 +29,7 @@ const DayCalendar = ({ username, today }) => {
     setShareModalOpen(false);
     setSelectedCategoryId(null);
     setSelectedPlanId(null);
+    fetchPlans();
   };
 
   const hours = Array.from({ length: 25 }, (_, i) =>
@@ -42,7 +43,6 @@ const DayCalendar = ({ username, today }) => {
         if (response.status === 200) {
           setSchedules(response.data.result.time_slots || {});
           console.log(response.data.message);
-        
         }
       })
       .catch((error) => {
@@ -50,22 +50,19 @@ const DayCalendar = ({ username, today }) => {
       });
   };
 
-
-  useEffect(() => {
+  const fetchCategories = () => {
     axios
       .get(`https://planpal.kro.kr/plan/categories/${username}/`)
       .then((response) => {
         if (response.status === 200) {
-          fetchPlans();
           setCategories(response.data.result);
           console.log(response.data.message);
-
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [username, today]);
+  };
 
   useEffect(() => {
     axios
@@ -73,9 +70,9 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result);
+          fetchCategories();
           console.log(response.data.message);
           console.log(response.data.result);
-        
         }
       })
       .catch((error) => {
@@ -98,12 +95,14 @@ const DayCalendar = ({ username, today }) => {
       memo: plan.memo,
       is_completed: !plan.is_completed,
     };
-    
+
     axios
-      .put(`https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`, updatedPlan)
+      .put(
+        `https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`,
+        updatedPlan
+      )
       .then((response) => {
         if (response.status === 200) {
-         
           fetchPlans();
           setPlans((prevPlans) =>
             prevPlans.map((p) =>
@@ -118,9 +117,17 @@ const DayCalendar = ({ username, today }) => {
   };
 
   const handleDotsClick = (planId) => {
+    fetchPlans();
+    fetchCategories();
     setSelectedPlanId(planId);
     setPlanModalOpen(true);
   };
+  useEffect(() => {
+    if (!isModalOpen && !isPlanModalOpen && !isShareModalOpen) {
+      fetchPlans();
+      fetchCategories();
+    }
+  }, [isModalOpen, isPlanModalOpen, isShareModalOpen]);
 
   return (
     <C.Wrap>
@@ -132,27 +139,29 @@ const DayCalendar = ({ username, today }) => {
 
       <C.MakerWrap>
         {hours.map((hour) => {
-          const timeSlot = schedules[`${hour}:00`] || []; 
+          const timeSlot = schedules[`${hour}:00`] || [];
           return (
             <C.Hours key={hour}>
-              {timeSlot.length > 0 &&  
+              {timeSlot.length > 0 &&
                 timeSlot.map((slot, idx) => (
                   <C.HalfHours
                     key={idx}
                     style={{
-                      borderLeft: `4px solid ${slot?.category?.color || "#4076ba"}`,
-                      backgroundColor: slot.is_completed ? "#D9D9D9" : `${slot?.category?.color}80`,
-                      marginTop: idx > 0 ? '-1px' : '0',
+                      borderLeft: `4px solid ${
+                        slot?.category?.color || "#4076ba"
+                      }`,
+                      backgroundColor: slot.is_completed
+                        ? "#D9D9D9"
+                        : `${slot?.category?.color}80`,
+                      marginTop: idx > 0 ? "-1px" : "0",
                     }}
                   >
                     {slot.title}
                   </C.HalfHours>
-                ))
-              }
+                ))}
             </C.Hours>
           );
         })}
-
       </C.MakerWrap>
 
       <C.CheckWrap>
@@ -171,33 +180,41 @@ const DayCalendar = ({ username, today }) => {
                 </div>
               </C.CheckTitle>
               <C.TodoItem>
-              {plans
-  .filter((plan) => plan.category?.id === category.id) // category가 null인 경우 방지
-  .map((plan, index) => (
-    <div className="wrap" key={index}>
-      <div
-        className="box"
-        onClick={() => handleCompletionToggle(plan)}
-      >
-        {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
-      </div>
-      <div className="todo">{plan.title}</div>
-      <div
-        className="img"
-        onClick={() => handleDotsClick(plan.id)}
-      >
-        <img src={dots} alt="dots icon" />
-      </div>
-    </div>
-  ))}
-
+                {plans
+                  .filter((plan) => plan.category?.id === category.id)
+                  .map((plan, index) => (
+                    <div className="wrap" key={index}>
+                      <div
+                        className="box"
+                        onClick={() => handleCompletionToggle(plan)}
+                      >
+                        {plan.is_completed ? (
+                          <img src={Checked} alt="checked icon" />
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                      <div className="todo">{plan.title}</div>
+                      <div
+                        className="img"
+                        onClick={() => handleDotsClick(plan.id)}
+                      >
+                        <img src={dots} alt="dots icon" />
+                      </div>
+                    </div>
+                  ))}
               </C.TodoItem>
             </C.CheckBox>
           ))
         ) : (
           <></>
         )}
-        <C.Category onClick={() => setModalOpen(true)}>
+        <C.Category
+          onClick={() => {
+            setModalOpen(true);
+            fetchPlans();
+          }}
+        >
           <img src={plus} alt="plus icon" />
           <p>카테고리 추가</p>
         </C.Category>
@@ -209,7 +226,9 @@ const DayCalendar = ({ username, today }) => {
       {isPlanModalOpen && (
         <PlanModal onClose={closeModal} plan_id={selectedPlanId} />
       )}
-      {isShareModalOpen && <ShareModal onClose={closeModal} plan_id={selectedPlanId} />}
+      {isShareModalOpen && (
+        <ShareModal onClose={closeModal} plan_id={selectedPlanId} />
+      )}
     </C.Wrap>
   );
 };

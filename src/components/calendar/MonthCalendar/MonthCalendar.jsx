@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as D from "./MothCalendarStyle.js";
+import PlanModal from "../Modals/PlanModal.jsx"; 
 
 const MonthCalendar = ({ year, month }) => {
   const [plans, setPlans] = useState({});
+  const [showModal, setShowModal] = useState(false); 
   const username = localStorage.getItem("username");
 
   useEffect(() => {
@@ -44,6 +46,16 @@ const MonthCalendar = ({ year, month }) => {
     daysArray.push({ day: i, className: "gray-day" });
   }
 
+  const openModal = (day) => {
+
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+
+  };
+
   const renderPlans = (day) => {
     const dateKey = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const dayPlans = plans[dateKey]?.displayed_plans || [];
@@ -55,36 +67,48 @@ const MonthCalendar = ({ year, month }) => {
         style={{ borderLeft: `4px solid ${
           plan.category?.color || "transparent"
         }`,
-          backgroundColor: plan.is_completed ? "#D9D9D9" : `${plan.category?.color}80`, // 완료된 계획은 #f1f1f1 배경색
+          backgroundColor: plan.is_completed ? "#D9D9D9" : `${plan.category?.color}80`, 
+          color: "#000",
         }}
       >
         {plan.title}
       </div>
     ));
   };
-
   return (
-    <D.Cal>
-      <D.CalTitle>
-        <D.CalInnerText>MON</D.CalInnerText>
-        <D.CalInnerText>TUE</D.CalInnerText>
-        <D.CalInnerText>WED</D.CalInnerText>
-        <D.CalInnerText>THU</D.CalInnerText>
-        <D.CalInnerText>FRI</D.CalInnerText>
-        <D.CalInnerText className="blue-day">SAT</D.CalInnerText>
-        <D.CalInnerText className="red-day">SUN</D.CalInnerText>
-      </D.CalTitle>
-      {Array.from({ length: Math.ceil(daysArray.length / 7) }, (_, i) => (
-        <D.CalRow key={i}>
-          {daysArray.slice(i * 7, i * 7 + 7).map((dayObj, idx) => (
-            <D.CalItem key={idx} className={dayObj.className}>
-              {dayObj.day}
-              {dayObj.className === "" && renderPlans(dayObj.day)}
-            </D.CalItem>
-          ))}
-        </D.CalRow>
-      ))}
-    </D.Cal>
+    <>
+      <D.Cal>
+        <D.CalTitle>
+          <D.CalInnerText>MON</D.CalInnerText>
+          <D.CalInnerText>TUE</D.CalInnerText>
+          <D.CalInnerText>WED</D.CalInnerText>
+          <D.CalInnerText>THU</D.CalInnerText>
+          <D.CalInnerText>FRI</D.CalInnerText>
+          <D.CalInnerText className="blue-day">SAT</D.CalInnerText>
+          <D.CalInnerText className="red-day">SUN</D.CalInnerText>
+        </D.CalTitle>
+        {Array.from({ length: Math.ceil(daysArray.length / 7) }, (_, i) => (
+          <D.CalRow key={i}>
+            {daysArray.slice(i * 7, i * 7 + 7).map((dayObj, idx) => (
+              <D.CalItem
+                key={idx}
+                className={dayObj.className}
+                onClick={() => openModal(dayObj.day)} 
+              >
+                {dayObj.day}
+                {renderPlans(dayObj.day)}
+              </D.CalItem>
+            ))}
+          </D.CalRow>
+        ))}
+      </D.Cal>
+
+      {showModal &&  (
+        <PlanModal
+          onClose={closeModal} 
+        />
+      )}
+    </>
   );
 };
 
