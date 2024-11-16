@@ -57,12 +57,12 @@ export default function StatusModal({
             ))}
         </P.MembersWrapper>
 
-        <P.SubTitle>투표 참여자</P.SubTitle>
-        <P.MembersWrapper>
+        {/* <P.SubTitle>투표 참여자</P.SubTitle> */}
+        {/* <P.MembersWrapper>
             {responseData.promise_options.vote_members.map((member, index) => (
                 <P.MemberDiv key={index}>{member.nickname}</P.MemberDiv>
             ))}
-        </P.MembersWrapper>
+        </P.MembersWrapper> */}
 
         <P.HorizontalDiv>
             <P.SubTitle>약속시간 투표현황</P.SubTitle>

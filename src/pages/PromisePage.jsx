@@ -39,20 +39,20 @@ export default function PromisePage({ username }) {
     return Math.max(0, 24 - Math.floor(elapsedTime));
   };
 
-  // 약속 데이터 API 호출
-  const fetchPromises = async () => {
-    try {
-      const response = await GET(`promises/promise/${username}/${username}/`);
-      if (response.data && response.data.result) {
-        const newPromises = Array.isArray(response.data.result)
-          ? response.data.result
-          : [response.data.result];
-        setPromises(newPromises); // 각 약속 데이터를 promises에 저장
-      }
-    } catch (error) {
-      console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
-    }
-  };
+  // // 약속 데이터 API 호출
+  // const fetchPromises = async () => {
+  //   try {
+  //     const response = await GET(`promises/promise/${username}/${username}/`);
+  //     if (response.data && response.data.result) {
+  //       const newPromises = Array.isArray(response.data.result)
+  //         ? response.data.result
+  //         : [response.data.result];
+  //       setPromises(newPromises); // 각 약속 데이터를 promises에 저장
+  //     }
+  //   } catch (error) {
+  //     console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
+  //   }
+  // };
 
   // 모달 열기 함수
   const openItemModal = (promise) => {
@@ -66,12 +66,24 @@ export default function PromisePage({ username }) {
     setIsModalOpen(false); // 모달 닫기
   };
 
+  // 약속 데이터를 추가할 때 중복된 title을 제거하는 함수
+  const addPromise = (newPromise) => {
+    setPromises((prevPromises) => {
+      // 새로운 배열을 생성하여 중복 제거
+      const filteredPromises = prevPromises.filter(
+        (promise) => promise.title !== newPromise.title
+      );
+      return [...filteredPromises, newPromise];
+    });
+  };
+
   useEffect(() => {
     let isMounted = true; // 컴포넌트가 언마운트되었는지 체크
     const fetchPromises = async () => {
       try {
         const response = await GET(`promises/promise/${username}/${username}/`);
         if (response.data && response.data.result && isMounted) {
+
           const newPromises = Array.isArray(response.data.result)
             ? response.data.result
             : [response.data.result];
@@ -88,7 +100,7 @@ export default function PromisePage({ username }) {
     return () => {
       isMounted = false; // 컴포넌트 언마운트 시 플래그 설정
     };
-  }, [username]);
+  });
 
   console.log("promises: ", promises);
 
@@ -126,8 +138,6 @@ export default function PromisePage({ username }) {
             members: response.data.result.members || members,
           };
 
-          // 새로운 약속 데이터를 기존 상태에 추가
-          setPromises((prevPromises) => [...prevPromises, newPromise]);
 
           closeModal();
           console.log("새로운 약속이 추가되었습니다:", newPromise);
@@ -151,7 +161,7 @@ export default function PromisePage({ username }) {
         const newPromise = {
           id: response.data.result.id,
           title: response.data.result.title || promiseName,
-          start: response.data.result.start,
+          // start: response.data.result.start,
           end: response.data.result.end,
           length: response.data.result.length,
           status: "voted",
@@ -179,7 +189,6 @@ export default function PromisePage({ username }) {
     setMembers([]); // 멤버 초기화
     openNextModal("exploreModal"); // 탐색 모달 열기
   };
-
   return (
     <>
       <P.Wrapper>
@@ -194,10 +203,10 @@ export default function PromisePage({ username }) {
                 username={promise.user.nickname}
                 promiseName={promise.title}
                 members={promise.members}
-                datetime={promise.promise_options.start}
+                // datetime={promise.promise_options.start}
                 status={promise.status}
                 memo={promise.memos}
-                onClick={() => openItemModal(promise)}
+                openItemModal={() => openItemModal(promise)}
               />
             ))
           ) : (
