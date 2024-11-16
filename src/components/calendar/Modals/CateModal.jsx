@@ -69,8 +69,6 @@ const CateModal = ({ onClose, categoryId = null }) => {
           },
         });
       }
-
-      // console.log(response.data);
       onClose();
     } catch (error) {
       console.error("카테고리 저장 실패:", error);
