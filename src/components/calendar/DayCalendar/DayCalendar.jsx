@@ -6,7 +6,7 @@ import dots from "assets/calendar/dots.svg";
 import CateModal from "../Modals/CateModal";
 import PlanModal from "../Modals/PlanModal";
 import ShareModal from "../Modals/ShareModal";
-import Checked from "assets/calendar/checked.png";
+import Checked from "assets/calendar/checked.svg";
 
 const DayCalendar = ({ username, today }) => {
   const [isModalOpen, setModalOpen] = useState(false);
