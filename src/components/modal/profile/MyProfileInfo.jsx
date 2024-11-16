@@ -24,7 +24,7 @@ export default function MyProfileInfo({ userProfileData, setToggleModal }) {
 
   const fetchModifyMyProfile = async () => {
     const result = await patchMyProfile(username, myProfileData);
-    console.log("프로필수정 api: ", result); //
+    // console.log("프로필수정 api: ", result); //
   };
 
   useEffect(() => {
@@ -54,11 +54,7 @@ export default function MyProfileInfo({ userProfileData, setToggleModal }) {
 
       <A.VerticalContainer2>
         <A.InputTitle>한 줄 소개</A.InputTitle>
-        <A.InputBox2
-          value={inputIntro}
-          onChange={(e) => setInputIntro(e.target.value)}
-          placeholder={"플랜팔 짱"}
-        />
+        <A.InputBox2 value={inputIntro} onChange={(e) => setInputIntro(e.target.value)} placeholder={"플랜팔 짱"} />
       </A.VerticalContainer2>
 
       <A.ModalHorizontalButtonContainer onClick={handleSubmitButton}>

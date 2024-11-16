@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as W from "./WeekCalendarStyle.js";
 import axios from "axios";
-import PlanModal from "../Modals/PlanModal"; 
+import PlanModal from "../Modals/PlanModal";
 
 const WeekCalendar = ({ username, currentDate }) => {
   const [plans, setPlans] = useState({});
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -17,7 +17,6 @@ const WeekCalendar = ({ username, currentDate }) => {
       .then((response) => {
         setPlans(response.data.result || {});
         setLoading(false);
-  
       })
       .catch((error) => {
         console.error(error);
@@ -25,10 +24,7 @@ const WeekCalendar = ({ username, currentDate }) => {
       });
   }, [username, currentDate]);
 
-  const hours = Array.from(
-    { length: 24 },
-    (_, i) => `${String(i).padStart(2, "0")}:00`
-  );
+  const hours = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, "0")}:00`);
 
   const openModal = () => {
     setShowModal(true);
@@ -36,7 +32,6 @@ const WeekCalendar = ({ username, currentDate }) => {
 
   const closeModal = () => {
     setShowModal(false);
-
   };
 
   return (
@@ -58,26 +53,10 @@ const WeekCalendar = ({ username, currentDate }) => {
             return (
               <W.ColWrap key={dayIndex}>
                 <W.ColTitle>
-                  <W.TitleInner
-                    className={
-                      day === "SAT"
-                        ? "blue-day"
-                        : day === "SUN"
-                        ? "red-day"
-                        : ""
-                    }
-                  >
+                  <W.TitleInner className={day === "SAT" ? "blue-day" : day === "SUN" ? "red-day" : ""}>
                     {day}
                   </W.TitleInner>
-                  <W.TitleInner
-                    className={
-                      day === "SAT"
-                        ? "blue-day"
-                        : day === "SUN"
-                        ? "red-day"
-                        : ""
-                    }
-                  >
+                  <W.TitleInner className={day === "SAT" ? "blue-day" : day === "SUN" ? "red-day" : ""}>
                     {date.getDate()}
                   </W.TitleInner>
                 </W.ColTitle>
@@ -85,8 +64,7 @@ const WeekCalendar = ({ username, currentDate }) => {
                   {Array.from({ length: 24 }, (_, hourIndex) => {
                     const plansForHour = dailyPlans.filter(
                       (plan) =>
-                        new Date(plan.start).getHours() <= hourIndex &&
-                        new Date(plan.end).getHours() > hourIndex
+                        new Date(plan.start).getHours() <= hourIndex && new Date(plan.end).getHours() > hourIndex
                     );
 
                     return (
@@ -103,9 +81,7 @@ const WeekCalendar = ({ username, currentDate }) => {
                                 : plan.category?.color
                                 ? `${plan.category?.color}80`
                                 : "transparent",
-                              borderLeft: `4px solid ${
-                                plan.category?.color || "transparent"
-                              }`,
+                              borderLeft: `4px solid ${plan.category?.color || "transparent"}`,
                             }}
                           >
                             {plan.title}
@@ -121,11 +97,7 @@ const WeekCalendar = ({ username, currentDate }) => {
         </W.WeekWrap>
       </W.Wrap>
 
-      {showModal &&  (
-        <PlanModal
-          onClose={closeModal} 
-        />
-      )}
+      {showModal && <PlanModal onClose={closeModal} />}
     </>
   );
 };

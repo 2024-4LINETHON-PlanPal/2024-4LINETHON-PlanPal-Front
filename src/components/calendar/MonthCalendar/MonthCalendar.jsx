@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as D from "./MothCalendarStyle.js";
-import PlanModal from "../Modals/PlanModal.jsx"; 
+import PlanModal from "../Modals/PlanModal.jsx";
 
 const MonthCalendar = ({ year, month }) => {
   const [plans, setPlans] = useState({});
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const username = localStorage.getItem("username");
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const MonthCalendar = ({ year, month }) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          setPlans(response.data.result || {});;
+          setPlans(response.data.result || {});
         }
       })
       .catch((error) => {
@@ -46,27 +46,24 @@ const MonthCalendar = ({ year, month }) => {
   }
 
   const openModal = (day) => {
-
     setShowModal(true);
   };
 
   const closeModal = () => {
     setShowModal(false);
-
   };
 
   const renderPlans = (day) => {
     const dateKey = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const dayPlans = plans[dateKey]?.displayed_plans || [];
-    
+
     return dayPlans.map((plan, index) => (
       <div
         key={index}
         className="plan"
-        style={{ borderLeft: `4px solid ${
-          plan.category?.color || "transparent"
-        }`,
-          backgroundColor: plan.is_completed ? "#D9D9D9" : `${plan.category?.color}80`, 
+        style={{
+          borderLeft: `4px solid ${plan.category?.color || "transparent"}`,
+          backgroundColor: plan.is_completed ? "#D9D9D9" : `${plan.category?.color}80`,
           color: "#000",
         }}
       >
@@ -89,11 +86,7 @@ const MonthCalendar = ({ year, month }) => {
         {Array.from({ length: Math.ceil(daysArray.length / 7) }, (_, i) => (
           <D.CalRow key={i}>
             {daysArray.slice(i * 7, i * 7 + 7).map((dayObj, idx) => (
-              <D.CalItem
-                key={idx}
-                className={dayObj.className}
-                onClick={() => openModal(dayObj.day)} 
-              >
+              <D.CalItem key={idx} className={dayObj.className} onClick={() => openModal(dayObj.day)}>
                 {dayObj.day}
                 {renderPlans(dayObj.day)}
               </D.CalItem>
@@ -102,11 +95,7 @@ const MonthCalendar = ({ year, month }) => {
         ))}
       </D.Cal>
 
-      {showModal &&  (
-        <PlanModal
-          onClose={closeModal} 
-        />
-      )}
+      {showModal && <PlanModal onClose={closeModal} />}
     </>
   );
 };

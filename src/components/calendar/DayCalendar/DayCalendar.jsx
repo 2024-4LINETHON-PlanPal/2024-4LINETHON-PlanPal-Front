@@ -31,9 +31,7 @@ const DayCalendar = ({ username, today }) => {
     setSelectedPlanId(null);
   };
 
-  const hours = Array.from({ length: 25 }, (_, i) =>
-    String(i).padStart(2, "0")
-  );
+  const hours = Array.from({ length: 25 }, (_, i) => String(i).padStart(2, "0"));
 
   const fetchPlans = () => {
     axios
@@ -41,15 +39,12 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setSchedules(response.data.result.time_slots || {});
-
-
         }
       })
       .catch((error) => {
         console.error(error);
       });
   };
-
 
   useEffect(() => {
     axios
@@ -58,7 +53,6 @@ const DayCalendar = ({ username, today }) => {
         if (response.status === 200) {
           fetchPlans();
           setCategories(response.data.result);
-
         }
       })
       .catch((error) => {
@@ -72,8 +66,6 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result);
-    
-
         }
       })
       .catch((error) => {
@@ -102,9 +94,7 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans((prevPlans) =>
-            prevPlans.map((p) =>
-              p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p
-            )
+            prevPlans.map((p) => (p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p))
           );
         }
       })
@@ -138,17 +128,15 @@ const DayCalendar = ({ username, today }) => {
                     style={{
                       borderLeft: `4px solid ${slot?.category?.color || "#4076ba"}`,
                       backgroundColor: slot.is_completed ? "#D9D9D9" : `${slot?.category?.color}80`,
-                      marginTop: idx > 0 ? '-1px' : '0',
+                      marginTop: idx > 0 ? "-1px" : "0",
                     }}
                   >
                     {slot.title}
                   </C.HalfHours>
-                ))
-              }
+                ))}
             </C.Hours>
           );
         })}
-
       </C.MakerWrap>
 
       <C.CheckWrap>
@@ -171,22 +159,15 @@ const DayCalendar = ({ username, today }) => {
                   .filter((plan) => plan.category.id === category.id)
                   .map((plan, index) => (
                     <div className="wrap" key={index}>
-                      <div
-                        className="box"
-                        onClick={() => handleCompletionToggle(plan)}
-                      >
+                      <div className="box" onClick={() => handleCompletionToggle(plan)}>
                         {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
                       </div>
                       <div className="todo">{plan.title}</div>
-                      <div
-                        className="img"
-                        onClick={() => handleDotsClick(plan.id)}
-                      >
+                      <div className="img" onClick={() => handleDotsClick(plan.id)}>
                         <img src={dots} alt="dots icon" />
                       </div>
                     </div>
                   ))}
-              
               </C.TodoItem>
             </C.CheckBox>
           ))
@@ -199,12 +180,8 @@ const DayCalendar = ({ username, today }) => {
         </C.Category>
       </C.CheckWrap>
 
-      {isModalOpen && (
-        <CateModal onClose={closeModal} categoryId={selectedCategoryId} />
-      )}
-      {isPlanModalOpen && (
-        <PlanModal onClose={closeModal} plan_id={selectedPlanId} />
-      )}
+      {isModalOpen && <CateModal onClose={closeModal} categoryId={selectedCategoryId} />}
+      {isPlanModalOpen && <PlanModal onClose={closeModal} plan_id={selectedPlanId} />}
       {isShareModalOpen && <ShareModal onClose={closeModal} plan_id={selectedPlanId} />}
     </C.Wrap>
   );

@@ -26,7 +26,7 @@ export default function AddFriend() {
   const fetchAddFriend = async (e) => {
     e.preventDefault();
     const result = await postAddFriend(myUsername, targetUsername);
-    console.log("친구추가 api: ", result);
+    // console.log("친구추가 api: ", result);
     // 친구를 추가했습니다: 201
     // 이미 친구: 200
     // 없는 아이디: 404

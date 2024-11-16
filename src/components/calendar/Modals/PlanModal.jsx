@@ -11,7 +11,7 @@ const generateTimeOptions = () => {
   const times = [];
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
-      const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const time = `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
       times.push(time);
     }
   }
@@ -48,15 +48,14 @@ const PlanModal = ({ onClose, plan_id }) => {
     onClose();
   };
   const handleFriendSelect = (event) => {
-    const selectedFriend = friends.find(friend => friend.id === parseInt(event.target.value));
+    const selectedFriend = friends.find((friend) => friend.id === parseInt(event.target.value));
     if (selectedFriend && !selectedFriends.includes(selectedFriend)) {
       setSelectedFriends([...selectedFriends, selectedFriend]);
     }
   };
   const handleRemoveFriend = (friendId) => {
-    setSelectedFriends(selectedFriends.filter(friend => friend.id !== friendId));
+    setSelectedFriends(selectedFriends.filter((friend) => friend.id !== friendId));
   };
-
 
   useEffect(() => {
     axios
@@ -64,7 +63,6 @@ const PlanModal = ({ onClose, plan_id }) => {
       .then((response) => {
         if (response.status === 200) {
           setItems(response.data.result);
-
         }
       })
       .catch((error) => console.error("카테고리 조회 실패:", error));
@@ -85,20 +83,20 @@ const PlanModal = ({ onClose, plan_id }) => {
             setEndTime(planData.end.split("T")[1].slice(0, 5));
             setMemo(planData.memo || "");
             setIsEditing(true);
-  
 
             if (planData.participant) {
-              setSelectedFriends(planData.participant.map(participant => ({
-                id: participant.id,
-                nickname: participant.nickname
-              })));
+              setSelectedFriends(
+                planData.participant.map((participant) => ({
+                  id: participant.id,
+                  nickname: participant.nickname,
+                }))
+              );
             }
           }
         })
         .catch((error) => console.error("플랜 조회 실패:", error));
     }
   }, [plan_id, username]);
-  
 
   useEffect(() => {
     axios
@@ -125,7 +123,7 @@ const PlanModal = ({ onClose, plan_id }) => {
       memo,
       is_completed: false,
     };
-    console.log(payload);
+    // console.log(payload);
 
     const request = plan_id
       ? axios.put(`https://planpal.kro.kr/plan/plans/${username}/${plan_id}/`, payload)
@@ -134,7 +132,6 @@ const PlanModal = ({ onClose, plan_id }) => {
     request
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
-
           alert("플랜이 성공적으로 저장되었습니다!");
           onClose();
         }
@@ -207,10 +204,7 @@ const PlanModal = ({ onClose, plan_id }) => {
                 {isOpen && (
                   <P.DropdownList>
                     {items.map((item) => (
-                      <P.ListItem
-                        key={item.id}
-                        onClick={() => handleItemClick(item)}
-                      >
+                      <P.ListItem key={item.id} onClick={() => handleItemClick(item)}>
                         {item.title}
                       </P.ListItem>
                     ))}
@@ -243,11 +237,7 @@ const PlanModal = ({ onClose, plan_id }) => {
               </P.DateAndTimeWrapper>
 
               <P.DateAndTimeWrapper>
-                <P.OvalInput
-                  as="select"
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
-                >
+                <P.OvalInput as="select" value={startTime} onChange={(e) => setStartTime(e.target.value)}>
                   {timeOptions.map((time) => (
                     <option key={time} value={time}>
                       {time}
@@ -255,11 +245,7 @@ const PlanModal = ({ onClose, plan_id }) => {
                   ))}
                 </P.OvalInput>
                 <img src={DashIcon} alt="dash" />
-                <P.OvalInput
-                  as="select"
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                >
+                <P.OvalInput as="select" value={endTime} onChange={(e) => setEndTime(e.target.value)}>
                   {timeOptions.map((time) => (
                     <option key={time} value={time}>
                       {time}
@@ -291,13 +277,8 @@ const PlanModal = ({ onClose, plan_id }) => {
                 ))}
               </P.PeopleWrap>
 
-
               <div className="title">메모</div>
-              <P.LongTextfield
-                type="text"
-                value={memo}
-                onChange={(e) => setMemo(e.target.value)}
-              ></P.LongTextfield>
+              <P.LongTextfield type="text" value={memo} onChange={(e) => setMemo(e.target.value)}></P.LongTextfield>
             </P.Selection>
 
             <P.ButtonContainer>
@@ -315,7 +296,6 @@ const PlanModal = ({ onClose, plan_id }) => {
               <P.SaveBtn onClick={handleSaveClick} color="#FF6A3B">
                 저장
               </P.SaveBtn>
-
             </P.ButtonContainer>
           </P.ModalWrap>
         </P.Background>

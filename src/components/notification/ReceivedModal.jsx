@@ -18,20 +18,18 @@ const ReceivedModal = ({ onClose, data }) => {
 
     setLoading(true);
     setError(null);
-    console.log(username, data.id);
+    // console.log(username, data.id);
     axios
-      .post(
-        `https://planpal.kro.kr/notifications/reply/${username}/${data.brag_id}/`,
-        { brag: data.brag_id, memo: memo }
-       
-      )
+      .post(`https://planpal.kro.kr/notifications/reply/${username}/${data.brag_id}/`, {
+        brag: data.brag_id,
+        memo: memo,
+      })
       .then((response) => {
         alert("메모를 성공적으로 보냈습니다.");
         onClose();
       })
       .catch((error) => {
-          console.error(error);
-
+        console.error(error);
       })
       .finally(() => {
         setLoading(false);
@@ -62,8 +60,6 @@ const ReceivedModal = ({ onClose, data }) => {
                 placeholder="친구에게 보낼 메모를 입력하세요."
               />
             </R.Selection>
-
-
 
             <R.ShareBtn onClick={handleShare} disabled={loading}>
               {loading ? "전송 중..." : "떠벌리기"}
