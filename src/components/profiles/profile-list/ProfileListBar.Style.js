@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import color from "styles/color";
 import font from "styles/font";
 
 export const BarContainer = styled.div`
@@ -79,6 +80,12 @@ export const ProfileName = styled.p`
   white-space: nowrap; /* 한 줄로 표시 */
   overflow: hidden; /* 넘치는 부분 숨기기 */
   text-overflow: ellipsis; /* 말줄임표 표시 */
+`;
+
+// 친구 목록 없음
+export const NoFriendText = styled.p`
+  ${() => font.regular_12};
+  color: ${color.grayscale_bc};
 `;
 
 // 플러스 버튼
