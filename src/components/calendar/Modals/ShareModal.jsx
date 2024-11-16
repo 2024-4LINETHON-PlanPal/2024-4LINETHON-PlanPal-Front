@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as S from './ShareModalStyle.js';
+import * as S from "./ShareModalStyle.js";
 import x from "assets/calendar/x.svg";
 import serch from "assets/calendar/serch.svg";
 import axios from "axios";
@@ -34,14 +34,14 @@ const ShareModal = ({ onClose, plan_id }) => {
   }, [username, plan_id]);
 
   const handleFriendSelect = (event) => {
-    const selectedFriend = friends.find(friend => friend.id === parseInt(event.target.value));
+    const selectedFriend = friends.find((friend) => friend.id === parseInt(event.target.value));
     if (selectedFriend && !selectedFriends.includes(selectedFriend)) {
       setSelectedFriends([...selectedFriends, selectedFriend]);
     }
   };
 
   const handleRemoveFriend = (friendId) => {
-    setSelectedFriends(selectedFriends.filter(friend => friend.id !== friendId));
+    setSelectedFriends(selectedFriends.filter((friend) => friend.id !== friendId));
   };
   const handleShareClick = () => {
     if (!plan.title || selectedFriends.length === 0 || memo.trim() === "") {
@@ -50,21 +50,17 @@ const ShareModal = ({ onClose, plan_id }) => {
     }
 
     const payload = {
-      plan : plan,
-      recipient: selectedFriends.map(friend => friend.id),
-      memo: memo
+      plan: plan,
+      recipient: selectedFriends.map((friend) => friend.id),
+      memo: memo,
     };
-    console.log(payload);
+    // console.log(payload);
     axios
-      .post(
-        `https://planpal.kro.kr/notifications/brag/${username}/${plan_id}/`,
-        payload,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      .post(`https://planpal.kro.kr/notifications/brag/${username}/${plan_id}/`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => {
         if (response.status === 200 || response.status === 201) {
           alert("떠벌리기 요청이 성공적으로 전송되었습니다!");
@@ -73,7 +69,6 @@ const ShareModal = ({ onClose, plan_id }) => {
       })
       .catch((error) => console.error("떠벌리기 요청 실패:", error));
   };
-
 
   return (
     <S.Background>

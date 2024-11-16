@@ -29,12 +29,9 @@ const DayCalendar = ({ username, today }) => {
     setShareModalOpen(false);
     setSelectedCategoryId(null);
     setSelectedPlanId(null);
-    fetchPlans();
   };
 
-  const hours = Array.from({ length: 25 }, (_, i) =>
-    String(i).padStart(2, "0")
-  );
+  const hours = Array.from({ length: 25 }, (_, i) => String(i).padStart(2, "0"));
 
   const fetchPlans = () => {
     axios
@@ -42,21 +39,7 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setSchedules(response.data.result.time_slots || {});
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const fetchCategories = () => {
-    axios
-      .get(`https://planpal.kro.kr/plan/categories/${username}/`)
-      .then((response) => {
-        if (response.status === 200) {
-          setCategories(response.data.result);
-          console.log(response.data.message);
+          // console.log(response.data.message);
         }
       })
       .catch((error) => {
@@ -66,13 +49,27 @@ const DayCalendar = ({ username, today }) => {
 
   useEffect(() => {
     axios
+      .get(`https://planpal.kro.kr/plan/categories/${username}/`)
+      .then((response) => {
+        if (response.status === 200) {
+          fetchPlans();
+          setCategories(response.data.result);
+          // console.log(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [username, today]);
+
+  useEffect(() => {
+    axios
       .get(`https://planpal.kro.kr/plan/plans/${username}/`)
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result);
-          fetchCategories();
-          console.log(response.data.message);
-          console.log(response.data.result);
+          // console.log(response.data.message);
+          // console.log(response.data.result);
         }
       })
       .catch((error) => {
@@ -97,17 +94,12 @@ const DayCalendar = ({ username, today }) => {
     };
 
     axios
-      .put(
-        `https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`,
-        updatedPlan
-      )
+      .put(`https://planpal.kro.kr/plan/plans/${username}/${plan.id}/`, updatedPlan)
       .then((response) => {
         if (response.status === 200) {
           fetchPlans();
           setPlans((prevPlans) =>
-            prevPlans.map((p) =>
-              p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p
-            )
+            prevPlans.map((p) => (p.id === plan.id ? { ...p, is_completed: !p.is_completed } : p))
           );
         }
       })
@@ -117,17 +109,9 @@ const DayCalendar = ({ username, today }) => {
   };
 
   const handleDotsClick = (planId) => {
-    fetchPlans();
-    fetchCategories();
     setSelectedPlanId(planId);
     setPlanModalOpen(true);
   };
-  useEffect(() => {
-    if (!isModalOpen && !isPlanModalOpen && !isShareModalOpen) {
-      fetchPlans();
-      fetchCategories();
-    }
-  }, [isModalOpen, isPlanModalOpen, isShareModalOpen]);
 
   return (
     <C.Wrap>
@@ -147,12 +131,8 @@ const DayCalendar = ({ username, today }) => {
                   <C.HalfHours
                     key={idx}
                     style={{
-                      borderLeft: `4px solid ${
-                        slot?.category?.color || "#4076ba"
-                      }`,
-                      backgroundColor: slot.is_completed
-                        ? "#D9D9D9"
-                        : `${slot?.category?.color}80`,
+                      borderLeft: `4px solid ${slot?.category?.color || "#4076ba"}`,
+                      backgroundColor: slot.is_completed ? "#D9D9D9" : `${slot?.category?.color}80`,
                       marginTop: idx > 0 ? "-1px" : "0",
                     }}
                   >
@@ -181,24 +161,27 @@ const DayCalendar = ({ username, today }) => {
               </C.CheckTitle>
               <C.TodoItem>
                 {plans
+                  .filter((plan) => plan.category.id === category.id)
+                  .map((plan, index) => (
+                    <div className="wrap" key={index}>
+                      <div className="box" onClick={() => handleCompletionToggle(plan)}>
+                        {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
+                      </div>
+                      <div className="todo">{plan.title}</div>
+                      <div className="img" onClick={() => handleDotsClick(plan.id)}>
+                        <img src={dots} alt="dots icon" />
+                      </div>
+                    </div>
+                  ))}
+                {plans
                   .filter((plan) => plan.category?.id === category.id)
                   .map((plan, index) => (
                     <div className="wrap" key={index}>
-                      <div
-                        className="box"
-                        onClick={() => handleCompletionToggle(plan)}
-                      >
-                        {plan.is_completed ? (
-                          <img src={Checked} alt="checked icon" />
-                        ) : (
-                          <></>
-                        )}
+                      <div className="box" onClick={() => handleCompletionToggle(plan)}>
+                        {plan.is_completed ? <img src={Checked} alt="checked icon" /> : <></>}
                       </div>
                       <div className="todo">{plan.title}</div>
-                      <div
-                        className="img"
-                        onClick={() => handleDotsClick(plan.id)}
-                      >
+                      <div className="img" onClick={() => handleDotsClick(plan.id)}>
                         <img src={dots} alt="dots icon" />
                       </div>
                     </div>
@@ -209,26 +192,15 @@ const DayCalendar = ({ username, today }) => {
         ) : (
           <></>
         )}
-        <C.Category
-          onClick={() => {
-            setModalOpen(true);
-            fetchPlans();
-          }}
-        >
+        <C.Category onClick={() => setModalOpen(true)}>
           <img src={plus} alt="plus icon" />
           <p>카테고리 추가</p>
         </C.Category>
       </C.CheckWrap>
 
-      {isModalOpen && (
-        <CateModal onClose={closeModal} categoryId={selectedCategoryId} />
-      )}
-      {isPlanModalOpen && (
-        <PlanModal onClose={closeModal} plan_id={selectedPlanId} />
-      )}
-      {isShareModalOpen && (
-        <ShareModal onClose={closeModal} plan_id={selectedPlanId} />
-      )}
+      {isModalOpen && <CateModal onClose={closeModal} categoryId={selectedCategoryId} />}
+      {isPlanModalOpen && <PlanModal onClose={closeModal} plan_id={selectedPlanId} />}
+      {isShareModalOpen && <ShareModal onClose={closeModal} plan_id={selectedPlanId} />}
     </C.Wrap>
   );
 };

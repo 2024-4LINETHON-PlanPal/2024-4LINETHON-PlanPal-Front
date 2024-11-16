@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; 
+import axios from "axios";
 import x from "assets/calendar/x.svg";
 import round from "assets/calendar/round.svg";
 import * as C from "./CateModalStyle.js";
 
-const CateModal = ({ onClose, categoryId = null }) => { 
+const CateModal = ({ onClose, categoryId = null }) => {
   const [isPublic, setIsPublic] = useState(true);
   const [selectedColor, setSelectedColor] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -15,7 +15,6 @@ const CateModal = ({ onClose, categoryId = null }) => {
   };
 
   const colors = ["#FF6A3B", "#4076BA", "#C04277", "#16857A", "#A97C50"];
-
 
   useEffect(() => {
     if (categoryId !== null) {
@@ -38,59 +37,49 @@ const CateModal = ({ onClose, categoryId = null }) => {
       alert("카테고리 이름을 입력해주세요.");
       return;
     }
-  
+
     if (!selectedColor) {
       alert("색상을 선택해주세요.");
       return;
     }
-  
+
     if (categoryName.trim() === "약속") {
       alert("카테고리 이름에 '약속'을 사용할 수 없습니다.");
       return;
     }
-  
+
     const requestData = {
       title: categoryName,
       color: selectedColor,
       is_public: isPublic,
     };
-  
+
     try {
       let response;
       if (categoryId) {
-        response = await axios.put(
-          `https://planpal.kro.kr/plan/categories/${username}/${categoryId}/`,
-          requestData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        response = await axios.put(`https://planpal.kro.kr/plan/categories/${username}/${categoryId}/`, requestData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
-        response = await axios.post(
-          `https://planpal.kro.kr/plan/categories/${username}/`,
-          requestData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        response = await axios.post(`https://planpal.kro.kr/plan/categories/${username}/`, requestData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       }
-  
-      console.log(response.data);
-      onClose(); 
+
+      // console.log(response.data);
+      onClose();
     } catch (error) {
       console.error("카테고리 저장 실패:", error);
     }
   };
-  
+
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(
-        `https://planpal.kro.kr/plan/categories/${username}/${categoryId}/`
-      );
+      const response = await axios.delete(`https://planpal.kro.kr/plan/categories/${username}/${categoryId}/`);
       alert("카테고리가 삭제되었습니다.");
       onClose();
     } catch (error) {
@@ -99,7 +88,7 @@ const CateModal = ({ onClose, categoryId = null }) => {
   };
 
   return (
-    <C.Background >
+    <C.Background>
       <C.ModalWrap>
         <C.Title>
           <div className="text">카테고리 정보</div>
@@ -127,10 +116,7 @@ const CateModal = ({ onClose, categoryId = null }) => {
                   className="color"
                   style={{
                     backgroundColor: color,
-                    border:
-                      selectedColor === color
-                        ? "1px solid black"
-                        : "1px solid transparent",
+                    border: selectedColor === color ? "1px solid black" : "1px solid transparent",
                   }}
                   onClick={() => setSelectedColor(color)}
                 />
@@ -155,13 +141,11 @@ const CateModal = ({ onClose, categoryId = null }) => {
           </C.Public>
         </C.Selection>
         <C.ButtonContainer>
-        {categoryId ? (
-
+          {categoryId ? (
             <C.Button className="remove" onClick={handleDelete}>
               삭제하기
             </C.Button>
           ) : (
-
             <C.Button className="save" onClick={handleSave}>
               저장하기
             </C.Button>
