@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import NotiComp from "./NotiComp";
 import ReceivedModal from "./ReceivedModal";
 import * as A from "./Notification.Style";
@@ -7,6 +8,9 @@ import { getNotiPromise } from "apis/getNotiPromise";
 import { getNotiFriend } from "apis/getNotiFriend";
 
 export default function Notification() {
+  // const location = useLocation();
+  const navigate = useNavigate();
+  // const state = location.state;
   const [isSelected, setIsSelected] = useState(1);
   const [notiData1, setNotiData1] = useState({ doesDataExist: false });
   const [notiData2, setNotiData2] = useState({ doesDataExist: false });
@@ -52,10 +56,20 @@ export default function Notification() {
 
   const handleModalOpen = (data) => {
     console.log(data);
-    if (data.friend_nickname && data.plan_title) {
+    if (data.notification_type === "brag") {
+      // 친구 응원 모달
       setSelectedData(data);
       setShowReceivedModal(true);
-    } else {
+    } else if (data.notification_type === "add_friend") {
+      // 친구 신청 받기 모달
+      localStorage.setItem("currentPage", "home");
+      navigate("/home", {
+        state: {
+          toggleAcceptFriendModal: true,
+          targetUsername: data.friend_username,
+          targetNickname: data.friend_nickname,
+        },
+      });
     }
   };
 
@@ -107,7 +121,7 @@ export default function Notification() {
           notiData3.messageData.map((data) => (
             <NotiComp
               key={data.id}
-              notiType="friend"
+              notiType={data.notification_type === "brag" ? "brag" : "friend"}
               titleText={data.message.split("\n")[0]}
               subText={data.message.split("\n")[1]}
               onClick={() => handleModalOpen(data)}
@@ -122,9 +136,7 @@ export default function Notification() {
         <A.BottomMarginBox />
       </A.BottomMarginBox>
 
-      {showReceivedModal && (
-        <ReceivedModal data={selectedData} onClose={() => setShowReceivedModal(false)} />
-      )}
+      {showReceivedModal && <ReceivedModal data={selectedData} onClose={() => setShowReceivedModal(false)} />}
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as S from "components/promise/promise-item/PromiseItemStyle";
+import * as S from "components/promise/promise-main/PromiseItemStyle";
 import { GET, POST, DELETE } from "apis/api";
 
 export function PromiseItemBase({
@@ -22,8 +22,6 @@ export function PromiseItemBase({
 }) {
   const [isStarred, setIsStarred] = useState(false);
 
-  console.log(promiseId);
-
 
   useEffect(() => {
     async function fetchStarStatus() {
@@ -34,7 +32,7 @@ export function PromiseItemBase({
         console.error("Error fetching star status:", error);
       }
     }
-    fetchStarStatus();
+    // fetchStarStatus();
   }, [username, promiseId]);
 
   const handleStarClick = async (e) => {

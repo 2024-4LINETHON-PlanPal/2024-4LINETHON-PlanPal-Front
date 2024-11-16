@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-dom";
 
 import NotFound from "pages/NotFound";
 import ProtectedRoute from "layouts/ProtectedRoute";

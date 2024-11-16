@@ -45,10 +45,7 @@ export default function AddFriend() {
       <A.InputTitle>친구 추가하기</A.InputTitle>
       <A.InputForm onSubmit={fetchAddFriend}>
         <label>
-          <A.InputBox
-            onChange={(e) => setTargetUsername(e.target.value)}
-            placeholder="친구의 아이디를 입력해주세요"
-          />
+          <A.InputBox onChange={(e) => setTargetUsername(e.target.value)} placeholder="친구의 아이디를 입력해주세요" />
         </label>
         {/* <A.SubmitButton type="submit">
             <A.ButtonImg src={SearchPng} alt="검색" />

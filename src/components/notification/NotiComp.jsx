@@ -9,7 +9,7 @@ import Promise3PNG from "assets/notification/promise-icon3-24x24.png";
 import Friend2PNG from "assets/notification/friend-icon2-24x24.png";
 import Friend3PNG from "assets/notification/friend-icon3-24x24.png";
 
-export default function NotiComp({ titleText, subText, notiType , onClick}) {
+export default function NotiComp({ titleText, subText, notiType, onClick }) {
   return (
     <A.NotiCompContainer onClick={onClick}>
       <A.ImgContainer>
@@ -17,6 +17,8 @@ export default function NotiComp({ titleText, subText, notiType , onClick}) {
           <A.Img src={Plan1PNG} alt="icon" />
         ) : notiType === "promise" ? (
           <A.Img src={Promise1PNG} alt="icon" />
+        ) : notiType === "brag" ? (
+          <A.Img src={Friend3PNG} alt="icon" />
         ) : (
           <A.Img src={Friend1PNG} alt="icon" />
         )}
@@ -25,8 +27,6 @@ export default function NotiComp({ titleText, subText, notiType , onClick}) {
       <A.TextContainer>
         <A.NotiTitleText>{titleText}</A.NotiTitleText>
         <A.NotiInfoText>{subText}</A.NotiInfoText>
-        {/* <A.NotiTitleText>경영정보시스템 수업 마감시간까지 1시간 남았습니다.</A.NotiTitleText>
-        <A.NotiInfoText>잊지 말고 계획을 실행해주세요 !</A.NotiInfoText> */}
       </A.TextContainer>
     </A.NotiCompContainer>
   );
