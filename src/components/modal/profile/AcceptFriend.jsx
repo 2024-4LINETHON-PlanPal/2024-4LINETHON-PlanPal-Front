@@ -45,7 +45,7 @@ export default function AcceptFriend({ nickname = "김플랜", isFriendNow = fal
           <A.Img src={ProfilePng} alt={"profile"} />
         </A.ImgContainer>
         <A.InfoText>
-          <A.InfoSpan>{nickname}</A.InfoSpan>님께서
+          <A.InfoSpan>{state.targetNickname}</A.InfoSpan>님께서
           <br />
           친구 추가하셨습니다.
         </A.InfoText>
