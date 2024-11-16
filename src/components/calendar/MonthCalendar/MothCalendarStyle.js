@@ -66,7 +66,7 @@ export const CalItem = styled.div`
     color: #c04277;
   }
   .plan {
-    width: calc(100% );
+
     height: 20px;
     margin-left: -5px;
     background-color: #4077ba71;
