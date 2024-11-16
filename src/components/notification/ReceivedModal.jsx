@@ -21,8 +21,8 @@ const ReceivedModal = ({ onClose, data }) => {
     console.log(username, data.id);
     axios
       .post(
-        `https://planpal.kro.kr/notifications/reply/${username}/${data.id}/`,
-        { brag: data.id, memo: memo }
+        `https://planpal.kro.kr/notifications/reply/${username}/${data.brag_id}/`,
+        { brag: data.brag_id, memo: memo }
        
       )
       .then((response) => {
