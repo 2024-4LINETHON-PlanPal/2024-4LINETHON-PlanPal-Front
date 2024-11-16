@@ -70,9 +70,7 @@ export default function PromisePage({ username }) {
   const addPromise = (newPromise) => {
     setPromises((prevPromises) => {
       // 새로운 배열을 생성하여 중복 제거
-      const filteredPromises = prevPromises.filter(
-        (promise) => promise.title !== newPromise.title
-      );
+      const filteredPromises = prevPromises.filter((promise) => promise.title !== newPromise.title);
       return [...filteredPromises, newPromise];
     });
   };
@@ -83,20 +81,18 @@ export default function PromisePage({ username }) {
       try {
         const response = await GET(`promises/promise/${username}/${username}/`);
         if (response.data && response.data.result && isMounted) {
+          var newPromises = Array.isArray(response.data.result) ? response.data.result : [response.data.result];
 
-          const newPromises = Array.isArray(response.data.result)
-            ? response.data.result
-            : [response.data.result];
-  
+          newPromises = newPromises.filter((promise) => promise.id % 2 === 1);
           setPromises(newPromises); // 데이터를 한 번만 저장
         }
       } catch (error) {
         console.error("약속 데이터를 가져오는 데 실패했습니다:", error);
       }
     };
-  
+
     fetchPromises();
-  
+
     return () => {
       isMounted = false; // 컴포넌트 언마운트 시 플래그 설정
     };
@@ -137,7 +133,6 @@ export default function PromisePage({ username }) {
             user: { id: username, nickname: "user" },
             members: response.data.result.members || members,
           };
-
 
           closeModal();
           console.log("새로운 약속이 추가되었습니다:", newPromise);
@@ -194,8 +189,7 @@ export default function PromisePage({ username }) {
       <P.Wrapper>
         <PromiseHeader />
         <P.ItemWrapper>
-          {
-            promises.length > 0 ? (
+          {promises.length > 0 ? (
             promises.map((promise) => (
               <PromiseItem
                 key={promise.id}
@@ -210,8 +204,9 @@ export default function PromisePage({ username }) {
               />
             ))
           ) : (
-            <P.Black23text 
-            style={{color: color.primary_black, paddingTop: "70%"}}>현재 약속이 없습니다</P.Black23text>
+            <P.Black23text style={{ color: color.primary_black, paddingTop: "70%" }}>
+              현재 약속이 없습니다
+            </P.Black23text>
           )}
         </P.ItemWrapper>
         <PromiseBtn onClick={() => openNextModal("exploreModal")} />
@@ -222,10 +217,10 @@ export default function PromisePage({ username }) {
         <ModalBase
           setCloseModal={closeModal}
           InsideComponent={() => (
-            <ItemModal 
+            <ItemModal
               selectedPromise={selectedPromise}
               openModifyModal={() => openNextModal("modifyModal")}
-              // onDeleteClick={closeModal} 
+              // onDeleteClick={closeModal}
               openShareModal={() => openNextModal("shareModal")}
             />
           )}
@@ -235,11 +230,7 @@ export default function PromisePage({ username }) {
           tripleBtnText1="수정하기"
           tripleBtnText2="삭제하기"
           tripleBtnText3="공유하기"
-          tripleBtnClickHandlers={[
-            () => openNextModal("modifyModal"),  
-            closeModal,                           
-            () => openNextModal("shareModal"),    
-          ]}
+          tripleBtnClickHandlers={[() => openNextModal("modifyModal"), closeModal, () => openNextModal("shareModal")]}
         />
       )}
 
@@ -264,7 +255,7 @@ export default function PromisePage({ username }) {
           modalIntroduceText="여기톤 모여의 약속시간을"
           modalIntroduceText2="친구들과 공유해보세요"
           modalHeight="-420px"
-      />
+        />
       )}
 
       {/* 약속시간 탐색 모달 */}
@@ -293,11 +284,7 @@ export default function PromisePage({ username }) {
         <ModalBase
           setCloseModal={closeModal}
           InsideComponent={() => (
-            <SuggestModal 
-              promiseName={promiseName} 
-              members={members}
-              responseData={responseData}
-            />
+            <SuggestModal promiseName={promiseName} members={members} responseData={responseData} />
           )}
           modalCategoryText="약속시간 제안"
           modalIntroduceText="약속시간을 제안해드릴게요"
@@ -313,18 +300,20 @@ export default function PromisePage({ username }) {
       {currentModal === "confirmBySelfModal" && (
         <ModalBase
           setCloseModal={closeModal}
-          InsideComponent={() => 
-          <>
-            <SelectModal 
-              promiseName={promiseName}
-              members={members}
-              responseData={responseData}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-              setSelectedOptionId={setSelectedOptionId}
-              type="self" />
-            <P.OnclickButton onClick={handleConfirm}>약속시간 확정하기</P.OnclickButton>
-          </>}
+          InsideComponent={() => (
+            <>
+              <SelectModal
+                promiseName={promiseName}
+                members={members}
+                responseData={responseData}
+                selectedIndex={selectedIndex}
+                setSelectedIndex={setSelectedIndex}
+                setSelectedOptionId={setSelectedOptionId}
+                type="self"
+              />
+              <P.OnclickButton onClick={handleConfirm}>약속시간 확정하기</P.OnclickButton>
+            </>
+          )}
           modalCategoryText="약속시간 제안"
           modalIntroduceText="약속시간을 제안해드릴게요"
           modalHeight="600px"
@@ -335,21 +324,23 @@ export default function PromisePage({ username }) {
       {currentModal === "confirmByVoteModal" && (
         <ModalBase
           setCloseModal={closeModal}
-          InsideComponent={() => 
+          InsideComponent={() => (
             <>
-            <SelectModal 
-              promiseName={promiseName}
-              members={members}
-              responseData={responseData}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={setSelectedIndex}
-              setSelectedOptionId={setSelectedOptionId}
-              onSubmit={handleVotePromise}
-              type="vote" />
+              <SelectModal
+                promiseName={promiseName}
+                members={members}
+                responseData={responseData}
+                selectedIndex={selectedIndex}
+                setSelectedIndex={setSelectedIndex}
+                setSelectedOptionId={setSelectedOptionId}
+                onSubmit={handleVotePromise}
+                type="vote"
+              />
               <P.OnclickButton onClick={handleVotePromise}>약속시간 투표하기</P.OnclickButton>
-            </>}
+            </>
+          )}
           modalCategoryText="약속시간 투표"
-          modalIntroduceText={`투표 종료까지 ${24-calculateRemainingTime()}시간 남았습니다`}
+          modalIntroduceText={`투표 종료까지 ${24 - calculateRemainingTime()}시간 남았습니다`}
           modalHeight="600px"
         />
       )}
@@ -359,7 +350,7 @@ export default function PromisePage({ username }) {
         <ModalBase
           modalHeight="600px"
           setCloseModal={closeModal}
-          InsideComponent={() => <CompleteModal/>}
+          InsideComponent={() => <CompleteModal />}
           modalCategoryText="약속시간 투표"
           longSingleBtnText1="투표 현황 확인하기"
           onLongSingleBtnClick={() => openNextModal("voteStatusModal")}
@@ -371,15 +362,16 @@ export default function PromisePage({ username }) {
         <ModalBase
           modalHeight="600px"
           setCloseModal={closeModal}
-          InsideComponent={() => 
-          <StatusModal
-            promiseName={promiseName}
-            members={members}
-            responseData={responseData}
-            selectedIndex={selectedIndex}
-            setSelectedIndex={setSelectedIndex}
-            setSelectedOptionId={setSelectedOptionId}
-          />}
+          InsideComponent={() => (
+            <StatusModal
+              promiseName={promiseName}
+              members={members}
+              responseData={responseData}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
+              setSelectedOptionId={setSelectedOptionId}
+            />
+          )}
           modalCategoryText="약속시간 투표 현황 "
         />
       )}
