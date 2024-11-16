@@ -56,7 +56,7 @@ export default function Notification() {
 
   const handleModalOpen = (data) => {
     console.log(data);
-    if (data.friend_nickname && data.plan_title) {
+    if (data.notification_type === "brag") {
       // 친구 응원 모달
       setSelectedData(data);
       setShowReceivedModal(true);
