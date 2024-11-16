@@ -56,6 +56,25 @@ const MonthCalendar = ({ year, month }) => {
 
   };
 
+  const renderPlans = (day) => {
+    const dateKey = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const dayPlans = plans[dateKey]?.displayed_plans || [];
+    
+    return dayPlans.map((plan, index) => (
+      <div
+        key={index}
+        className="plan"
+        style={{ borderLeft: `4px solid ${
+          plan.category?.color || "transparent"
+        }`,
+          backgroundColor: plan.is_completed ? "#D9D9D9" : `${plan.category?.color}80`, 
+          color: "#000",
+        }}
+      >
+        {plan.title}
+      </div>
+    ));
+  };
   return (
     <>
       <D.Cal>
@@ -77,6 +96,7 @@ const MonthCalendar = ({ year, month }) => {
                 onClick={() => openModal(dayObj.day)} 
               >
                 {dayObj.day}
+                {renderPlans(dayObj.day)}
               </D.CalItem>
             ))}
           </D.CalRow>
