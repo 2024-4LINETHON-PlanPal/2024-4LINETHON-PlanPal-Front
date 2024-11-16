@@ -63,7 +63,13 @@ export default function Notification() {
     } else if (data.notification_type === "add_friend") {
       // 친구 신청 받기 모달
       localStorage.setItem("currentPage", "home");
-      navigate("/home", { state: { toggleAcceptFriendModal: true, targetUsername: data.friend_username } });
+      navigate("/home", {
+        state: {
+          toggleAcceptFriendModal: true,
+          targetUsername: data.friend_username,
+          targetNickname: data.friend_nickname,
+        },
+      });
     }
   };
 
