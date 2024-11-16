@@ -41,7 +41,7 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setSchedules(response.data.result.time_slots || {});
-          console.log(response.data.message);
+
 
         }
       })
@@ -58,7 +58,6 @@ const DayCalendar = ({ username, today }) => {
         if (response.status === 200) {
           fetchPlans();
           setCategories(response.data.result);
-          console.log(response.data.message);
 
         }
       })
@@ -73,8 +72,7 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result);
-          console.log(response.data.message);
-          console.log(response.data.result);
+    
 
         }
       })

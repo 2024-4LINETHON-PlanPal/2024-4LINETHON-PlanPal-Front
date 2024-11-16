@@ -106,7 +106,6 @@ const PlanModal = ({ onClose, plan_id }) => {
       .then((response) => {
         if (response.status === 200) {
           setFriends(response.data.result);
-          console.log(response.data.result);
         }
       })
       .catch((error) => console.error("친구 목록 불러오기 실패:", error));
