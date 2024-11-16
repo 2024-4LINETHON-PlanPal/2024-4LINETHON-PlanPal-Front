@@ -44,3 +44,12 @@ export const SubmitButton = styled.button`
 
   ${(props) => props.$isFriend || "cursor: pointer"}
 `;
+export const ErrorText = styled.p`
+  margin-top: 0.4rem;
+  height: 1.6rem;
+  color: ${() => color.orange_normal};
+  ${font.regular_12}
+`;
+export const NotiText = styled(ErrorText)`
+  color: ${() => color.blue_normal};
+`;
