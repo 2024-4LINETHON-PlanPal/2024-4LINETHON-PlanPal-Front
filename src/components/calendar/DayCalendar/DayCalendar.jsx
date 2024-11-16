@@ -29,6 +29,17 @@ const DayCalendar = ({ username, today }) => {
     setShareModalOpen(false);
     setSelectedCategoryId(null);
     setSelectedPlanId(null);
+    axios
+    .get(`https://planpal.kro.kr/plan/categories/${username}/`)
+    .then((response) => {
+      if (response.status === 200) {
+        setCategories(response.data.result);
+        fetchPlans(); 
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   };
 
   const hours = Array.from({ length: 25 }, (_, i) => String(i).padStart(2, "0"));
@@ -66,12 +77,13 @@ const DayCalendar = ({ username, today }) => {
       .then((response) => {
         if (response.status === 200) {
           setPlans(response.data.result);
+          console.log(response.data);
         }
       })
       .catch((error) => {
         console.error(error);
       });
-  }, [username, today]);
+  }, [username, today, isModalOpen]);
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);
