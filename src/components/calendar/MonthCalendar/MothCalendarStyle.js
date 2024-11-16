@@ -66,12 +66,11 @@ export const CalItem = styled.div`
     color: #c04277;
   }
   .plan {
-
+    width: 50px;
     height: 20px;
     margin-left: -5px;
-    background-color: #4077ba71;
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     border-left: 2px solid #4076ba;
   }
 `;
