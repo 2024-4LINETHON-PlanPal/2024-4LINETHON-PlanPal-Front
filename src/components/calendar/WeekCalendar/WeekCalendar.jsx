@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as W from "./WeekCalendarStyle.js";
 import axios from "axios";
+import PlanModal from "../Modals/PlanModal"; 
 
 const WeekCalendar = ({ username, currentDate }) => {
   const [plans, setPlans] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false); 
 
   useEffect(() => {
     setLoading(true);
@@ -29,17 +31,26 @@ const WeekCalendar = ({ username, currentDate }) => {
     (_, i) => `${String(i).padStart(2, "0")}:00`
   );
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+
+  };
+
   return (
-    <W.Wrap>
-      <W.RowTime>
-        <W.TimeInner />
-        {hours.map((hour, index) => (
-          <W.TimeInner key={index}>{hour}</W.TimeInner>
-        ))}
-      </W.RowTime>
-      <W.WeekWrap>
-        {["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].map(
-          (day, dayIndex) => {
+    <>
+      <W.Wrap>
+        <W.RowTime>
+          <W.TimeInner />
+          {hours.map((hour, index) => (
+            <W.TimeInner key={index}>{hour}</W.TimeInner>
+          ))}
+        </W.RowTime>
+        <W.WeekWrap>
+          {["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].map((day, dayIndex) => {
             const date = new Date(currentDate);
             date.setDate(date.getDate() + dayIndex);
             const dateString = date.toISOString().split("T")[0];
@@ -73,7 +84,6 @@ const WeekCalendar = ({ username, currentDate }) => {
                 </W.ColTitle>
                 <W.LongItem>
                   {Array.from({ length: 24 }, (_, hourIndex) => {
-          
                     const plansForHour = dailyPlans.filter(
                       (plan) =>
                         new Date(plan.start).getHours() <= hourIndex &&
@@ -81,7 +91,10 @@ const WeekCalendar = ({ username, currentDate }) => {
                     );
 
                     return (
-                      <W.ShortItem key={hourIndex}>
+                      <W.ShortItem
+                        key={hourIndex}
+                        onClick={() => openModal(date.getDate(), hourIndex)} // 시간 클릭 시 모달 열기
+                      >
                         {plansForHour.map((plan, planIndex) => (
                           <W.PlanItem
                             key={planIndex}
@@ -105,10 +118,16 @@ const WeekCalendar = ({ username, currentDate }) => {
                 </W.LongItem>
               </W.ColWrap>
             );
-          }
-        )}
-      </W.WeekWrap>
-    </W.Wrap>
+          })}
+        </W.WeekWrap>
+      </W.Wrap>
+
+      {showModal &&  (
+        <PlanModal
+          onClose={closeModal} 
+        />
+      )}
+    </>
   );
 };
 

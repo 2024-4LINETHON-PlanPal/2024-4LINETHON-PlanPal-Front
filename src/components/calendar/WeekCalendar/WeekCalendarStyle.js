@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import font from "styles/font";
 import color from "styles/color";
 
 export const RowTime = styled.div`
@@ -8,11 +7,11 @@ export const RowTime = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: -9px;
-
+  height:calc( max-content + 10px);
+  padding-top: 5px;
+  
 `;
-export const Loading = styled.div`
 
-`
 
 export const TimeInner = styled.div`
   display: flex;
@@ -26,13 +25,13 @@ export const TimeInner = styled.div`
 export const Wrap = styled.div`
   width: 90%;
   display: flex;
-  margin-bottom : 100px;
+  margin-bottom : 120px;
 `;
 
 export const WeekWrap = styled.div`
   display: flex;
   width: 90%;
-  
+
 `;
 
 export const ColTitle = styled.div`
@@ -83,7 +82,6 @@ export const ShortItem = styled.div`
 export const PlanItem = styled.div`
   width : 100%;
   overflow: hidden;
-
   flex: 1;
   border-left: 4px solid #C04277;
 `;
