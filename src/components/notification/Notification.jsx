@@ -49,13 +49,14 @@ export default function Notification() {
           messageData: result3.result,
           doesDataExist: true,
         });
+        // console.log(result3.result); //
       }
     };
     fetchNotiData(username);
   }, []);
 
   const handleModalOpen = (data) => {
-    // console.log(data);
+    // console.log(data); //
     if (data.notification_type === "brag") {
       // 친구 응원 모달
       setSelectedData(data);
@@ -121,7 +122,13 @@ export default function Notification() {
           notiData3.messageData.map((data) => (
             <NotiComp
               key={data.id}
-              notiType={data.notification_type === "brag" ? "brag" : "friend"}
+              notiType={
+                data.notification_type === "brag"
+                  ? "brag"
+                  : data.notification_type === "cheering"
+                  ? "cheering"
+                  : "friend"
+              }
               titleText={data.message.split("\n")[0]}
               subText={data.message.split("\n")[1]}
               onClick={() => handleModalOpen(data)}
