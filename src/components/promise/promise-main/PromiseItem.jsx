@@ -9,7 +9,7 @@ const PromiseItem = ({
   username,
   promiseName,
   members,
-  datetime,
+  // datetime,
   status,
   memo,
 }) => {
@@ -42,7 +42,7 @@ const PromiseItem = ({
       title={promiseName || "제목 없음"}
       host={username || "호스트 없음"}
       count={members?.length || 0}
-      datetime={datetime || "시간 정보 없음"}
+      // datetime={datetime || "시간 정보 없음"}
       memo={memo || "메모 없음"}
       iconSrc={{
         on: starIconOn,
